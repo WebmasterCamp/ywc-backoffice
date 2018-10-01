@@ -11,7 +11,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eslint": "eslint -c .eslintrc.json src/**",
-    "prettier": "prettier --config .eslintrc.json --write \"src/**/**/*.js\" --ignore-path .prettierignore"
+    "eslint:fix": "eslint -c .eslintrc.json src/** --fix"
   },
   "devDependencies": {
     "eslint": "^5.6.1",
