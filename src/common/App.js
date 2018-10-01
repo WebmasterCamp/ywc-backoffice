@@ -4,6 +4,8 @@ import {injectGlobal} from "styled-components";
 import Routes from "./Routes";
 
 // global stylesheet goes here
+import "antd/dist/antd.css";
+
 injectGlobal`
     body {
         margin: 0;
