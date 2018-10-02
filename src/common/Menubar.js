@@ -38,8 +38,9 @@ const Container = styled(Content)`
 `;
 
 const ContentLayout = styled.div`
-  flex: 1;
-  height: 300px;
+  position: absolute;
+  width: calc(100vw - 200px);
+  left: 200px;
   background: red;
 `;
 
