@@ -37,6 +37,12 @@ const Container = styled(Content)`
   padding: 20px;
 `;
 
+const ContentLayout = styled.div`
+  flex: 1;
+  height: 300px;
+  background: red;
+`;
+
 class Menubar extends Component {
   render() {
     const {menus, header} = this.props;
@@ -59,15 +65,7 @@ class Menubar extends Component {
             </Menu>
           </SideSlider>
 
-          <Layout>
-            <Heading>{header}</Heading>
-
-            <Container>{this.props.children}</Container>
-
-            <Footer style={{textAlign: "center"}}>
-              Grading System (YWC) ©2018 Created by Chun Rapeepat
-            </Footer>
-          </Layout>
+          <ContentLayout>{header}</ContentLayout>
         </Layout>
       </Fragment>
     );
