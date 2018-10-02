@@ -65,6 +65,10 @@ class Menubar extends Component {
                   </Menu.Item>
                 );
               })}
+              <Menu.Item key="logout">
+                <Icon type="lock" />
+                <span className="nav-text">ออกจากระบบ</span>
+              </Menu.Item>
             </Menu>
           </SideSlider>
 
