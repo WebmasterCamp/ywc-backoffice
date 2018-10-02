@@ -3,7 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import {Layout, Menu, Icon} from "antd";
 
-const {Header, Content, Footer, Sider} = Layout;
+import Panel from "../ui/Panel";
+
+const {Sider} = Layout;
 
 const SideSlider = styled(Sider)`
   overflow: auto;
@@ -20,33 +22,33 @@ const Logo = styled.div`
   background-size: 70% auto;
 `;
 
-const Heading = styled(Header)`
+const Heading = styled.h1`
   padding: 0;
   color: #333;
-  font-size: 22px;
+  font-size: 25px;
   font-family: "Kanit";
 
-  background: white !important;
-`;
-
-const Container = styled(Content)`
-  margin: 30px;
-  background: white;
-  border-radius: 7px;
-
-  padding: 20px;
+  margin-bottom: 30px;
 `;
 
 const ContentLayout = styled.div`
   position: absolute;
   width: calc(100vw - 200px);
   left: 200px;
-  background: red;
+  padding: 20px;
+`;
+
+const Footer = styled.div`
+  color: #777;
+  font-size: 14px;
+  width: 100%;
+  margin: 20px 0;
+  text-align: center;
 `;
 
 class Menubar extends Component {
   render() {
-    const {menus, header} = this.props;
+    const {menus, header, children} = this.props;
 
     return (
       <Fragment>
@@ -66,7 +68,12 @@ class Menubar extends Component {
             </Menu>
           </SideSlider>
 
-          <ContentLayout>{header}</ContentLayout>
+          <ContentLayout>
+            <Heading>{header}</Heading>
+            <Panel>{children}</Panel>
+
+            <Footer>YWC Grading System @2018 Created by Chun Rapeepat</Footer>
+          </ContentLayout>
         </Layout>
       </Fragment>
     );
