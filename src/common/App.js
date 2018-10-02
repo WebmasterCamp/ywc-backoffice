@@ -7,9 +7,12 @@ import Routes from "./Routes";
 import "antd/dist/antd.css";
 
 injectGlobal`
+    @import url('https://fonts.googleapis.com/css?family=Kanit');
+
     body {
         margin: 0;
         font-family: sans-serif;
+        background: #FBFCFF!important;
     }
 
     * {
