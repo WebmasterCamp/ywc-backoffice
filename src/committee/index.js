@@ -44,7 +44,7 @@ const columns = [
     key: "action",
     render: text => (
       <Button>
-        <Icon type="check-circle" theme="outlined" /> ตรวจคำถามกลาง
+        <Icon type="check-circle" theme="outlined" /> ตรวจคำถาม
       </Button>
     ),
   },
@@ -68,7 +68,7 @@ const data = [
   },
 ];
 
-class Staff extends Component {
+class Committee extends Component {
   render() {
     return (
       <Fragment>
@@ -86,4 +86,4 @@ class Staff extends Component {
   }
 }
 
-export default Staff;
+export default Committee;
