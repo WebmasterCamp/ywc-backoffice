@@ -45,7 +45,6 @@ function* userLoginAsync(action) {
       "GET",
       payload.token,
     );
-    console.log(payload.token);
     const {profile} = getProfile.payload;
 
     console.log(getProfile);

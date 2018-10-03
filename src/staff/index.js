@@ -2,6 +2,7 @@ import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {Table, Icon, Button, Tag} from "antd";
 
+import {authen} from "../utils/authen";
 import Menubar from "../common/Menubar";
 
 const Stat = styled.div`
@@ -68,7 +69,8 @@ const data = [
   },
 ];
 
-class Staff extends Component {
+@authen("staff")
+export default class Staff extends Component {
   render() {
     return (
       <Fragment>
@@ -85,5 +87,3 @@ class Staff extends Component {
     );
   }
 }
-
-export default Staff;
