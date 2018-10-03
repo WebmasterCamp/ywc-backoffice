@@ -28,30 +28,60 @@ const LoginButton = styled(Button)`
   width: 100%;
 `;
 
-class Login extends Component {
+@Form.create()
+export default class Login extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+      }
+    });
+  };
+
   render() {
+    const {getFieldDecorator} = this.props.form;
+
     return (
       <div>
         <Container>
           <Heading>YWC Grading System</Heading>
 
-          <Form>
+          <Form onSubmit={this.handleSubmit}>
             <FormItem>
-              <Input
-                placeholder="Enter your username"
-                prefix={<Icon type="user" style={{color: "rgba(0,0,0,.25)"}} />}
-              />
+              {getFieldDecorator("username", {
+                rules: [
+                  {required: true, message: "Please input your username!"},
+                ],
+              })(
+                <Input
+                  placeholder="Enter your username"
+                  prefix={
+                    <Icon type="user" style={{color: "rgba(0,0,0,.25)"}} />
+                  }
+                />,
+              )}
             </FormItem>
 
             <FormItem>
-              <Input
-                placeholder="Enter your password"
-                prefix={<Icon type="lock" style={{color: "rgba(0,0,0,.25)"}} />}
-              />
+              {getFieldDecorator("password", {
+                rules: [
+                  {required: true, message: "Please input your password!"},
+                ],
+              })(
+                <Input
+                  placeholder="Enter your password"
+                  type="password"
+                  prefix={
+                    <Icon type="lock" style={{color: "rgba(0,0,0,.25)"}} />
+                  }
+                />,
+              )}
             </FormItem>
 
             <FormItem>
-              <LoginButton type="primary">
+              <LoginButton type="primary" htmlType="submit">
                 <Icon type="login" style={{color: "white"}} /> Login
               </LoginButton>
             </FormItem>
@@ -61,5 +91,3 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;
