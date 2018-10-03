@@ -1,9 +1,12 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import {Redirect} from "react-router";
 import {Layout, Menu, Icon} from "antd";
+import {connect} from "react-redux";
 
 import Panel from "../ui/Panel";
+import {userLogout} from "../login/reducer";
 
 const {Sider} = Layout;
 
@@ -46,9 +49,30 @@ const Footer = styled.div`
   text-align: center;
 `;
 
-class Menubar extends Component {
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(userLogout()),
+});
+
+@connect(
+  null,
+  mapDispatchToProps,
+)
+export default class Menubar extends Component {
+  state = {
+    redirect: false,
+  };
+
+  handleLogout = () => {
+    this.props.logout();
+    this.setState({redirect: true});
+  };
+
   render() {
     const {menus, header, children} = this.props;
+
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <Fragment>
@@ -65,7 +89,7 @@ class Menubar extends Component {
                   </Menu.Item>
                 );
               })}
-              <Menu.Item key="logout">
+              <Menu.Item onClick={this.handleLogout} key="logout">
                 <Icon type="lock" />
                 <span className="nav-text">ออกจากระบบ</span>
               </Menu.Item>
@@ -89,5 +113,3 @@ Menubar.propTypes = {
   menus: PropTypes.arrayOf(PropTypes.object).isRequired,
   header: PropTypes.string.isRequired,
 };
-
-export default Menubar;
