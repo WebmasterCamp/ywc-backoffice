@@ -4,7 +4,7 @@ import {Redirect} from "react-router";
 import {Form, Input, Icon, Button} from "antd";
 import {connect} from "react-redux";
 
-import {userLogin} from "./reducer";
+import {userLogin, userLoginWithToken} from "./reducer";
 
 const FormItem = Form.Item;
 
@@ -38,6 +38,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   login: values => dispatch(userLogin(values)),
+  loginWithToken: () => dispatch(userLoginWithToken()),
 });
 
 @Form.create()
@@ -46,6 +47,16 @@ const mapDispatchToProps = dispatch => ({
   mapDispatchToProps,
 )
 export default class Login extends Component {
+  // automate login with access token
+  componentDidMount = () => {
+    const token = window.localStorage.getItem("token");
+    const {auth} = this.props;
+
+    if (!auth.isAuthen && token) {
+      this.props.loginWithToken();
+    }
+  };
+
   handleSubmit = e => {
     e.preventDefault();
 

@@ -79,7 +79,7 @@ function* userLoginAsync(action) {
 // user login using access token (get profile)
 function* userLoginTokenAsync(action) {
   const response = yield call(fetchWithToken, "admin/me", {}, "GET");
-  const token = window.localStorage.get("token");
+  const token = window.localStorage.getItem("token");
 
   const {status, payload} = response;
 
