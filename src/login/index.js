@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import styled from "styled-components";
+import {Redirect} from "react-router";
 import {Form, Input, Icon, Button} from "antd";
+import {connect} from "react-redux";
+
+import {userLogin} from "./reducer";
 
 const FormItem = Form.Item;
 
@@ -28,20 +32,37 @@ const LoginButton = styled(Button)`
   width: 100%;
 `;
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: values => dispatch(userLogin(values)),
+});
+
 @Form.create()
+@connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
 export default class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        this.props.login(values);
       }
     });
   };
 
   render() {
+    const {auth} = this.props;
     const {getFieldDecorator} = this.props.form;
+
+    if (auth.isAuthen) {
+      return <Redirect to={`/${auth.profile.role}`} />;
+    }
 
     return (
       <div>

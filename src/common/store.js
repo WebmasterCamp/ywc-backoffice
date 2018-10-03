@@ -2,8 +2,12 @@ import {createStore, combineReducers, applyMiddleware, compose} from "redux";
 import createSagaMiddleware from "redux-saga";
 import {all} from "redux-saga/effects";
 
-const mapReducers = {};
-const mapRootSaga = [];
+import {authReducer, watcherAuth} from "../login/reducer";
+
+const mapReducers = {
+  auth: authReducer,
+};
+const mapRootSaga = [watcherAuth()];
 
 const saga = createSagaMiddleware();
 
