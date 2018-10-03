@@ -47,8 +47,6 @@ function* userLoginAsync(action) {
     );
     const {profile} = getProfile.payload;
 
-    console.log(getProfile);
-
     if (status === "success") {
       notification[`success`]({
         message: "Success",
@@ -105,6 +103,11 @@ export function* watcherAuth() {
 export const authReducer = createReducer(initial, state => ({
   [USER_LOGOUT]: () => {
     window.localStorage.removeItem("token");
+
+    notification[`success`]({
+      message: "Successfully Logout",
+      description: "Good byeeeee~",
+    });
 
     return {
       ...state,
