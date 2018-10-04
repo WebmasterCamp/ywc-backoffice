@@ -17,7 +17,12 @@ export const fetch = async (route, data, method = "GET") => {
 };
 
 // request data from token in localStorage
-export const fetchWithToken = async (route, data, method = "POST", token) => {
+export const fetchWithToken = async (
+  route,
+  data = {},
+  method = "POST",
+  token,
+) => {
   const authOptions = {
     method: method,
     url: `${API_ENDPOINT}/${route}`,

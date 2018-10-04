@@ -1,9 +1,13 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
+import {connect} from "react-redux";
+import {observable} from "mobx";
+import {observer} from "mobx-react";
 import {Table, Icon, Button, Tag} from "antd";
 
 import {authen} from "../utils/authen";
 import Menubar from "../common/Menubar";
+import {fetchWithToken} from "../utils/fetch";
 
 const Stat = styled.div`
   color: #777;
@@ -45,43 +49,59 @@ const columns = [
     key: "action",
     render: text => (
       <Button>
-        <Icon type="check-circle" theme="outlined" /> ตรวจคำถามกลาง
+        <Icon type="edit" theme="outlined" /> ตรวจคำถามกลาง
       </Button>
     ),
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    id: "John Brown",
-    status: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    id: "Jim Green",
-    status: ["nice", "developer"],
-  },
-  {
-    key: "3",
-    id: "Joe Black",
-    status: ["cool", "teacher"],
-  },
-];
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
 
 @authen("staff")
+@connect(mapStateToProps)
+@observer
 export default class Staff extends Component {
+  @observable
+  totalCandidates = 0;
+  @observable
+  doneCandidates = 0;
+  @observable
+  candidates = [];
+
+  // fetch and render data
+  componentDidMount = async () => {
+    const {major} = this.props.auth.profile;
+    const response = await fetchWithToken("users/staff", {major}, "GET");
+
+    if (response.status === "success") {
+      this.candidates = response.payload;
+    }
+  };
+
   render() {
+    const {auth} = this.props;
+
     return (
       <Fragment>
         <Menubar
-          header="คัดคนเข้าสมัครสาขา Programming"
+          header={`คัดคนเข้าสมัครสาขา ${auth.profile.major}`}
           menus={[{icon: "user", name: "คัดคนเข้าสมัคร"}]}>
           <Padding>
-            <Stat>คนสมัครทั้งหมด 300 คน, ตรวจแล้ว 50 คน (33%)</Stat>
+            <Stat>{`ตรวจแล้ว ${this.totalCandidates} คน, คนสมัครทั้งหมด ${
+              this.doneCandidates
+            } คน`}</Stat>
           </Padding>
 
-          <Table columns={columns} dataSource={data} />
+          <Table
+            columns={columns}
+            dataSource={this.candidates.map((candidate, i) => ({
+              key: i + 1,
+              id: candidate._id,
+              status: ["Not checked"],
+            }))}
+          />
         </Menubar>
       </Fragment>
     );
