@@ -7,7 +7,7 @@ import {Table, Icon, Button, Tag} from "antd";
 
 import {authen} from "../utils/authen";
 import Menubar from "../common/Menubar";
-import {fetchWithToken} from "../utils/fetch";
+import {fetch, fetchWithToken} from "../utils/fetch";
 
 const Stat = styled.div`
   color: #777;
@@ -47,7 +47,7 @@ const columns = [
   {
     title: "Action",
     key: "action",
-    render: text => (
+    render: () => (
       <Button>
         <Icon type="edit" theme="outlined" /> ตรวจคำถามกลาง
       </Button>
@@ -66,18 +66,28 @@ export default class Staff extends Component {
   @observable
   totalCandidates = 0;
   @observable
-  doneCandidates = 0;
-  @observable
   candidates = [];
 
   // fetch and render data
   componentDidMount = async () => {
+    this.getCandidates();
+    this.getStat();
+  };
+
+  getCandidates = async () => {
     const {major} = this.props.auth.profile;
     const response = await fetchWithToken("users/staff", {major}, "GET");
 
     if (response.status === "success") {
       this.candidates = response.payload;
     }
+  };
+
+  getStat = async () => {
+    const response = await fetch("users/stat");
+    const {payload} = response;
+
+    this.totalCandidates = payload[this.props.auth.profile.major];
   };
 
   render() {
@@ -89,8 +99,9 @@ export default class Staff extends Component {
           header={`คัดคนเข้าสมัครสาขา ${auth.profile.major}`}
           menus={[{icon: "user", name: "คัดคนเข้าสมัคร"}]}>
           <Padding>
-            <Stat>{`ตรวจแล้ว ${this.totalCandidates} คน, คนสมัครทั้งหมด ${
-              this.doneCandidates
+            <Stat>{`ตรวจแล้ว ${this.totalCandidates -
+              this.candidates.length} คน, คนสมัครทั้งหมด ${
+              this.totalCandidates
             } คน`}</Stat>
           </Padding>
 
