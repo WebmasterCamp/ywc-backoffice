@@ -8,7 +8,9 @@ import committee from "../committee";
 export default () => (
   <Fragment>
     <Route exact path="/" component={Login} />
+
     <Route path="/staff" component={Staff} />
+
     <Route path="/committee" component={committee} />
   </Fragment>
 );
