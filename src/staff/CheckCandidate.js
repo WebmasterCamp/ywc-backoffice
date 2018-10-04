@@ -3,9 +3,12 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
+import {Form, Input, Icon, Button} from "antd";
 
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
+
+const FormItem = Form.Item;
 
 const Padding = styled.div`
   padding: 20px;
@@ -30,6 +33,7 @@ const mapStateToProps = state => ({
 
 @authen("staff")
 @connect(mapStateToProps)
+@Form.create()
 @observer
 export default class CheckCandidate extends Component {
   @observable
@@ -68,7 +72,19 @@ export default class CheckCandidate extends Component {
     }
   };
 
+  // judgement & comment
+  handleSubmit = e => {
+    e.preventDefault();
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+      }
+    });
+  };
+
   render() {
+    const {getFieldDecorator} = this.props.form;
+
     return (
       <Fragment>
         <Padding>
@@ -86,6 +102,30 @@ export default class CheckCandidate extends Component {
               </div>
             );
           })}
+
+          <br />
+          <Form onSubmit={this.handleSubmit}>
+            <FormItem>
+              {getFieldDecorator("comment", {})(
+                <Input.TextArea
+                  rows={4}
+                  placeholder="Leave your comment to committee..."
+                />,
+              )}
+            </FormItem>
+
+            <FormItem>
+              <Button
+                style={{marginRight: "10px"}}
+                type="primary"
+                htmlType="submit">
+                <Icon type="check" style={{color: "white"}} /> ผ่านเข้ารอบ
+              </Button>
+              <Button type="dashed">
+                <Icon type="close" style={{color: "#E23C39"}} /> คัดออก
+              </Button>
+            </FormItem>
+          </Form>
         </Padding>
       </Fragment>
     );
