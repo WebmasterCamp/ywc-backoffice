@@ -5,6 +5,7 @@ import {observable} from "mobx";
 import {observer} from "mobx-react";
 import {Form, Input, Icon, Button} from "antd";
 
+import noti from "../utils/noti";
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
 
@@ -40,6 +41,10 @@ export default class CheckCandidate extends Component {
   questions = [];
   @observable
   answers = [];
+  @observable
+  loading = false;
+  @observable
+  hide = false;
 
   getUserIdentity = () => {
     const url = window.location.href.split("/");
@@ -78,6 +83,8 @@ export default class CheckCandidate extends Component {
 
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        this.loading = true;
+
         const response = await fetchWithToken(
           "grading/staff/pass",
           {
@@ -87,9 +94,35 @@ export default class CheckCandidate extends Component {
           "POST",
         );
 
-        console.log(response);
+        this.loading = false;
+        if (response.status === "success") {
+          this.hide = true;
+          noti("success", "Success", "ตรวจเรียบร้อยแล้ว");
+        } else {
+          noti("error", "Error", response.payload.message);
+        }
       }
     });
+  };
+
+  handleEject = async () => {
+    this.loading = true;
+
+    const response = await fetchWithToken(
+      "grading/staff/eject",
+      {
+        id: this.getUserIdentity(),
+      },
+      "POST",
+    );
+
+    this.loading = false;
+    if (response.status === "success") {
+      this.hide = true;
+      noti("success", "Success", "คัดออกเรียบร้อยแล้ว");
+    } else {
+      noti("error", "Error", response.payload.message);
+    }
   };
 
   render() {
@@ -114,7 +147,9 @@ export default class CheckCandidate extends Component {
           })}
 
           <br />
-          <Form onSubmit={this.handleSubmit}>
+          <Form
+            style={{display: this.hide ? "none" : "block"}}
+            onSubmit={this.handleSubmit}>
             <FormItem>
               {getFieldDecorator("comment", {})(
                 <Input.TextArea
@@ -126,12 +161,16 @@ export default class CheckCandidate extends Component {
 
             <FormItem>
               <Button
+                loading={this.loading}
                 style={{marginRight: "10px"}}
                 type="primary"
                 htmlType="submit">
                 <Icon type="check" style={{color: "white"}} /> ผ่านเข้ารอบ
               </Button>
-              <Button type="dashed">
+              <Button
+                loading={this.loading}
+                type="dashed"
+                onClick={this.handleEject}>
                 <Icon type="close" style={{color: "#E23C39"}} /> คัดออก
               </Button>
             </FormItem>
