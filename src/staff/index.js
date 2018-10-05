@@ -15,7 +15,7 @@ export default class Staff extends Component {
       <Fragment>
         <Menubar
           header={`คัดผู้เข้าสมัครจากคำถามกลาง (Staff)`}
-          menus={[{icon: "user", name: "คัดคนเข้าสมัคร"}]}>
+          menus={[{icon: "user", name: "คัดคนเข้าสมัคร", to: "/staff"}]}>
           {this.getUserIdentity() === "staff" && <Candidates />}
           {this.getUserIdentity() !== "staff" && <CheckCandidate />}
         </Menubar>

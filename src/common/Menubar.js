@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {Redirect} from "react-router";
 import {Layout, Menu, Icon} from "antd";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import Panel from "../ui/Panel";
 import {userLogout} from "../login/reducer";
@@ -84,8 +85,10 @@ export default class Menubar extends Component {
               {menus.map((menu, i) => {
                 return (
                   <Menu.Item key={i + 1}>
-                    <Icon type={menu.icon} />
-                    <span className="nav-text">{menu.name}</span>
+                    <Link to={menu.to}>
+                      <Icon type={menu.icon} />
+                      <span className="nav-text">{menu.name}</span>
+                    </Link>
                   </Menu.Item>
                 );
               })}
