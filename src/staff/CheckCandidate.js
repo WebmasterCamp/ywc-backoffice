@@ -76,8 +76,18 @@ export default class CheckCandidate extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        const response = await fetchWithToken(
+          "grading/staff/pass",
+          {
+            id: this.getUserIdentity(),
+            ...values,
+          },
+          "POST",
+        );
+
+        console.log(response);
       }
     });
   };
