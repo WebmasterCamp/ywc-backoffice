@@ -1,87 +1,23 @@
 import React, {Component, Fragment} from "react";
-import styled from "styled-components";
-import {Table, Icon, Button, Tag} from "antd";
 
-import {authen} from "../utils/authen";
+import Candidates from "./Candidates";
+import CheckCandidate from "./CheckCandidate";
 import Menubar from "../common/Menubar";
 
-const Stat = styled.div`
-  color: #777;
-  margin-bottom: 20px;
-`;
-
-const Padding = styled.div`
-  padding: 20px;
-  padding-bottom: 5px;
-`;
-
-const columns = [
-  {
-    title: "No.",
-    dataIndex: "key",
-    key: "key",
-  },
-  {
-    title: "User ID.",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: tags => (
-      <span>
-        {tags.map(tag => (
-          <Tag color="red" key={tag}>
-            {tag}
-          </Tag>
-        ))}
-      </span>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: text => (
-      <Button>
-        <Icon type="check-circle" theme="outlined" /> ตรวจคำถามกลาง
-      </Button>
-    ),
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    id: "John Brown",
-    status: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    id: "Jim Green",
-    status: ["nice", "developer"],
-  },
-  {
-    key: "3",
-    id: "Joe Black",
-    status: ["cool", "teacher"],
-  },
-];
-
-@authen("staff")
 export default class Staff extends Component {
+  getUserIdentity = () => {
+    const url = window.location.href.split("/");
+    return url[url.length - 1];
+  };
+
   render() {
     return (
       <Fragment>
         <Menubar
-          header="คัดคนเข้าสมัครสาขา Programming"
-          menus={[{icon: "user", name: "คัดคนเข้าสมัคร"}]}>
-          <Padding>
-            <Stat>คนสมัครทั้งหมด 300 คน, ตรวจแล้ว 50 คน (33%)</Stat>
-          </Padding>
-
-          <Table columns={columns} dataSource={data} />
+          header={`คัดผู้เข้าสมัครจากคำถามกลาง (Staff)`}
+          menus={[{icon: "user", name: "คัดคนเข้าสมัคร", to: "/staff"}]}>
+          {this.getUserIdentity() === "staff" && <Candidates />}
+          {this.getUserIdentity() !== "staff" && <CheckCandidate />}
         </Menubar>
       </Fragment>
     );
