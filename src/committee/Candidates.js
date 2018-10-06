@@ -48,7 +48,7 @@ const columns = [
     render: data => (
       <Button>
         <Link params={{id: data.id}} to={`/committee/${data.id}`}>
-          <Icon type="edit" theme="outlined" /> ตรวจคำถามกลาง
+          <Icon type="edit" theme="outlined" /> ตรวจคำถาม
         </Link>
       </Button>
     ),

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Form, Input, Icon, Button} from "antd";
+import {Form, Input, Icon, Button, Divider} from "antd";
 
 import noti from "../utils/noti";
 import {authen} from "../utils/authen";
@@ -28,6 +28,14 @@ const Answer = styled.div`
   margin-bottom: 25px;
 `;
 
+const Label = styled.div`
+  font-family: "Kanit", sans-serif;
+  font-size: 18px;
+  color: #777;
+
+  margin-bottom: 10px;
+`;
+
 const mapStateToProps = state => ({
   auth: state.auth,
 });
@@ -38,9 +46,15 @@ const mapStateToProps = state => ({
 @observer
 export default class VoteCandidate extends Component {
   @observable
-  questions = [];
+  generalQuestions = [];
   @observable
-  answers = [];
+  generalAnswers = [];
+  @observable
+  majorQuestions = [];
+  @observable
+  majorAnswers = [];
+  @observable
+  candidate = {};
   @observable
   loading = false;
   @observable
@@ -54,26 +68,35 @@ export default class VoteCandidate extends Component {
   // fetch and render data
   componentDidMount = async () => {
     this.getQuestion();
-    this.getAnswer();
+    this.getCandidateData();
   };
 
   getQuestion = async () => {
     const response = await fetch("questions");
 
     if (response.status === "success") {
-      this.questions = response.payload.general;
+      this.generalQuestions = response.payload.general;
+      this.majorQuestions = response.payload[this.props.auth.profile.major];
     }
   };
 
-  getAnswer = async () => {
+  getCandidateData = async () => {
     const response = await fetchWithToken(
-      `users/staff/${this.getUserIdentity()}`,
+      `users/committee/${this.getUserIdentity()}`,
       {},
       "GET",
     );
 
+    console.log(response.payload, response.payload.questions.generalQuestions);
+
     if (response.status === "success") {
-      this.answers = response.payload.map(x => x.answer);
+      this.candidate = response.payload;
+      this.generalAnswers = response.payload.questions.generalQuestions.map(
+        x => x.answer,
+      );
+      this.majorAnswers = response.payload.questions.majorQuestions.map(
+        x => x.answer,
+      );
     }
   };
 
@@ -127,20 +150,51 @@ export default class VoteCandidate extends Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
+    const {profile} = this.props.auth;
 
     return (
       <Fragment>
         <Padding>
           <div>id: {this.getUserIdentity()}</div>
-          <br />
-          {this.questions.map((question, i) => {
+
+          <Divider />
+          <Label>รายละเอียดเพิ่มเติม</Label>
+          <Answer>
+            Academic Year: {this.candidate.academicYear}, Department:{" "}
+            {this.candidate.department}, Faculty: {this.candidate.faculty},
+            University: {this.candidate.university}
+            <br />
+            Activities: {this.candidate.activities}
+            <br />
+            Comment from Staff: {this.candidate.staffComment} (
+            {this.candidate.staffUsername})
+          </Answer>
+
+          <Divider />
+          <Label>คำถามกลาง</Label>
+          {this.generalQuestions.map((question, i) => {
             return (
               <div key={i}>
                 <Heading>
                   {i + 1}. {question}
                 </Heading>
                 <Answer>
-                  <pre>{this.answers[i]}</pre>
+                  <pre>{this.generalAnswers[i]}</pre>
+                </Answer>
+              </div>
+            );
+          })}
+
+          <Divider />
+          <Label>คำถามสาขา ({profile.major})</Label>
+          {this.majorQuestions.map((question, i) => {
+            return (
+              <div key={i}>
+                <Heading>
+                  {i + 1}. {question}
+                </Heading>
+                <Answer>
+                  <pre>{this.majorAnswers[i]}</pre>
                 </Answer>
               </div>
             );
