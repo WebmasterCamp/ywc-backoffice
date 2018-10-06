@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Form, Input, Icon, Button, Divider} from "antd";
+import {Form, Select, Button, Divider} from "antd";
 
 import noti from "../utils/noti";
 import {authen} from "../utils/authen";
@@ -42,7 +42,6 @@ const mapStateToProps = state => ({
 
 @authen("committee")
 @connect(mapStateToProps)
-@Form.create()
 @observer
 export default class VoteCandidate extends Component {
   @observable
@@ -59,6 +58,9 @@ export default class VoteCandidate extends Component {
   loading = false;
   @observable
   hide = false;
+
+  @observable
+  score = -1;
 
   getUserIdentity = () => {
     const url = window.location.href.split("/");
@@ -87,8 +89,6 @@ export default class VoteCandidate extends Component {
       "GET",
     );
 
-    console.log(response.payload, response.payload.questions.generalQuestions);
-
     if (response.status === "success") {
       this.candidate = response.payload;
       this.generalAnswers = response.payload.questions.generalQuestions.map(
@@ -100,56 +100,34 @@ export default class VoteCandidate extends Component {
     }
   };
 
-  // judgement & comment
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = async () => {
+    if (this.score < 0) {
+      return noti("warning", "Alert", "โปรดเลือกคะแนนก่อนที่จะลงคะแนน");
+    }
 
-    this.props.form.validateFields(async (err, values) => {
-      if (!err) {
-        this.loading = true;
-
-        const response = await fetchWithToken(
-          "grading/staff/pass",
-          {
-            id: this.getUserIdentity(),
-            ...values,
-          },
-          "POST",
-        );
-
-        this.loading = false;
-        if (response.status === "success") {
-          this.hide = true;
-          noti("success", "Success", "ตรวจเรียบร้อยแล้ว");
-        } else {
-          noti("error", "Error", response.payload.message);
-        }
-      }
-    });
-  };
-
-  handleEject = async () => {
     this.loading = true;
 
     const response = await fetchWithToken(
-      "grading/staff/eject",
-      {
-        id: this.getUserIdentity(),
-      },
+      "grading/committee/vote",
+      {id: this.getUserIdentity(), score: this.score},
       "POST",
     );
 
     this.loading = false;
+
     if (response.status === "success") {
+      noti("success", "Success", "ให้คะแนนผู้สมัครเรียบร้อยแล้ว");
       this.hide = true;
-      noti("success", "Success", "คัดออกเรียบร้อยแล้ว");
     } else {
       noti("error", "Error", response.payload.message);
     }
   };
 
+  updateScore = score => {
+    this.score = +score;
+  };
+
   render() {
-    const {getFieldDecorator} = this.props.form;
     const {profile} = this.props.auth;
 
     return (
@@ -201,31 +179,22 @@ export default class VoteCandidate extends Component {
           })}
 
           <br />
-          <Form
-            style={{display: this.hide ? "none" : "block"}}
-            onSubmit={this.handleSubmit}>
+          <Form style={{display: this.hide ? "none" : "block"}}>
             <FormItem>
-              {getFieldDecorator("comment", {})(
-                <Input.TextArea
-                  rows={4}
-                  placeholder="Leave your comment to committee..."
-                />,
-              )}
-            </FormItem>
-
-            <FormItem>
+              <Select
+                showSearch
+                style={{width: 150, marginRight: "10px"}}
+                placeholder="Select Score"
+                onChange={this.updateScore}
+                optionFilterProp="children">
+                <Select.Option value="0">0</Select.Option>
+                <Select.Option value="1">1</Select.Option>
+              </Select>
               <Button
+                onClick={this.handleSubmit}
                 loading={this.loading}
-                style={{marginRight: "10px"}}
-                type="primary"
-                htmlType="submit">
-                <Icon type="check" style={{color: "white"}} /> ผ่านเข้ารอบ
-              </Button>
-              <Button
-                loading={this.loading}
-                type="dashed"
-                onClick={this.handleEject}>
-                <Icon type="close" style={{color: "#E23C39"}} /> คัดออก
+                type="primary">
+                ให้คะแนน
               </Button>
             </FormItem>
           </Form>
