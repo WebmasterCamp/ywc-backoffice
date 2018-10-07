@@ -138,7 +138,6 @@ export default class VoteCandidate extends Component {
 
           <Divider />
           <Label>รายละเอียดส่วนตัว</Label>
-
           <ProfileTable
             keys={[
               "ปีการศึกษา",
