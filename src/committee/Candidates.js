@@ -97,9 +97,10 @@ export default class Candidates extends Component {
       <Fragment>
         <Padding>
           <Stat>
-            คนสมัครทั้งหมด {this.totalCandidates} คน, ตรวจแล้ว{" "}
-            {this.totalCandidates - this.candidates.length} คน (สาขา{" "}
-            {profile.major})
+            ตรวจแล้ว {this.totalCandidates - this.candidates.length} คน,
+            คนสมัครสาขา {profile.major} ทั้งหมด {this.totalCandidates} คน (
+            {this.totalCandidates - this.candidates.length}/
+            {this.totalCandidates})
           </Stat>
         </Padding>
 

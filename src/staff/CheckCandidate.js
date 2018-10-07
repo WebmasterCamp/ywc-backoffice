@@ -3,8 +3,9 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Form, Input, Icon, Button} from "antd";
+import {Divider, Form, Input, Icon, Button} from "antd";
 
+import ProfileTable from "../ui/ProfileTable";
 import noti from "../utils/noti";
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
@@ -28,6 +29,14 @@ const Answer = styled.div`
   margin-bottom: 25px;
 `;
 
+const Label = styled.div`
+  font-family: "Kanit", sans-serif;
+  font-size: 18px;
+  color: #777;
+
+  margin-bottom: 10px;
+`;
+
 const mapStateToProps = state => ({
   auth: state.auth,
 });
@@ -37,6 +46,8 @@ const mapStateToProps = state => ({
 @Form.create()
 @observer
 export default class CheckCandidate extends Component {
+  @observable
+  candidate = {};
   @observable
   questions = [];
   @observable
@@ -73,7 +84,10 @@ export default class CheckCandidate extends Component {
     );
 
     if (response.status === "success") {
-      this.answers = response.payload.map(x => x.answer);
+      this.answers = response.payload.questions.generalQuestions.map(
+        x => x.answer,
+      );
+      this.candidate = response.payload;
     }
   };
 
@@ -125,14 +139,34 @@ export default class CheckCandidate extends Component {
     }
   };
 
+  _calculateAge = birthday => {
+    birthday = new Date(birthday);
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
+
   render() {
     const {getFieldDecorator} = this.props.form;
+    const candidate = this.candidate;
 
     return (
       <Fragment>
         <Padding>
           <div>id: {this.getUserIdentity()}</div>
-          <br />
+          <Divider />
+          <Label>รายละเอียดส่วนตัว</Label>
+          <ProfileTable
+            keys={["อายุ", "เพศ", "การศึกษา"]}
+            values={[
+              this._calculateAge(candidate.birthdate),
+              candidate.sex,
+              candidate.educationStatus || "ไม่ได้ระบุ",
+            ]}
+          />
+
+          <Divider />
+          <Label>คำถามกลาง</Label>
           {this.questions.map((question, i) => {
             return (
               <div key={i}>

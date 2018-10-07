@@ -15,6 +15,7 @@ const Container = styled.div`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 
   padding: 10px 20px;
+  padding-top: 30px;
 
   position: absolute;
   top: 50%;
@@ -22,14 +23,20 @@ const Container = styled.div`
   transform: translateX(-50%) translateY(-50%);
 `;
 
-const Heading = styled.h1`
-  margin: 0;
-  margin-top: 15px;
-  margin-bottom: 25px;
-`;
-
 const LoginButton = styled(Button)`
   width: 100%;
+`;
+
+const Logo = styled.div`
+  width: 250px;
+  height: 130px;
+  background: url(/logo.svg) center center no-repeat;
+  background-size: auto 100%;
+
+  position: absolute;
+  top: calc(50% - 230px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 `;
 
 const mapStateToProps = state => ({
@@ -77,9 +84,8 @@ export default class Login extends Component {
 
     return (
       <div>
+        <Logo />
         <Container>
-          <Heading>YWC Grading System</Heading>
-
           <Form onSubmit={this.handleSubmit}>
             <FormItem>
               {getFieldDecorator("username", {

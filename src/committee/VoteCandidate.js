@@ -5,6 +5,7 @@ import {observable} from "mobx";
 import {observer} from "mobx-react";
 import {Form, Select, Button, Divider} from "antd";
 
+import ProfileTable from "../ui/ProfileTable";
 import noti from "../utils/noti";
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
@@ -136,17 +137,27 @@ export default class VoteCandidate extends Component {
           <div>id: {this.getUserIdentity()}</div>
 
           <Divider />
-          <Label>รายละเอียดเพิ่มเติม</Label>
-          <Answer>
-            Academic Year: {this.candidate.academicYear}, Department:{" "}
-            {this.candidate.department}, Faculty: {this.candidate.faculty},
-            University: {this.candidate.university}
-            <br />
-            Activities: {this.candidate.activities}
-            <br />
-            Comment from Staff: {this.candidate.staffComment} (
-            {this.candidate.staffUsername})
-          </Answer>
+          <Label>รายละเอียดส่วนตัว</Label>
+          <ProfileTable
+            keys={[
+              "ปีการศึกษา",
+              "คณะ",
+              "สาขาวิชา",
+              "มหาลัย",
+              "กิจกรรม",
+              "คอมเม้นจาก Staff",
+            ]}
+            values={[
+              this.candidate.academicYear,
+              this.candidate.faculty,
+              this.candidate.department,
+              this.candidate.university,
+              this.candidate.activities,
+              `${this.candidate.staffComment} (${
+                this.candidate.staffUsername
+              })`,
+            ]}
+          />
 
           <Divider />
           <Label>คำถามกลาง</Label>
