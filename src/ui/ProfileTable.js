@@ -9,7 +9,7 @@ const Container = styled.div`
   margin-top: 10px;
 
   & > div:nth-child(1) {
-    width: 150px;
+    width: 200px;
   }
 
   & > div:nth-child(2) {
