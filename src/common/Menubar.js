@@ -46,7 +46,7 @@ const Footer = styled.div`
   color: #777;
   font-size: 14px;
   width: 100%;
-  margin: 20px 0;
+  margin: 30px 0;
   text-align: center;
 `;
 

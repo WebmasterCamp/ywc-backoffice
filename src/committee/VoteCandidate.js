@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Form, Select, Button, Divider} from "antd";
+import {Form, Button, Divider} from "antd";
 
 import ProfileTable from "../ui/ProfileTable";
 import noti from "../utils/noti";
@@ -60,9 +60,6 @@ export default class VoteCandidate extends Component {
   @observable
   hide = false;
 
-  @observable
-  score = -1;
-
   getUserIdentity = () => {
     const url = window.location.href.split("/");
     return url[url.length - 1];
@@ -101,16 +98,12 @@ export default class VoteCandidate extends Component {
     }
   };
 
-  handleSubmit = async () => {
-    if (this.score < 0) {
-      return noti("warning", "Alert", "โปรดเลือกคะแนนก่อนที่จะลงคะแนน");
-    }
-
+  handleSubmit = score => async () => {
     this.loading = true;
 
     const response = await fetchWithToken(
       "grading/committee/vote",
-      {id: this.getUserIdentity(), score: this.score},
+      {id: this.getUserIdentity(), score},
       "POST",
     );
 
@@ -122,10 +115,6 @@ export default class VoteCandidate extends Component {
     } else {
       noti("error", "Error", response.payload.message);
     }
-  };
-
-  updateScore = score => {
-    this.score = +score;
   };
 
   render() {
@@ -192,20 +181,18 @@ export default class VoteCandidate extends Component {
           <br />
           <Form style={{display: this.hide ? "none" : "block"}}>
             <FormItem>
-              <Select
-                showSearch
-                style={{width: 150, marginRight: "10px"}}
-                placeholder="Select Score"
-                onChange={this.updateScore}
-                optionFilterProp="children">
-                <Select.Option value="0">0</Select.Option>
-                <Select.Option value="1">1</Select.Option>
-              </Select>
               <Button
-                onClick={this.handleSubmit}
+                style={{marginRight: "10px"}}
+                onClick={this.handleSubmit(1)}
                 loading={this.loading}
                 type="primary">
-                ให้คะแนน
+                เลือก
+              </Button>
+              <Button
+                onClick={this.handleSubmit(0)}
+                loading={this.loading}
+                type="dashed">
+                ไม่เลือก
               </Button>
             </FormItem>
           </Form>

@@ -67,6 +67,8 @@ export default class Candidates extends Component {
   totalCandidates = 0;
   @observable
   candidates = [];
+  @observable
+  passStaff = 0;
 
   // fetch and render data
   componentDidMount = async () => {
@@ -84,10 +86,17 @@ export default class Candidates extends Component {
   };
 
   getStat = async () => {
-    const response = await fetch("users/stat");
-    const {payload} = response;
+    const userResponse = await fetch("users/stat");
+    const users = userResponse.payload;
 
-    this.totalCandidates = payload[this.props.auth.profile.major];
+    const statResponse = await fetchWithToken(
+      "users/committee/stat",
+      {},
+      "GET",
+    );
+
+    this.passStaff = statResponse.payload.passStaff;
+    this.totalCandidates = users[this.props.auth.profile.major];
   };
 
   render() {
@@ -97,10 +106,14 @@ export default class Candidates extends Component {
       <Fragment>
         <Padding>
           <Stat>
-            ตรวจแล้ว {this.totalCandidates - this.candidates.length} คน,
-            คนสมัครสาขา {profile.major} ทั้งหมด {this.totalCandidates} คน (
-            {this.totalCandidates - this.candidates.length}/
-            {this.totalCandidates})
+            จำนวนใบสมัครทั้งหมด {this.totalCandidates} จำนวนที่ผ่านการคัด{" "}
+            {this.passStaff} จำนวนที่ตรวจแล้ว{" "}
+            {
+              this.candidates.filter(
+                x => x.committeeVote.indexOf(profile.username) !== -1,
+              ).length
+            }{" "}
+            ({profile.major})
           </Stat>
         </Padding>
 
