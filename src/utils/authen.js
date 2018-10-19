@@ -22,7 +22,7 @@ export const authen = role => Comp => {
           return <Redirect to="/" />;
         }
 
-        if (auth.profile.role !== role) {
+        if (typeof role !== "object" && auth.profile.role !== role) {
           return <Redirect to="/" />;
         }
 
