@@ -85,6 +85,15 @@ export default class Dashboard extends Component {
           </MainStatContainer>
           <br />
 
+          <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
+          <Chart
+            options={chart.options}
+            series={chart.series}
+            type="bar"
+            width="100%"
+            height={400}
+          />
+
           <Heading>จำนวนใบสมัครที่ส่งมาตามช่วงเวลาต่างๆ</Heading>
           <Chart
             options={chart.options}
