@@ -13,8 +13,8 @@ export default class Admin extends Component {
     return (
       <Fragment>
         <Menubar
-          header={`คัดผู้เข้าสมัครจากคำถามกลาง (Staff)`}
-          menus={[{icon: "user", name: "คัดคนเข้าสมัคร", to: "/staff"}]}>
+          header={`Dashboard`}
+          menus={[{icon: "user", name: "Dashboard", to: "/admin"}]}>
           <Dashboard />
         </Menubar>
       </Fragment>

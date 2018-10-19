@@ -1,61 +1,36 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
-import {observable} from "mobx";
-import {observer} from "mobx-react";
-import {Table, Icon, Button, Tag} from "antd";
-import {Link} from "react-router-dom";
 
+import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
-import {fetch, fetchWithToken} from "../utils/fetch";
+import {Padding} from "../utils/styled-helper";
 
-const Stat = styled.div`
-  color: #777;
-  margin-bottom: 20px;
+const MainStatContainer = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  text-align: center;
+  grid-template-columns: repeat(5, 1fr);
+
+  & > div {
+    padding: 15px 0;
+
+    & > h1 {
+      font-size: 50px;
+      font-weight: bold;
+      font-family: sans-serif;
+
+      color: #041527;
+      margin: 0;
+    }
+
+    & > span {
+      font-family: "Kanit";
+      color: #6b67a7;
+      font-size: 18px;
+    }
+  }
 `;
-
-const Padding = styled.div`
-  padding: 20px;
-  padding-bottom: 5px;
-`;
-
-const columns = [
-  {
-    title: "No.",
-    dataIndex: "key",
-    key: "key",
-  },
-  {
-    title: "User ID.",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: tags => (
-      <span>
-        {tags.map(tag => (
-          <Tag color="red" key={tag}>
-            {tag}
-          </Tag>
-        ))}
-      </span>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: data => (
-      <Button>
-        <Link params={{id: data.id}} to={`/staff/${data.id}`}>
-          <Icon type="edit" theme="outlined" /> ตรวจคำถามกลาง
-        </Link>
-      </Button>
-    ),
-  },
-];
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -63,57 +38,34 @@ const mapStateToProps = state => ({
 
 @authen(["admin", "manager"])
 @connect(mapStateToProps)
-@observer
 export default class Dashboard extends Component {
-  @observable
-  totalCandidates = 0;
-  @observable
-  candidates = [];
-
-  // fetch and render data
-  componentDidMount = async () => {
-    this.getCandidates();
-    this.getStat();
-  };
-
-  getCandidates = async () => {
-    const {major} = this.props.auth.profile;
-    const response = await fetchWithToken("users/staff", {major}, "GET");
-
-    if (response.status === "success") {
-      this.candidates = response.payload;
-    }
-  };
-
-  getStat = async () => {
-    const response = await fetch("users/stat");
-    const {payload} = response;
-
-    this.totalCandidates = payload[this.props.auth.profile.major];
-  };
-
   render() {
-    const {profile} = this.props.auth;
-
     return (
       <Fragment>
         <Padding>
-          <Stat>
-            ตรวจแล้ว {this.totalCandidates - this.candidates.length} คน,
-            คนสมัครสาขา {profile.major} ทั้งหมด {this.totalCandidates} คน (
-            {this.totalCandidates - this.candidates.length}/
-            {this.totalCandidates})
-          </Stat>
+          <MainStatContainer>
+            <Panel>
+              <h1>500</h1>
+              <span>ยอดผู้สมัครทั้งหมด</span>
+            </Panel>
+            <Panel>
+              <h1>500</h1>
+              <span>ยอดผู้สมัครสาขา Programming</span>
+            </Panel>
+            <Panel>
+              <h1>500</h1>
+              <span>ยอดผู้สมัครสาขา Maketting</span>
+            </Panel>
+            <Panel>
+              <h1>500</h1>
+              <span>ยอดผู้สมัครสาขา Content</span>
+            </Panel>
+            <Panel>
+              <h1>500</h1>
+              <span>ยอดผู้สมัครสาขา Design</span>
+            </Panel>
+          </MainStatContainer>
         </Padding>
-
-        <Table
-          columns={columns}
-          dataSource={this.candidates.map((candidate, i) => ({
-            key: i + 1,
-            id: candidate._id,
-            status: ["Not checked"],
-          }))}
-        />
       </Fragment>
     );
   }
