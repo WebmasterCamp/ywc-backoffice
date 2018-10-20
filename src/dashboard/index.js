@@ -40,23 +40,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const chart = {
-  options: {
-    chart: {
-      id: "apexchart-example",
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-    },
-  },
-  series: [
-    {
-      name: "series-1",
-      data: [30, 40, 45, 50, 49, 60, 70, 91],
-    },
-  ],
-};
-
 @authen(["admin", "manager"])
 @connect(mapStateToProps)
 @observer
@@ -71,8 +54,8 @@ export default class Dashboard extends Component {
   design = 0;
   @observable
   marketing = 0;
-  @observable
-  completedTimeline = [];
+  // @observable
+  // completedTimeline = [];
   @observable
   countUserStep = [];
 
@@ -89,7 +72,7 @@ export default class Dashboard extends Component {
       content,
       design,
       marketing,
-      completedTimeline,
+      // completedTimeline,
       countUserStep,
     } = response.payload;
 
@@ -99,7 +82,7 @@ export default class Dashboard extends Component {
     this.design = design;
     this.marketing = marketing;
 
-    this.completedTimeline = completedTimeline;
+    // this.completedTimeline = completedTimeline;
     this.countUserStep = countUserStep;
   };
 
@@ -193,15 +176,6 @@ export default class Dashboard extends Component {
           <Chart
             options={stepCount}
             series={stepCountSeries}
-            type="bar"
-            width="100%"
-            height={400}
-          />
-
-          <Heading>จำนวนใบสมัครที่ส่งมาตามช่วงเวลาต่างๆ</Heading>
-          <Chart
-            options={chart.options}
-            series={chart.series}
             type="bar"
             width="100%"
             height={400}
