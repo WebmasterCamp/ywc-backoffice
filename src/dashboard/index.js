@@ -158,6 +158,7 @@ export default class Dashboard extends Component {
             </Panel>
           </MainStatContainer>
           <br />
+          <br />
 
           <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
           <Desc>
@@ -170,6 +171,8 @@ export default class Dashboard extends Component {
           <Heading>จำนวนผู้ส่งใบสมัครตามช่วงเวลาต่างๆ</Heading>
           <CompletedTimelineChart dataframe={this.completedTimeline} />
 
+          <br />
+          <br />
           <CopyToClipboard
             style={{marginRight: "10px"}}
             text={JSON.stringify(this.countUserStep, 2, 2)}>
