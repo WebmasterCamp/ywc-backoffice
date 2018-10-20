@@ -17,13 +17,22 @@ const MainStatContainer = styled.div`
   display: grid;
   grid-gap: 20px;
   text-align: center;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(${({size}) => size}, 1fr);
 
   & > div {
     padding: 15px 0;
 
     & > h1 {
-      font-size: 50px;
+      font-size: 80px;
+      font-weight: bold;
+      font-family: sans-serif;
+
+      color: #041527;
+      margin: 0;
+    }
+
+    & > h2 {
+      font-size: 60px;
       font-weight: bold;
       font-family: sans-serif;
 
@@ -66,6 +75,8 @@ export default class Dashboard extends Component {
   completedTimeline = [];
   @observable
   countUserStep = [];
+  @observable
+  userNotCompleted = 0;
 
   fetchStat = async () => {
     const response = await fetchWithToken("users/stat/all", {}, "GET");
@@ -92,6 +103,20 @@ export default class Dashboard extends Component {
 
     this.completedTimeline = completedTimeline;
     this.countUserStep = countUserStep;
+
+    this.userNotCompleted = this.countUserNotCompleted(completedTimeline);
+  };
+
+  countUserNotCompleted = completedTimeline => {
+    if (completedTimeline.length === 0) {
+      return 0;
+    }
+
+    if (completedTimeline[0]._id.month === null) {
+      return completedTimeline[0].count;
+    }
+
+    return 0;
   };
 
   componentDidMount = () => {
@@ -102,25 +127,33 @@ export default class Dashboard extends Component {
     return (
       <Fragment>
         <Padding>
-          <MainStatContainer>
+          <MainStatContainer size={2}>
             <Panel>
               <h1>{this.totalCandidate}</h1>
               <span>ยอดผู้สมัครทั้งหมด</span>
             </Panel>
             <Panel>
-              <h1>{this.programming}</h1>
+              <h1>{this.userNotCompleted}</h1>
+              <span>ยอดผู้สมัครที่ยังไม่ได้กดส่ง</span>
+            </Panel>
+          </MainStatContainer>
+          <br />
+
+          <MainStatContainer size={4}>
+            <Panel>
+              <h2>{this.programming}</h2>
               <span>ยอดผู้สมัครสาขา Programming</span>
             </Panel>
             <Panel>
-              <h1>{this.marketing}</h1>
+              <h2>{this.marketing}</h2>
               <span>ยอดผู้สมัครสาขา Maketing</span>
             </Panel>
             <Panel>
-              <h1>{this.content}</h1>
+              <h2>{this.content}</h2>
               <span>ยอดผู้สมัครสาขา Content</span>
             </Panel>
             <Panel>
-              <h1>{this.design}</h1>
+              <h2>{this.design}</h2>
               <span>ยอดผู้สมัครสาขา Design</span>
             </Panel>
           </MainStatContainer>
