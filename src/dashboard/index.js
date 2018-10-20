@@ -2,6 +2,8 @@ import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
 import Chart from "react-apexcharts";
+import {Button} from "antd";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
@@ -54,8 +56,8 @@ export default class Dashboard extends Component {
   design = 0;
   @observable
   marketing = 0;
-  // @observable
-  // completedTimeline = [];
+  @observable
+  completedTimeline = [];
   @observable
   countUserStep = [];
 
@@ -72,7 +74,7 @@ export default class Dashboard extends Component {
       content,
       design,
       marketing,
-      // completedTimeline,
+      completedTimeline,
       countUserStep,
     } = response.payload;
 
@@ -82,7 +84,7 @@ export default class Dashboard extends Component {
     this.design = design;
     this.marketing = marketing;
 
-    // this.completedTimeline = completedTimeline;
+    this.completedTimeline = completedTimeline;
     this.countUserStep = countUserStep;
   };
 
@@ -178,8 +180,22 @@ export default class Dashboard extends Component {
             series={stepCountSeries}
             type="bar"
             width="100%"
-            height={400}
+            height={500}
           />
+
+          <CopyToClipboard
+            style={{marginRight: "10px"}}
+            text={JSON.stringify(this.countUserStep, 2, 2)}>
+            <Button type="primary">
+              Copy raw data to clipboard (CountUserStep)
+            </Button>
+          </CopyToClipboard>
+
+          <CopyToClipboard text={JSON.stringify(this.completedTimeline, 2, 2)}>
+            <Button type="primary">
+              Copy raw data to clipboard (completedTimeline)
+            </Button>
+          </CopyToClipboard>
         </Padding>
       </Fragment>
     );
