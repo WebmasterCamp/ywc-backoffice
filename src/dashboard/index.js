@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
-import Chart from "react-apexcharts";
 import {Button} from "antd";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
+import CountUserStepChart from "./CountUserStepChart";
 import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
 import {Padding, Heading} from "../utils/styled-helper";
@@ -92,61 +92,7 @@ export default class Dashboard extends Component {
     this.fetchStat();
   };
 
-  stepCountLabel = user => {
-    const {major, stepContact, stepInfo, stepInsight, stepMajor} = user._id;
-    return (
-      major +
-      ": " +
-      [stepContact, stepInfo, stepInsight, stepMajor]
-        .map((x, i) => (x ? i + 1 : -1))
-        .filter(x => x !== -1)
-        .join(", ")
-    );
-  };
-
-  stepCountSeries = users => {
-    return [
-      {
-        data: users.filter(user => user._id.major !== undefined).map(user => ({
-          x: this.stepCountLabel(user),
-          y: user.userCount,
-        })),
-      },
-    ];
-  };
-
-  renderStepCount = users => {
-    return {
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          endingShape: "rounded",
-          columnWidth: "55%",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      xaxis: {
-        categories: users.map(this.stepCountLabel),
-      },
-      yaxis: {
-        title: {
-          text: "Total Candidate",
-        },
-      },
-    };
-  };
-
   render() {
-    const stepCount = this.renderStepCount(this.countUserStep);
-    const stepCountSeries = this.stepCountSeries(this.countUserStep);
-
     return (
       <Fragment>
         <Padding>
@@ -175,13 +121,7 @@ export default class Dashboard extends Component {
           <br />
 
           <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
-          <Chart
-            options={stepCount}
-            series={stepCountSeries}
-            type="bar"
-            width="100%"
-            height={500}
-          />
+          <CountUserStepChart dataframe={this.countUserStep} />
 
           <CopyToClipboard
             style={{marginRight: "10px"}}
