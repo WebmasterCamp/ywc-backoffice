@@ -72,7 +72,7 @@ class CountUserStepChart extends Component {
 }
 
 CountUserStepChart.propTypes = {
-  dataframe: PropTypes.object.isRequired,
+  dataframe: PropTypes.array.isRequired,
 };
 
 export default CountUserStepChart;

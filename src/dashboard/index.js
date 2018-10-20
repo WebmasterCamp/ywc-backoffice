@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Button} from "antd";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
+import CompletedTimelineChart from "./CompletedTimelineChart";
 import CountUserStepChart from "./CountUserStepChart";
 import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
@@ -122,6 +123,9 @@ export default class Dashboard extends Component {
 
           <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
           <CountUserStepChart dataframe={this.countUserStep} />
+
+          <Heading>จำนวนผู้ส่งใบสมัครตามช่วงเวลาต่างๆ</Heading>
+          <CompletedTimelineChart dataframe={this.completedTimeline} />
 
           <CopyToClipboard
             style={{marginRight: "10px"}}
