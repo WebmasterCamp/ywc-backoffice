@@ -20,6 +20,8 @@ class CompletedTimelineChart extends Component {
   };
 
   renderCompletedTimeline = users => {
+    const labels = users.map(this.label).filter(x => x !== "null/null/null");
+
     return {
       chart: {
         type: "line",
@@ -40,9 +42,9 @@ class CompletedTimelineChart extends Component {
           opacity: 0.5,
         },
       },
-      labels: users.map(this.label),
+      labels,
       xaxis: {
-        categories: users.map(this.label),
+        categories: labels,
       },
     };
   };
@@ -51,8 +53,6 @@ class CompletedTimelineChart extends Component {
     const {dataframe} = this.props;
     const completedTimeline = this.renderCompletedTimeline(dataframe);
     const series = this.series(dataframe);
-
-    console.log(series, completedTimeline);
 
     return (
       <Chart
