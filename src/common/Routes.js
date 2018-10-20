@@ -4,7 +4,8 @@ import styled from "styled-components";
 
 import Login from "../login";
 import Staff from "../staff";
-import committee from "../committee";
+import Committee from "../committee";
+import Admin from "../admin";
 
 const ReportBug = styled.a`
   display: block;
@@ -28,7 +29,9 @@ export default () => (
 
     <Route path="/staff" component={Staff} />
 
-    <Route path="/committee" component={committee} />
+    <Route path="/committee" component={Committee} />
+
+    <Route path="/admin" component={Admin} />
 
     <ReportBug href="https://www.messenger.com/t/chun42" target="_blank">
       Report Bugs
