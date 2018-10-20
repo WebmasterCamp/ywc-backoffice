@@ -6,6 +6,9 @@ import Chart from "react-apexcharts";
 import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
 import {Padding, Heading} from "../utils/styled-helper";
+import {observer} from "mobx-react";
+import {fetchWithToken} from "../utils/fetch";
+import {observable} from "mobx";
 
 const MainStatContainer = styled.div`
   display: grid;
@@ -56,30 +59,77 @@ const chart = {
 
 @authen(["admin", "manager"])
 @connect(mapStateToProps)
+@observer
 export default class Dashboard extends Component {
+  @observable
+  totalCandidate = 0;
+  @observable
+  programming = 0;
+  @observable
+  content = 0;
+  @observable
+  design = 0;
+  @observable
+  marketing = 0;
+  @observable
+  completedTimeline = [];
+  @observable
+  countUserStep = [];
+
+  fetchStat = async () => {
+    const response = await fetchWithToken("users/stat/all", {}, "GET");
+
+    if (response.status !== "success") {
+      return;
+    }
+
+    const {
+      totalCandidate,
+      programming,
+      content,
+      design,
+      marketing,
+      completedTimeline,
+      countUserStep,
+    } = response.payload;
+
+    this.totalCandidate = totalCandidate;
+    this.programming = programming;
+    this.content = content;
+    this.design = design;
+    this.marketing = marketing;
+
+    this.completedTimeline = completedTimeline;
+    this.countUserStep = countUserStep;
+  };
+
+  componentDidMount = () => {
+    this.fetchStat();
+  };
+
   render() {
     return (
       <Fragment>
         <Padding>
           <MainStatContainer>
             <Panel>
-              <h1>500</h1>
+              <h1>{this.totalCandidate}</h1>
               <span>ยอดผู้สมัครทั้งหมด</span>
             </Panel>
             <Panel>
-              <h1>500</h1>
+              <h1>{this.programming}</h1>
               <span>ยอดผู้สมัครสาขา Programming</span>
             </Panel>
             <Panel>
-              <h1>500</h1>
-              <span>ยอดผู้สมัครสาขา Maketting</span>
+              <h1>{this.marketing}</h1>
+              <span>ยอดผู้สมัครสาขา Maketing</span>
             </Panel>
             <Panel>
-              <h1>500</h1>
+              <h1>{this.content}</h1>
               <span>ยอดผู้สมัครสาขา Content</span>
             </Panel>
             <Panel>
-              <h1>500</h1>
+              <h1>{this.design}</h1>
               <span>ยอดผู้สมัครสาขา Design</span>
             </Panel>
           </MainStatContainer>
