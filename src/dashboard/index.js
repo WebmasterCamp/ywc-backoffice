@@ -39,6 +39,11 @@ const MainStatContainer = styled.div`
   }
 `;
 
+const Desc = styled.span`
+  display: block;
+  margin-bottom: 20px;
+`;
+
 const mapStateToProps = state => ({
   auth: state.auth,
 });
@@ -122,6 +127,11 @@ export default class Dashboard extends Component {
           <br />
 
           <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
+          <Desc>
+            NOTE: ตัวเลขที่อยู่ด้านหลังสาขาหมายความว่า ผ่าน STEP นั้นแล้วเช่น
+            Programming: 1, 2 คือ สาขา Programming ที่ผ่าน STEP1, 2 แล้ว
+            ถ้าไม่มีตัวเลขหมายความว่า ยังไม่ผ่าน STEP ไหนเลย
+          </Desc>
           <CountUserStepChart dataframe={this.countUserStep} />
 
           <Heading>จำนวนผู้ส่งใบสมัครตามช่วงเวลาต่างๆ</Heading>

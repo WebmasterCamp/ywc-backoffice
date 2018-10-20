@@ -5,14 +5,15 @@ import {PropTypes} from "prop-types";
 class CountUserStepChart extends Component {
   stepCountLabel = user => {
     const {major, stepContact, stepInfo, stepInsight, stepMajor} = user._id;
-    return (
+    const label =
       major +
       ": " +
       [stepContact, stepInfo, stepInsight, stepMajor]
         .map((x, i) => (x ? i + 1 : -1))
         .filter(x => x !== -1)
-        .join(", ")
-    );
+        .join(", ");
+
+    return label;
   };
 
   stepCountSeries = users => {
@@ -27,6 +28,10 @@ class CountUserStepChart extends Component {
   };
 
   renderStepCount = users => {
+    const categories = users
+      .map(this.stepCountLabel)
+      .filter(x => x.indexOf("undefined") === -1);
+
     return {
       plotOptions: {
         bar: {
@@ -44,7 +49,7 @@ class CountUserStepChart extends Component {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: users.map(this.stepCountLabel),
+        categories,
       },
       yaxis: {
         title: {
