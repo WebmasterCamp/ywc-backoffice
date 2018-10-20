@@ -107,7 +107,7 @@ export default class Dashboard extends Component {
   stepCountSeries = users => {
     return [
       {
-        data: users.map(user => ({
+        data: users.filter(user => user._id.major !== undefined).map(user => ({
           x: this.stepCountLabel(user),
           y: user.userCount,
         })),
