@@ -1,8 +1,11 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
-import Chart from "react-apexcharts";
+import {Button} from "antd";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
+import CompletedTimelineChart from "./CompletedTimelineChart";
+import CountUserStepChart from "./CountUserStepChart";
 import Panel from "../ui/Panel";
 import {authen} from "../utils/authen";
 import {Padding, Heading} from "../utils/styled-helper";
@@ -54,8 +57,8 @@ export default class Dashboard extends Component {
   design = 0;
   @observable
   marketing = 0;
-  // @observable
-  // completedTimeline = [];
+  @observable
+  completedTimeline = [];
   @observable
   countUserStep = [];
 
@@ -72,7 +75,7 @@ export default class Dashboard extends Component {
       content,
       design,
       marketing,
-      // completedTimeline,
+      completedTimeline,
       countUserStep,
     } = response.payload;
 
@@ -82,7 +85,7 @@ export default class Dashboard extends Component {
     this.design = design;
     this.marketing = marketing;
 
-    // this.completedTimeline = completedTimeline;
+    this.completedTimeline = completedTimeline;
     this.countUserStep = countUserStep;
   };
 
@@ -90,61 +93,7 @@ export default class Dashboard extends Component {
     this.fetchStat();
   };
 
-  stepCountLabel = user => {
-    const {major, stepContact, stepInfo, stepInsight, stepMajor} = user._id;
-    return (
-      major +
-      ": " +
-      [stepContact, stepInfo, stepInsight, stepMajor]
-        .map((x, i) => (x ? i + 1 : -1))
-        .filter(x => x !== -1)
-        .join(", ")
-    );
-  };
-
-  stepCountSeries = users => {
-    return [
-      {
-        data: users.map(user => ({
-          x: this.stepCountLabel(user),
-          y: user.userCount,
-        })),
-      },
-    ];
-  };
-
-  renderStepCount = users => {
-    return {
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          endingShape: "rounded",
-          columnWidth: "55%",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      xaxis: {
-        categories: users.map(this.stepCountLabel),
-      },
-      yaxis: {
-        title: {
-          text: "Total Candidate",
-        },
-      },
-    };
-  };
-
   render() {
-    const stepCount = this.renderStepCount(this.countUserStep);
-    const stepCountSeries = this.stepCountSeries(this.countUserStep);
-
     return (
       <Fragment>
         <Padding>
@@ -173,13 +122,24 @@ export default class Dashboard extends Component {
           <br />
 
           <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
-          <Chart
-            options={stepCount}
-            series={stepCountSeries}
-            type="bar"
-            width="100%"
-            height={400}
-          />
+          <CountUserStepChart dataframe={this.countUserStep} />
+
+          <Heading>จำนวนผู้ส่งใบสมัครตามช่วงเวลาต่างๆ</Heading>
+          <CompletedTimelineChart dataframe={this.completedTimeline} />
+
+          <CopyToClipboard
+            style={{marginRight: "10px"}}
+            text={JSON.stringify(this.countUserStep, 2, 2)}>
+            <Button type="primary">
+              Copy raw data to clipboard (CountUserStep)
+            </Button>
+          </CopyToClipboard>
+
+          <CopyToClipboard text={JSON.stringify(this.completedTimeline, 2, 2)}>
+            <Button type="primary">
+              Copy raw data to clipboard (completedTimeline)
+            </Button>
+          </CopyToClipboard>
         </Padding>
       </Fragment>
     );
