@@ -158,6 +158,13 @@ export default class Candidates extends Component {
       key: "major",
       filters: MAJOR.map(x => ({text: x.name, value: x.value})),
       onFilter: (value, record) => record.major === value,
+      render: major => (
+        <span>
+          <Tag color={MAJOR.filter(x => x.value === major)[0].color}>
+            {major}
+          </Tag>
+        </span>
+      ),
     },
     {
       title: "Email",
