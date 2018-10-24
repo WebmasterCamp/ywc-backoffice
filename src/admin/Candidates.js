@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from "react";
 import styled from "styled-components";
+import moment from "moment";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
@@ -59,6 +60,12 @@ const columns = [
     title: "Birthdate",
     dataIndex: "birthdate",
     key: "birthdate",
+    render: date => (
+      <span>
+        {moment(new Date(date)).format("MM/DD/YYYY")} (Age:{" "}
+        {moment().diff(new Date(date), "years")})
+      </span>
+    ),
   },
   {
     title: "YWC Staff Check Status",
