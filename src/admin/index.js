@@ -10,11 +10,16 @@ export default class Admin extends Component {
     return url[url.length - 1];
   };
 
+  getHeader = () => ({
+    admin: "Dashboard",
+    candidates: "All Candidates",
+  });
+
   render() {
     return (
       <Fragment>
         <Menubar
-          header={`Dashboard`}
+          header={this.getHeader()[this.getRoute()]}
           menus={[
             {icon: "user", name: "Dashboard", to: "/admin"},
             {icon: "user", name: "All Candidates", to: "/admin/candidates"},
