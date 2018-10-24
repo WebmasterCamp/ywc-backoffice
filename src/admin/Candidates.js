@@ -139,6 +139,17 @@ export default class Candidates extends Component {
           </Tag>
         </span>
       ),
+      filters: [
+        {
+          text: "Completed",
+          value: "completed",
+        },
+        {
+          text: "In Progress",
+          value: "in progress",
+        },
+      ],
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
       title: "Major",
