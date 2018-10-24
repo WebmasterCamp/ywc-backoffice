@@ -203,6 +203,17 @@ export default class Candidates extends Component {
           </Tag>
         </span>
       ),
+      filters: [
+        {
+          text: "Checked",
+          value: "true",
+        },
+        {
+          text: "Don't Check",
+          value: "undefined",
+        },
+      ],
+      onFilter: (value, record) => value === `${record.isPassStaff}`,
     },
     {
       title: "Grading Status",
