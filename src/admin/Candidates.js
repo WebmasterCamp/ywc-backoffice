@@ -4,16 +4,24 @@ import moment from "moment";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Table, Icon, Button, Tag} from "antd";
+import {Table, Icon, Button, Tag, Input} from "antd";
 import {Link} from "react-router-dom";
 
 import {authen} from "../utils/authen";
 import {fetchWithToken} from "../utils/fetch";
+import {applyBoxShadow} from "../utils/styled-helper";
 
 const Padding = styled.div`
   padding: 20px;
   padding-bottom: 5px;
 `;
+
+const CustomSearch = applyBoxShadow(styled.div`
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+`);
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -26,16 +34,23 @@ export default class Candidates extends Component {
   @observable
   candidates = [];
 
+  state = {
+    searchText: "",
+  };
+
+  handleSearch = (selectedKeys, confirm) => () => {
+    confirm();
+    this.setState({searchText: selectedKeys[0]});
+  };
+
+  handleReset = clearFilters => () => {
+    clearFilters();
+    this.setState({searchText: ""});
+  };
+
   // fetch and render data
   componentDidMount = async () => {
     this.getCandidates();
-  };
-
-  handleChange = (_, filters, sorter) => {
-    this.setState({
-      filteredInfo: filters,
-      sortedInfo: sorter,
-    });
   };
 
   getCandidates = async () => {
@@ -57,6 +72,52 @@ export default class Candidates extends Component {
         </span>
       ),
       fixed: "left",
+
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <CustomSearch>
+          <Input
+            style={{marginBottom: "7px"}}
+            ref={ele => (this.searchInput = ele)}
+            placeholder="Search name"
+            value={selectedKeys[0]}
+            onChange={e =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={this.handleSearch(selectedKeys, confirm)}
+          />
+          <Button
+            type="primary"
+            style={{marginRight: "7px"}}
+            onClick={this.handleSearch(selectedKeys, confirm)}>
+            Search
+          </Button>
+          <Button onClick={this.handleReset(clearFilters)}>Reset</Button>
+        </CustomSearch>
+      ),
+
+      filterIcon: filtered => (
+        <Icon type="search" style={{color: filtered ? "#108ee9" : "#aaa"}} />
+      ),
+
+      onFilter: (value, record) => {
+        const name = `${record.firstNameEN} ${record.lastNameEN} ${
+          record.nickname
+        }`;
+        return name.toLowerCase().includes(value.toLowerCase());
+      },
+
+      onFilterDropdownVisibleChange: visible => {
+        if (visible) {
+          setTimeout(() => {
+            this.searchInput.focus();
+          });
+        }
+      },
     },
     {
       title: "Status",
