@@ -121,6 +121,11 @@ export default class Candidates extends Component {
       },
     },
     {
+      title: "User Identity",
+      key: "_id",
+      dataIndex: "_id",
+    },
+    {
       title: "Thai Name",
       key: "thainame",
       render: user => (
@@ -267,7 +272,7 @@ export default class Candidates extends Component {
 
         <Table
           columns={this.columns}
-          scroll={{x: 2000}}
+          scroll={{x: 2500}}
           dataSource={this.candidates}
         />
       </Fragment>
