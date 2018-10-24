@@ -10,6 +10,7 @@ import {Link} from "react-router-dom";
 import {authen} from "../utils/authen";
 import {fetchWithToken} from "../utils/fetch";
 import {applyBoxShadow} from "../utils/styled-helper";
+import {MAJOR} from "../utils/const";
 
 const Padding = styled.div`
   padding: 20px;
@@ -155,6 +156,8 @@ export default class Candidates extends Component {
       title: "Major",
       dataIndex: "major",
       key: "major",
+      filters: MAJOR.map(x => ({text: x.name, value: x.value})),
+      onFilter: (value, record) => record.major === value,
     },
     {
       title: "Email",
