@@ -226,6 +226,17 @@ export default class Candidates extends Component {
           </Tag>
         </span>
       ),
+      filters: [
+        {
+          text: "Failed",
+          value: "true",
+        },
+        {
+          text: "In System",
+          value: "undefined",
+        },
+      ],
+      onFilter: (value, record) => value === `${record.failed}`,
     },
     {
       title: "Committee Score",
