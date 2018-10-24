@@ -63,6 +63,7 @@ export default class Candidates extends Component {
     }
   };
 
+  // TODO: render isAnswerGeneral, isAnswerMajar status
   columns = [
     {
       title: "Name",
