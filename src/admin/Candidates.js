@@ -106,8 +106,8 @@ export default class Candidates extends Component {
 
       onFilter: (value, record) => {
         const name = `${record.firstNameEN} ${record.lastNameEN} ${
-          record.nickname
-        }`;
+          record.firstName
+        } ${record.lastName} ${record.nickname}`;
         return name.toLowerCase().includes(value.toLowerCase());
       },
 
@@ -118,6 +118,15 @@ export default class Candidates extends Component {
           });
         }
       },
+    },
+    {
+      title: "Thai Name",
+      key: "thainame",
+      render: user => (
+        <span>
+          {user.firstName} {user.lastName}
+        </span>
+      ),
     },
     {
       title: "Status",
