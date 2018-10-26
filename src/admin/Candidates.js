@@ -4,8 +4,7 @@ import moment from "moment";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Table, Icon, Button, Tag, Input} from "antd";
-import {Link} from "react-router-dom";
+import {Table, Icon, Button, Tag, Input, Modal} from "antd";
 
 import {authen} from "../utils/authen";
 import {fetchWithToken} from "../utils/fetch";
@@ -34,6 +33,10 @@ const mapStateToProps = state => ({
 export default class Candidates extends Component {
   @observable
   candidates = [];
+  @observable
+  candidateData = {};
+  @observable
+  showCandidateModal = false;
 
   state = {
     searchText: "",
@@ -255,10 +258,8 @@ export default class Candidates extends Component {
       title: "Action",
       key: "action",
       render: data => (
-        <Button>
-          <Link params={{id: data.id}} to={`/candidates/${data._id}`}>
-            <Icon type="edit" theme="outlined" /> ดูรายละเอียเพิ่มเติม
-          </Link>
+        <Button onClick={() => this.viewCandidateDetail(data._id)}>
+          <Icon type="edit" theme="outlined" /> ดูรายละเอียเพิ่มเติม
         </Button>
       ),
       width: 200,
@@ -266,10 +267,33 @@ export default class Candidates extends Component {
     },
   ];
 
+  viewCandidateDetail = async id => {
+    const response = await fetchWithToken(`users/profile/${id}`, {}, "GET");
+
+    if (response.status === "success") {
+      console.log(response);
+      this.showCandidateModal = true;
+    }
+  };
+
+  closeModal = () => {
+    this.showCandidateModal = false;
+  };
+
   render() {
     return (
       <Fragment>
         <Padding>Hello world</Padding>
+
+        <Modal
+          title="Basic Modal"
+          visible={this.showCandidateModal}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
 
         <Table
           columns={this.columns}
