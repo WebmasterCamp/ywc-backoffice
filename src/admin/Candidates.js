@@ -4,12 +4,13 @@ import moment from "moment";
 import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import {Table, Icon, Button, Tag, Input, Modal} from "antd";
+import {Table, Icon, Button, Tag, Input} from "antd";
 
 import {authen} from "../utils/authen";
 import {fetchWithToken} from "../utils/fetch";
 import {applyBoxShadow} from "../utils/styled-helper";
 import {MAJOR} from "../utils/const";
+import CandidateModal from "./CandidateModal";
 
 const Padding = styled.div`
   padding: 20px;
@@ -167,13 +168,19 @@ export default class Candidates extends Component {
       key: "major",
       filters: MAJOR.map(x => ({text: x.name, value: x.value})),
       onFilter: (value, record) => record.major === value,
-      render: major => (
-        <span>
-          <Tag color={MAJOR.filter(x => x.value === major)[0].color}>
-            {major}
-          </Tag>
-        </span>
-      ),
+      render: major => {
+        if (major === undefined) {
+          return "Unknowed";
+        } else {
+          return (
+            <span>
+              <Tag color={MAJOR.filter(x => x.value === major)[0].color}>
+                {major}
+              </Tag>
+            </span>
+          );
+        }
+      },
     },
     {
       title: "Email",
@@ -271,7 +278,7 @@ export default class Candidates extends Component {
     const response = await fetchWithToken(`users/profile/${id}`, {}, "GET");
 
     if (response.status === "success") {
-      console.log(response);
+      this.candidateData = response.payload;
       this.showCandidateModal = true;
     }
   };
@@ -285,15 +292,11 @@ export default class Candidates extends Component {
       <Fragment>
         <Padding>Hello world</Padding>
 
-        <Modal
-          title="Basic Modal"
-          visible={this.showCandidateModal}
-          onOk={this.closeModal}
-          onCancel={this.closeModal}>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
+        <CandidateModal
+          showCandidateModal={this.showCandidateModal}
+          closeModal={this.closeModal}
+          candidate={this.candidateData}
+        />
 
         <Table
           columns={this.columns}
