@@ -5,12 +5,12 @@ import {connect} from "react-redux";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
 import {Table, Icon, Button, Tag, Input} from "antd";
-import {Link} from "react-router-dom";
 
 import {authen} from "../utils/authen";
 import {fetchWithToken} from "../utils/fetch";
 import {applyBoxShadow} from "../utils/styled-helper";
 import {MAJOR} from "../utils/const";
+import CandidateModal from "./CandidateModal";
 
 const Padding = styled.div`
   padding: 20px;
@@ -34,6 +34,10 @@ const mapStateToProps = state => ({
 export default class Candidates extends Component {
   @observable
   candidates = [];
+  @observable
+  candidateData = {};
+  @observable
+  showCandidateModal = false;
 
   state = {
     searchText: "",
@@ -164,13 +168,19 @@ export default class Candidates extends Component {
       key: "major",
       filters: MAJOR.map(x => ({text: x.name, value: x.value})),
       onFilter: (value, record) => record.major === value,
-      render: major => (
-        <span>
-          <Tag color={MAJOR.filter(x => x.value === major)[0].color}>
-            {major}
-          </Tag>
-        </span>
-      ),
+      render: major => {
+        if (major === undefined) {
+          return "Unknowed";
+        } else {
+          return (
+            <span>
+              <Tag color={MAJOR.filter(x => x.value === major)[0].color}>
+                {major}
+              </Tag>
+            </span>
+          );
+        }
+      },
     },
     {
       title: "Email",
@@ -255,10 +265,8 @@ export default class Candidates extends Component {
       title: "Action",
       key: "action",
       render: data => (
-        <Button>
-          <Link params={{id: data.id}} to={`/candidates/${data._id}`}>
-            <Icon type="edit" theme="outlined" /> ดูรายละเอียเพิ่มเติม
-          </Link>
+        <Button onClick={() => this.viewCandidateDetail(data._id)}>
+          <Icon type="edit" theme="outlined" /> ดูรายละเอียเพิ่มเติม
         </Button>
       ),
       width: 200,
@@ -266,10 +274,29 @@ export default class Candidates extends Component {
     },
   ];
 
+  viewCandidateDetail = async id => {
+    const response = await fetchWithToken(`users/profile/${id}`, {}, "GET");
+
+    if (response.status === "success") {
+      this.candidateData = response.payload;
+      this.showCandidateModal = true;
+    }
+  };
+
+  closeModal = () => {
+    this.showCandidateModal = false;
+  };
+
   render() {
     return (
       <Fragment>
         <Padding>Hello world</Padding>
+
+        <CandidateModal
+          showCandidateModal={this.showCandidateModal}
+          closeModal={this.closeModal}
+          candidate={this.candidateData}
+        />
 
         <Table
           columns={this.columns}
