@@ -1,5 +1,6 @@
 import React from "react";
-import {Modal} from "antd";
+import {Modal, Button} from "antd";
+import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
 const Header = styled.h1`
@@ -19,6 +20,7 @@ const ProfileGrid = styled.div`
 const Image = styled.img`
   width: 100%;
   border-radius: 7px;
+  margin-bottom: 20px;
 `;
 
 const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
@@ -38,6 +40,11 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
         <ProfileGrid>
           <div>
             <Image src={candidate.picture} />
+            <CopyToClipboard text={JSON.stringify(candidate, 2, 2)}>
+              <Button type="dashed" block>
+                Copy to clipboard as JSON
+              </Button>
+            </CopyToClipboard>
           </div>
           <div>
             <pre>{JSON.stringify(candidate, 2, 2)}</pre>
