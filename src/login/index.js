@@ -5,6 +5,7 @@ import {Form, Input, Icon, Button} from "antd";
 import {connect} from "react-redux";
 
 import {userLogin, userLoginWithToken} from "./reducer";
+import {getQueryParam} from "../utils/helper";
 
 const FormItem = Form.Item;
 
@@ -79,6 +80,12 @@ export default class Login extends Component {
     const {getFieldDecorator} = this.props.form;
 
     if (auth.isAuthen) {
+      const nextLocation = getQueryParam("location");
+
+      if (nextLocation !== null && nextLocation !== "") {
+        return <Redirect to={`/${nextLocation}`} />;
+      }
+
       return <Redirect to={`/${auth.profile.role}`} />;
     }
 
