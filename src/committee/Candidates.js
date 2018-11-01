@@ -19,42 +19,6 @@ const Padding = styled.div`
   padding-bottom: 5px;
 `;
 
-const columns = [
-  {
-    title: "No.",
-    dataIndex: "key",
-    key: "key",
-  },
-  {
-    title: "User ID.",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: status => (
-      <span>
-        <Tag color={!status ? "red" : "green"}>
-          {!status ? "ยังไม่ได้ตรวจ" : "ตรวจแล้ว"}
-        </Tag>
-      </span>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: data => (
-      <Button>
-        <Link params={{id: data.id}} to={`/committee/${data.id}`}>
-          <Icon type="edit" theme="outlined" /> ตรวจคำถาม
-        </Link>
-      </Button>
-    ),
-  },
-];
-
 const mapStateToProps = state => ({
   auth: state.auth,
 });
@@ -69,6 +33,53 @@ export default class Candidates extends Component {
   candidates = [];
   @observable
   passStaff = 0;
+
+  columns = [
+    {
+      title: "No.",
+      dataIndex: "key",
+      key: "key",
+    },
+    {
+      title: "User ID.",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: status => (
+        <span>
+          <Tag color={!status ? "red" : "green"}>
+            {!status ? "ยังไม่ได้ตรวจ" : "ตรวจแล้ว"}
+          </Tag>
+        </span>
+      ),
+      filters: [
+        {
+          text: "ตรวจแล้ว",
+          value: "true",
+        },
+        {
+          text: "ยังไม่ได้ตรวจ",
+          value: "false",
+        },
+      ],
+      onFilter: (value, record) => value === `${record.status}`,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: data => (
+        <Button>
+          <Link params={{id: data.id}} to={`/committee/${data.id}`}>
+            <Icon type="edit" theme="outlined" /> ตรวจคำถาม
+          </Link>
+        </Button>
+      ),
+    },
+  ];
 
   // fetch and render data
   componentDidMount = async () => {
@@ -118,10 +129,11 @@ export default class Candidates extends Component {
         </Padding>
 
         <Table
-          columns={columns}
+          columns={this.columns}
           dataSource={this.candidates.map((candidate, i) => ({
             key: i + 1,
             id: candidate._id,
+            username: profile.username,
             status: candidate.committeeVote.indexOf(profile.username) !== -1,
           }))}
         />
