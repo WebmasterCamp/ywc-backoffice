@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
+import PaginationStore from "../common/PaginationStore";
 
 const Stat = styled.div`
   color: #777;
@@ -33,6 +34,8 @@ export default class Candidates extends Component {
   candidates = [];
   @observable
   passStaff = 0;
+  @observable
+  pagination = null;
 
   columns = [
     {
@@ -94,6 +97,9 @@ export default class Candidates extends Component {
     if (response.status === "success") {
       this.candidates = response.payload;
     }
+
+    // set pagination to current page on candidates table
+    this.pagination = {current: PaginationStore.currentPage};
   };
 
   getStat = async () => {
@@ -108,6 +114,11 @@ export default class Candidates extends Component {
 
     this.passStaff = statResponse.payload.passStaff;
     this.totalCandidates = users[this.props.auth.profile.major];
+  };
+
+  onPageChange = pagination => {
+    PaginationStore.currentPage = pagination.current;
+    this.pagination = {current: pagination.current};
   };
 
   render() {
@@ -130,6 +141,8 @@ export default class Candidates extends Component {
 
         <Table
           columns={this.columns}
+          onChange={this.onPageChange}
+          pagination={this.pagination}
           dataSource={this.candidates.map((candidate, i) => ({
             key: i + 1,
             id: candidate._id,
