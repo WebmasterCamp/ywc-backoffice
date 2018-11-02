@@ -11,6 +11,7 @@ import {fetchWithToken} from "../utils/fetch";
 import {applyBoxShadow} from "../utils/styled-helper";
 import {MAJOR} from "../utils/const";
 import CandidateModal from "./CandidateModal";
+import PaginationStore from "../common/PaginationStore";
 
 const Padding = styled.div`
   padding: 20px;
@@ -38,6 +39,8 @@ export default class Candidates extends Component {
   candidateData = {};
   @observable
   showCandidateModal = false;
+  @observable
+  pagination = null;
 
   state = {
     searchText: "",
@@ -65,6 +68,9 @@ export default class Candidates extends Component {
     if (response.status === "success") {
       this.candidates = response.payload;
     }
+
+    // set pagination to current page on candidates table
+    this.pagination = {current: PaginationStore.currentPage};
   };
 
   // TODO: render isAnswerGeneral, isAnswerMajar status
@@ -287,6 +293,11 @@ export default class Candidates extends Component {
     this.showCandidateModal = false;
   };
 
+  onPageChange = pagination => {
+    PaginationStore.currentPage = pagination.current;
+    this.pagination = {current: pagination.current};
+  };
+
   render() {
     return (
       <Fragment>
@@ -302,6 +313,8 @@ export default class Candidates extends Component {
           columns={this.columns}
           scroll={{x: 2500}}
           dataSource={this.candidates}
+          onChange={this.onPageChange}
+          pagination={this.pagination}
         />
       </Fragment>
     );
