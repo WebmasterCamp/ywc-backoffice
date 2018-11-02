@@ -116,6 +116,24 @@ export default class Candidates extends Component {
     this.totalCandidates = users[this.props.auth.profile.major];
   };
 
+  committeeScoreCounter = () => {
+    let result = "";
+    const scores = this.candidates.reduce((prev, curr) => {
+      const key = curr.committeeScore;
+
+      if (prev[key] === undefined) prev[key] = 1;
+      else ++prev[key];
+
+      return prev;
+    }, {});
+
+    for (let key in scores) {
+      result += ` | คะแนน ${key} มีจำนวน ${scores[key]} คน | `;
+    }
+
+    return result;
+  };
+
   onPageChange = pagination => {
     PaginationStore.currentPage = pagination.current;
     this.pagination = {current: pagination.current};
@@ -135,7 +153,8 @@ export default class Candidates extends Component {
                 x => x.committeeVote.indexOf(profile.username) !== -1,
               ).length
             }{" "}
-            ({profile.major})
+            ({profile.major})<br />
+            จำนวนการโหวตผ่าน: {this.committeeScoreCounter()}
           </Stat>
         </Padding>
 
