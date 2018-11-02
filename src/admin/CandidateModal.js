@@ -5,6 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
 import Label from "./Label";
+import QuestionStore from "../common/QuestionStore";
 
 const Header = styled.h1`
   margin: 0;
@@ -132,6 +133,40 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
             <Label title="Know Camp">
               {(candidate.knowCamp || []).join(", ")}
             </Label>
+
+            <Divider />
+
+            <SubHeader>General Question</SubHeader>
+            {QuestionStore.questions.general.map((question, i) => {
+              return (
+                <Label key={i} title={question}>
+                  {candidate.questions !== undefined &&
+                    (
+                      candidate.questions.generalQuestions[i] || {
+                        answer: "Undefined",
+                      }
+                    ).answer}
+                </Label>
+              );
+            })}
+
+            <Divider />
+
+            <SubHeader>Major Question</SubHeader>
+            {QuestionStore.questions[candidate.major || "programming"].map(
+              (question, i) => {
+                return (
+                  <Label key={i} title={question}>
+                    {candidate.questions !== undefined &&
+                      (
+                        candidate.questions.majorQuestions[i] || {
+                          answer: "Undefined",
+                        }
+                      ).answer}
+                  </Label>
+                );
+              },
+            )}
           </div>
         </ProfileGrid>
       </Modal>

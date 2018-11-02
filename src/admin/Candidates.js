@@ -13,11 +13,6 @@ import {MAJOR} from "../utils/const";
 import CandidateModal from "./CandidateModal";
 import PaginationStore from "../common/PaginationStore";
 
-const Padding = styled.div`
-  padding: 20px;
-  padding-bottom: 5px;
-`;
-
 const CustomSearch = applyBoxShadow(styled.div`
   background: white;
   padding: 10px;
@@ -301,8 +296,6 @@ export default class Candidates extends Component {
   render() {
     return (
       <Fragment>
-        <Padding>Hello world</Padding>
-
         <CandidateModal
           showCandidateModal={this.showCandidateModal}
           closeModal={this.closeModal}
