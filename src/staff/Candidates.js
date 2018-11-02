@@ -6,6 +6,7 @@ import {observer} from "mobx-react";
 import {Table, Icon, Button, Tag} from "antd";
 import {Link} from "react-router-dom";
 
+import PaginationStore from "../common/PaginationStore";
 import {authen} from "../utils/authen";
 import {fetch, fetchWithToken} from "../utils/fetch";
 
@@ -69,6 +70,8 @@ export default class Candidates extends Component {
   totalCandidates = 0;
   @observable
   candidates = [];
+  @observable
+  pagination = null;
 
   // fetch and render data
   componentDidMount = async () => {
@@ -83,6 +86,9 @@ export default class Candidates extends Component {
     if (response.status === "success") {
       this.candidates = response.payload;
     }
+
+    // set pagination to current page on candidates table
+    this.pagination = {current: PaginationStore.currentPage};
   };
 
   getStat = async () => {
@@ -90,6 +96,11 @@ export default class Candidates extends Component {
     const {payload} = response;
 
     this.totalCandidates = payload[this.props.auth.profile.major];
+  };
+
+  onPageChange = pagination => {
+    PaginationStore.currentPage = pagination.current;
+    this.pagination = {current: pagination.current};
   };
 
   render() {
@@ -108,6 +119,8 @@ export default class Candidates extends Component {
 
         <Table
           columns={columns}
+          onChange={this.onPageChange}
+          pagination={this.pagination}
           dataSource={this.candidates.map((candidate, i) => ({
             key: i + 1,
             id: candidate._id,
