@@ -171,7 +171,9 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
             <Divider />
 
             <SubHeader>Grading Status</SubHeader>
-            <Label title="Is pass staff?">{candidate.passStaff}</Label>
+            <Label title="Is pass staff?">
+              {candidate.isPassStaff ? "Pass" : "Failed"}
+            </Label>
             <Label title="Staff Username">{candidate.staffUsername}</Label>
             <Label title="Staff Comment">{candidate.staffComment}</Label>
             <Label title="Committee Score">{candidate.committeeScore}</Label>
