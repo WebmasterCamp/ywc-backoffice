@@ -1,11 +1,13 @@
 import React from "react";
 import moment from "moment";
+import PropTypes from "prop-types";
 import {Modal, Button, Divider} from "antd";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
 
 import Label from "./Label";
 import QuestionStore from "../common/QuestionStore";
+import UserManagement from "./UserManagement";
 
 const Header = styled.h1`
   margin: 0;
@@ -36,7 +38,7 @@ const Image = styled.img`
   margin-bottom: 20px;
 `;
 
-const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
+const CandidateModal = ({showCandidateModal, closeModal, candidate, edit}) => {
   return (
     <div>
       <Modal
@@ -180,11 +182,26 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate}) => {
             <Label title="Committee Vote">
               {(candidate.committeeVote || []).join(", ")}
             </Label>
+
+            {edit && (
+              <div>
+                <Divider />
+                <SubHeader>User Management</SubHeader>
+                <UserManagement />
+              </div>
+            )}
           </div>
         </ProfileGrid>
       </Modal>
     </div>
   );
+};
+
+CandidateModal.propTypes = {
+  showCandidateModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  candidate: PropTypes.object.isRequired,
+  edit: PropTypes.bool.isRequired,
 };
 
 export default CandidateModal;

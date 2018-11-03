@@ -297,6 +297,7 @@ export default class Candidates extends Component {
     return (
       <Fragment>
         <CandidateModal
+          edit={this.props.edit}
           showCandidateModal={this.showCandidateModal}
           closeModal={this.closeModal}
           candidate={this.candidateData}

@@ -24,7 +24,7 @@ export default class Manager extends Component {
             {icon: "user", name: "Dashboard", to: "/manager"},
             {icon: "user", name: "All Candidates", to: "/manager/candidates"},
           ]}>
-          {this.getRoute() === "candidates" && <Candidates />}
+          {this.getRoute() === "candidates" && <Candidates edit={true} />}
           {this.getRoute() === "manager" && <Dashboard />}
         </Menubar>
       </Fragment>

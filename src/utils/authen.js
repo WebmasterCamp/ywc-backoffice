@@ -29,7 +29,7 @@ export const authen = role => Comp => {
             return <Redirect to="/" />;
           }
 
-          return <Comp />;
+          return <Comp {...this.props} />;
         };
       },
     ),
