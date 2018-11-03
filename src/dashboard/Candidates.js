@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-@authen("admin")
+@authen(["admin", "manager"])
 @connect(mapStateToProps)
 @observer
 export default class Candidates extends Component {
