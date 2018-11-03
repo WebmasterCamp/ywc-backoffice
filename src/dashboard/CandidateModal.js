@@ -182,6 +182,15 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate, edit}) => {
             <Label title="Committee Vote">
               {(candidate.committeeVote || []).join(", ")}
             </Label>
+            <Label title="Is Reservation">
+              {candidate.isReservation ? "Yes" : "No"}
+            </Label>
+            <Label title="Is Pass Interview">
+              {candidate.passInterview ? "Yes" : "No"}
+            </Label>
+            <Label title="Is Finalist">
+              {candidate.isFinalist ? "Yes" : "No"}
+            </Label>
 
             {edit && (
               <div>
