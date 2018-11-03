@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from "react";
 
-import Candidates from "./Candidates";
+import Candidates from "../dashboard/Candidates";
 import Dashboard from "../dashboard";
 import Menubar from "../common/Menubar";
 
