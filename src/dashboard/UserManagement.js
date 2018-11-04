@@ -4,7 +4,8 @@ import {observable} from "mobx";
 import {Input, Button, Select} from "antd";
 
 import Label from "./Label";
-// import {fetchWithToken} from "../utils/fetch";
+import noti from "../utils/noti";
+import {fetchWithToken} from "../utils/fetch";
 
 const {Option} = Select;
 
@@ -30,12 +31,21 @@ class UserManagement extends Component {
     requestBody["id"] = id;
     requestBody[key] = this[key];
 
-    console.log(requestBody);
+    if (this[key] === undefined || this[key] === "") {
+      noti("error", "Error", `${key} input must not be empty`);
+      return 0;
+    }
 
-    // const response = await fetchWithToken(
-    //   "grading/manager/status",
-    //   requestBody,
-    // );
+    const response = await fetchWithToken(
+      "grading/manager/status",
+      requestBody,
+    );
+
+    if (response.status === "success") {
+      noti("success", "Success", `Update ${key} success`);
+    } else {
+      noti("error", "Error", response.payload.message);
+    }
   };
 
   render() {
