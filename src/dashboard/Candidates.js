@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-@authen("admin")
+@authen(["admin", "manager"])
 @connect(mapStateToProps)
 @observer
 export default class Candidates extends Component {
@@ -297,6 +297,7 @@ export default class Candidates extends Component {
     return (
       <Fragment>
         <CandidateModal
+          edit={this.props.edit}
           showCandidateModal={this.showCandidateModal}
           closeModal={this.closeModal}
           candidate={this.candidateData}

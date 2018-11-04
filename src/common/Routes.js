@@ -6,6 +6,7 @@ import Login from "../login";
 import Staff from "../staff";
 import Committee from "../committee";
 import Admin from "../admin";
+import Manager from "../manager";
 
 const ReportBug = styled.a`
   display: block;
@@ -32,6 +33,8 @@ export default () => (
     <Route path="/committee" component={Committee} />
 
     <Route path="/admin" component={Admin} />
+
+    <Route path="/manager" component={Manager} />
 
     <ReportBug href="https://www.messenger.com/t/chun42" target="_blank">
       Report Bugs

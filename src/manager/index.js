@@ -4,7 +4,7 @@ import Candidates from "../dashboard/Candidates";
 import Dashboard from "../dashboard";
 import Menubar from "../common/Menubar";
 
-export default class Admin extends Component {
+export default class Manager extends Component {
   getRoute = () => {
     const url = window.location.href.split("/");
     return url[url.length - 1];
@@ -21,11 +21,11 @@ export default class Admin extends Component {
         <Menubar
           header={this.getHeader()[this.getRoute()]}
           menus={[
-            {icon: "user", name: "Dashboard", to: "/admin"},
-            {icon: "user", name: "All Candidates", to: "/admin/candidates"},
+            {icon: "user", name: "Dashboard", to: "/manager"},
+            {icon: "user", name: "All Candidates", to: "/manager/candidates"},
           ]}>
-          {this.getRoute() === "candidates" && <Candidates />}
-          {this.getRoute() === "admin" && <Dashboard />}
+          {this.getRoute() === "candidates" && <Candidates edit={true} />}
+          {this.getRoute() === "manager" && <Dashboard />}
         </Menubar>
       </Fragment>
     );
