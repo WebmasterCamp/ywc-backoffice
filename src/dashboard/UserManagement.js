@@ -1,11 +1,43 @@
 import React, {Component} from "react";
+import {observer} from "mobx-react";
+import {observable} from "mobx";
+import {Input, Button, Select} from "antd";
 
 import Label from "./Label";
-import {Input, Button, Select} from "antd";
+// import {fetchWithToken} from "../utils/fetch";
 
 const {Option} = Select;
 
+@observer
 class UserManagement extends Component {
+  @observable
+  score;
+  @observable
+  reservation;
+  @observable
+  interview;
+  @observable
+  finalist;
+
+  handleChange = ({key, value}) => {
+    this[key] = value;
+  };
+
+  handleSubmit = key => async () => {
+    const {id} = this.props;
+    const requestBody = {};
+
+    requestBody["id"] = id;
+    requestBody[key] = this[key];
+
+    console.log(requestBody);
+
+    // const response = await fetchWithToken(
+    //   "grading/manager/status",
+    //   requestBody,
+    // );
+  };
+
   render() {
     return (
       <div>
@@ -13,42 +45,65 @@ class UserManagement extends Component {
           <Input
             type="number"
             placeholder="Score..."
+            value={this.score}
+            onChange={({target}) => (this.score = target.value)}
             style={{width: "200px", marginRight: "10px"}}
           />
-          <Button style={{marginTop: "10px"}} type="primary">
+          <Button
+            onClick={this.handleSubmit("score")}
+            style={{marginTop: "10px"}}
+            type="primary">
             Update
           </Button>
         </Label>
 
         <Label title="Is Reservation">
-          <Select defaultValue="" style={{width: "200px", marginRight: "10px"}}>
+          <Select
+            onChange={value => this.handleChange({key: "reservation", value})}
+            defaultValue=""
+            style={{width: "200px", marginRight: "10px"}}>
             <Option value="">Please Select</Option>
             <Option value={true}>Yes</Option>
             <Option value={false}>No</Option>
           </Select>
-          <Button style={{marginTop: "10px"}} type="primary">
+          <Button
+            onClick={this.handleSubmit("reservation")}
+            style={{marginTop: "10px"}}
+            type="primary">
             Update
           </Button>
         </Label>
 
         <Label title="Is Pass Interview">
-          <Select defaultValue="" style={{width: "200px", marginRight: "10px"}}>
+          <Select
+            onChange={value => this.handleChange({key: "interview", value})}
+            defaultValue=""
+            style={{width: "200px", marginRight: "10px"}}>
             <Option value="">Please Select</Option>
             <Option value={true}>Yes</Option>
             <Option value={false}>No</Option>
           </Select>
-          <Button style={{marginTop: "10px"}} type="primary">
+          <Button
+            onClick={this.handleSubmit("interview")}
+            style={{marginTop: "10px"}}
+            type="primary">
             Update
           </Button>
         </Label>
 
         <Label title="Is Finalist">
-          <Select defaultValue="" style={{width: "200px", marginRight: "10px"}}>
+          <Select
+            onChange={value => this.handleChange({key: "finalist", value})}
+            defaultValue=""
+            style={{width: "200px", marginRight: "10px"}}>
             <Option value="">Please Select</Option>
             <Option value={true}>Yes</Option>
             <Option value={false}>No</Option>
           </Select>
-          <Button style={{marginTop: "10px"}} type="primary">
+          <Button
+            onClick={this.handleSubmit("finalist")}
+            style={{marginTop: "10px"}}
+            type="primary">
             Update
           </Button>
         </Label>

@@ -196,7 +196,7 @@ const CandidateModal = ({showCandidateModal, closeModal, candidate, edit}) => {
               <div>
                 <Divider />
                 <SubHeader>User Management</SubHeader>
-                <UserManagement />
+                <UserManagement id={candidate._id} />
               </div>
             )}
           </div>
