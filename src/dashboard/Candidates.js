@@ -20,6 +20,10 @@ const CustomSearch = applyBoxShadow(styled.div`
   border: 1px solid #ddd;
 `);
 
+const Padding = styled.div`
+  padding: 20px;
+`;
+
 const mapStateToProps = state => ({
   auth: state.auth,
 });
@@ -293,9 +297,45 @@ export default class Candidates extends Component {
     this.pagination = {current: pagination.current};
   };
 
+  scoreCounter = () => {
+    const counter = this.candidates
+      .filter(
+        candidate => candidate.status === "completed" && !candidate.failed,
+      )
+      .reduce((prev, curr) => {
+        const major = curr.major;
+        const score = curr.committeeScore || "Undefined";
+
+        if (prev[major] === undefined) prev[major] = {};
+
+        if (prev[major][score] === undefined) prev[major][score] = 1;
+        else prev[major][score]++;
+
+        return prev;
+      }, {});
+
+    let output = "";
+
+    for (let major in counter) {
+      let result = `${major}: `;
+      for (let score in counter[major]) {
+        result += ` | คะแนน ${score} มีจำนวน ${counter[major][score]} คน | `;
+      }
+      output += result + "\n";
+    }
+
+    return output;
+  };
+
   render() {
+    const scoreCounter = this.scoreCounter();
+
     return (
       <Fragment>
+        <Padding>
+          <pre>{scoreCounter}</pre>
+        </Padding>
+
         <CandidateModal
           edit={this.props.edit}
           showCandidateModal={this.showCandidateModal}
