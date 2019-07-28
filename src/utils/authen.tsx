@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router'
 
 // user on this page must be login
-export const authen = role => Comp => {
-  return connect(state => ({
+export const authen = (role: any) => (Comp: any) => {
+  return connect((state: { auth: any }) => ({
     auth: state.auth
   }))(
     withRouter(
-      class extends Component {
+      class extends Component<any> {
         public render = () => {
           const { auth } = this.props
           const currentLocation = window.location.hash
