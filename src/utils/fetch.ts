@@ -38,7 +38,9 @@ export const fetchWithToken = async (
   }
   // do http request
   try {
-    const response = await axios(authOptions).then((res: AxiosResponse) => res.data)
+    const response = await axios(authOptions).then(
+      (res: AxiosResponse) => res.data
+    )
     // check error, if error = true and message = invalid access token
     // remove token from localStorage
     if (response.error && response.message === 'Authentication Error') {
