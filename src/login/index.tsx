@@ -49,7 +49,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   loginWithToken: () => dispatch(userLoginWithToken)
 })
 
-
 export default class Login extends Component {
   // automate login with access token
   public componentDidMount = () => {
