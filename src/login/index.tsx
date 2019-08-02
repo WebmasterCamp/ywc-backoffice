@@ -1,6 +1,10 @@
 import { Button, Form, Icon, Input } from 'antd'
-import React from 'react'
+import { FormComponentProps } from 'antd/lib/form/Form'
+import { observer, useObservable } from 'mobx-react-lite'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
+
+import UserStore from '../stores/user'
 
 const FormItem = Form.Item
 
@@ -35,43 +39,81 @@ const Logo = styled.div`
   transform: translateX(-50%) translateY(-50%);
 `
 
-interface LoginProps {
-  loginWithToken: any
-  auth: any
-  form: any
-  login: any
+interface ILoginForm {
+  username: string
+  password: string
 }
 
 const LoginPage: React.FC = () => {
-  return (
-    <div>
-      <Logo />
-      <Container>
-        <Form>
-          <FormItem>
+  const userStore = useObservable(UserStore)
+
+  const handleSubmit = useCallback(
+    (form: ILoginForm) => {
+      userStore.authenticate(form.username, form.password)
+    },
+    [userStore]
+  )
+
+  // Login Form Template
+  type LoginFormProps = FormComponentProps
+  function LoginFormImpl(props: LoginFormProps): JSX.Element {
+    const { form } = props
+    const { getFieldDecorator, validateFields } = form
+
+    const onSubmit = (event: React.FormEvent) => {
+      event.preventDefault()
+
+      validateFields((err, values) => {
+        if (!err) {
+          handleSubmit(values)
+        }
+      })
+    }
+
+    return (
+      <Form onSubmit={onSubmit}>
+        <FormItem>
+          {getFieldDecorator('username', {
+            rules: [{ required: true, message: 'Please input your username!' }]
+          })(
             <Input
               placeholder="Enter your username"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
-          </FormItem>
+          )}
+        </FormItem>
 
-          <FormItem>
+        <FormItem>
+          {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your password!' }]
+          })(
             <Input
               placeholder="Enter your password"
               type="password"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
-          </FormItem>
+          )}
+        </FormItem>
 
-          <FormItem>
-            <LoginButton type="primary" htmlType="submit">
-              <Icon type="login" style={{ color: 'white' }} /> Login
-            </LoginButton>
-          </FormItem>
-        </Form>
+        <FormItem>
+          <LoginButton type="primary" htmlType="submit">
+            <Icon type="login" style={{ color: 'white' }} /> Login
+          </LoginButton>
+        </FormItem>
+      </Form>
+    )
+  }
+
+  const LoginForm = Form.create()(LoginFormImpl)
+
+  return (
+    <>
+      <Logo />
+      <Container>
+        <LoginForm />
       </Container>
-    </div>
+    </>
   )
 }
 
-export default LoginPage
+export default observer(LoginPage)

@@ -55,7 +55,7 @@ interface MenuItem {
 interface MenuBarProps {
   children: React.ReactChildren | any
   menus: MenuItem[]
-  header: any
+  header: string
 }
 
 export default class MenuBar extends Component<MenuBarProps> {
@@ -102,7 +102,9 @@ export default class MenuBar extends Component<MenuBarProps> {
             <Heading>{header}</Heading>
             <Panel>{children}</Panel>
 
-            <Footer>YWC Grading System @2019 Created by Wiput Pootong</Footer>
+            <Footer>
+              YWC Grading System @2019 Created by Wiput Pootong, Chun Rapeepat
+            </Footer>
           </ContentLayout>
         </Layout>
       </Fragment>

@@ -8,7 +8,7 @@ const localStorage = window.localStorage
 // request data
 export const fetch = async (
   route: string,
-  data: string,
+  data: any = '',
   method: AxiosRequestConfig['method'] = 'GET'
 ) => {
   const authOptions: AxiosRequestConfig = {

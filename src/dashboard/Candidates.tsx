@@ -1,13 +1,10 @@
-import { Button, Icon, Input, Table, Tag } from 'antd'
+import { Button, Icon, Input, Tag } from 'antd'
 import moment from 'moment'
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { authen } from '../utils/authen'
 import { MAJOR } from '../utils/const'
 import { fetchWithToken } from '../utils/fetch'
-import { applyBoxShadow } from '../utils/styled-helper'
 import CandidateModal from './CandidateModal'
 
 const CustomSearch = styled.div`
