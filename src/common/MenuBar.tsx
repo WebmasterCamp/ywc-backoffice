@@ -1,10 +1,10 @@
 import { Icon, Layout, Menu } from 'antd'
 import React, { Component, Fragment } from 'react'
-import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Panel from '../ui/Panel'
+import history from '../utils/history'
 
 const { Sider } = Layout
 
@@ -64,15 +64,11 @@ export default class MenuBar extends Component<MenuBarProps> {
   }
 
   public handleLogout = () => {
-    this.setState({ redirect: true })
+    history.push('/')
   }
 
   public render() {
     const { menus, header, children } = this.props
-
-    if (this.state.redirect) {
-      return <Redirect to="/" />
-    }
 
     return (
       <Fragment>

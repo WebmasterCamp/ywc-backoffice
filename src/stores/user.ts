@@ -1,7 +1,8 @@
 import { action, observable } from 'mobx'
 import Profile from '../interfaces/Profile'
-import { fetch } from '../utils/fetch'
-import notification from '../utils/notification';
+import { fetch, fetchWithToken } from '../utils/fetch'
+import history from '../utils/history'
+import notification from '../utils/notification'
 
 class User {
   @observable public isAuthentication: boolean = false
@@ -9,7 +10,7 @@ class User {
     _id: '',
     major: '',
     role: '',
-    username: 'lel'
+    username: ''
   }
 
   @action
@@ -18,7 +19,23 @@ class User {
     const api = await fetch('auth/login/admin', { username, password }, 'POST')
 
     if (api.status === 'success') {
-      notification('success', 'Login Success', 'Welcome')
+      const getProfile = await fetchWithToken(
+        'admin/me',
+        {},
+        'GET',
+        api.payload.token
+      )
+
+      if (getProfile.status === 'success') {
+        await this.setProfile(getProfile.payload.profile)
+        await this.setIsAuthentication(true)
+        notification(
+          'success',
+          'Login Success',
+          `Welcome ${this.profile.username}`
+        )
+        history.push(`${this.profile.role}`)
+      }
     } else {
       notification('error', 'Login Error', 'Username or Password incorrect')
     }
@@ -27,6 +44,11 @@ class User {
   @action.bound
   public setProfile(profile: Profile): void {
     this.profile = profile
+  }
+
+  @action.bound
+  private setIsAuthentication(value: boolean) {
+    this.isAuthentication = value
   }
 }
 
