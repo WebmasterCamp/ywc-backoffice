@@ -19,7 +19,7 @@ jobs:
           name: Install NPM modules
           command: |
             yarn install
-            yarn global add firebase-tools
+            yarn add -D firebase-tools
       - save_cache:
           key: yarn-v1-{{ checksum "yarn.lock" }}
           paths:
@@ -32,6 +32,6 @@ jobs:
           name: Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "refactor" ]; then
-              firebase use ywc-backoffice
-              firebase deploy --non-interactive --only hosting --token=$FIREBASE_TOKEN
+              ./node_modules/.bin/firebase use ywc-backoffice
+              ./node_modules/.bin/firebase deploy --non-interactive --only hosting --token=$FIREBASE_TOKEN
             fi
