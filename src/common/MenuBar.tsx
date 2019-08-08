@@ -1,5 +1,5 @@
 import { Icon, Layout, Menu } from 'antd'
-import React, { Component, Fragment } from 'react'
+import React, {  Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -59,52 +59,52 @@ interface MenuBarProps {
   header: string
 }
 
-export default class MenuBar extends Component<MenuBarProps> {
-  public state = {
-    redirect: false
-  }
+const MenuBar = (props: MenuBarProps) => {
+  // public state = {
+  //   redirect: false
+  // }
 
-  public handleLogout = () => {
+  const handleLogout = () => {
     history.push('/')
   }
 
-  public render() {
-    const { menus, header, children } = this.props
+  const { menus, header, children } = props
 
-    return (
-      <Fragment>
-        <Layout>
-          <SideSlider>
-            <Logo src={LogoSVG} />
+  return (
+    <Fragment>
+      <Layout>
+        <SideSlider>
+          <Logo src={LogoSVG} />
 
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-              {menus.map((menu, i) => {
-                return (
-                  <Menu.Item key={i + 1}>
-                    <Link to={menu.to}>
-                      <Icon type={menu.icon} />
-                      <span className="nav-text">{menu.name}</span>
-                    </Link>
-                  </Menu.Item>
-                )
-              })}
-              <Menu.Item onClick={this.handleLogout} key="logout">
-                <Icon type="lock" />
-                <span className="nav-text">ออกจากระบบ</span>
-              </Menu.Item>
-            </Menu>
-          </SideSlider>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            {menus.map((menu, i) => {
+              return (
+                <Menu.Item key={i + 1}>
+                  <Link to={menu.to}>
+                    <Icon type={menu.icon} />
+                    <span className="nav-text">{menu.name}</span>
+                  </Link>
+                </Menu.Item>
+              )
+            })}
+            <Menu.Item onClick={handleLogout} key="logout">
+              <Icon type="lock" />
+              <span className="nav-text">ออกจากระบบ</span>
+            </Menu.Item>
+          </Menu>
+        </SideSlider>
 
-          <ContentLayout>
-            <Heading>{header}</Heading>
-            <Panel>{children}</Panel>
+        <ContentLayout>
+          <Heading>{header}</Heading>
+          <Panel>{children}</Panel>
 
-            <Footer>
-              YWC Grading System @2019 Created by Wiput Pootong, Chun Rapeepat
-            </Footer>
-          </ContentLayout>
-        </Layout>
-      </Fragment>
-    )
-  }
+          <Footer>
+            YWC Grading System @2019 Created by Wiput Pootong, Chun Rapeepat
+          </Footer>
+        </ContentLayout>
+      </Layout>
+    </Fragment>
+  )
 }
+
+export default MenuBar

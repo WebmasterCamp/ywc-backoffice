@@ -3,7 +3,7 @@ import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
 import history from '../utils/history'
 import notification from '../utils/notification'
-import { saveToken } from '../utils/token-helper'
+import { removeToken, saveToken } from '../utils/token-helper'
 
 class User {
   @observable public isAuthentication: boolean = false
@@ -42,6 +42,13 @@ class User {
     } else {
       notification('error', 'Login Error', 'Username or Password incorrect')
     }
+  }
+
+  @action
+  public async doLogout() {
+    removeToken()
+    notification('error', 'Logout success!', 'Goodbye~')
+    history.push('/')
   }
 
   @action.bound

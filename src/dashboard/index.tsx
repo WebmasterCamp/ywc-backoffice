@@ -41,10 +41,10 @@ const MainStatContainer = styled.div`
   }
 `
 
-const Desc = styled.span`
-  display: block;
-  margin-bottom: 20px;
-`
+// const Desc = styled.span`
+//   display: block;
+//   margin-bottom: 20px;
+// `
 
 const Dashboard = () => {
   const dashboardStore = useObservable(DashboardStore)
