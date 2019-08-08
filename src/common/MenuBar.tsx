@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import Panel from '../ui/Panel'
 import history from '../utils/history'
 
+import LogoSVG from '../assets/logo.white.svg'
+
 const { Sider } = Layout
 
 const SideSlider = styled(Sider)`
@@ -15,12 +17,11 @@ const SideSlider = styled(Sider)`
   left: 0;
 `
 
-const Logo = styled.div`
+const Logo = styled.img`
   width: 100%;
   height: 80px;
-  margin: 20px 0;
-  background: url(/logo.svg) center center no-repeat;
-  background-size: 70% auto;
+  padding: 0 1em;
+  margin: 1em 0;
 `
 
 const Heading = styled.h1`
@@ -74,7 +75,7 @@ export default class MenuBar extends Component<MenuBarProps> {
       <Fragment>
         <Layout>
           <SideSlider>
-            <Logo />
+            <Logo src={LogoSVG} />
 
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               {menus.map((menu, i) => {

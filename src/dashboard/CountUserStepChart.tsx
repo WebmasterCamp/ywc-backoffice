@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import Chart from 'react-apexcharts'
+import CountUserStep from '../interfaces/CountUserStep'
 
 interface CountUserStepChartProps {
-  dataframe: any[]
+  dataframe: CountUserStep[]
 }
 
 class CountUserStepChart extends Component<CountUserStepChartProps> {

@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 import UserStore from '../stores/user'
 
+import LogoSVG from '../assets/logo.svg'
+
 const FormItem = Form.Item
 
 const Container = styled.div`
@@ -17,6 +19,8 @@ const Container = styled.div`
   padding: 10px 20px;
   padding-top: 30px;
 
+  text-align: center;
+
   position: absolute;
   top: 50%;
   left: 50%;
@@ -27,16 +31,13 @@ const LoginButton = styled(Button)`
   width: 100%;
 `
 
-const Logo = styled.div`
+const Logo = styled.img`
   width: 250px;
   height: 130px;
-  background: url(/logo.svg) center center no-repeat;
-  background-size: auto 100%;
+`
 
-  position: absolute;
-  top: calc(50% - 230px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+const Title = styled.h1`
+  margin: 0.5em 0;
 `
 
 interface ILoginForm {
@@ -77,7 +78,7 @@ const LoginPage: React.FC = () => {
             rules: [{ required: true, message: 'Please input your username!' }]
           })(
             <Input
-              placeholder="Enter your username"
+              placeholder="ชื่อผู้ใช้งาน"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
           )}
@@ -88,7 +89,7 @@ const LoginPage: React.FC = () => {
             rules: [{ required: true, message: 'Please input your password!' }]
           })(
             <Input
-              placeholder="Enter your password"
+              placeholder="รหัสผ่าน"
               type="password"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             />
@@ -97,7 +98,7 @@ const LoginPage: React.FC = () => {
 
         <FormItem>
           <LoginButton type="primary" htmlType="submit">
-            <Icon type="login" style={{ color: 'white' }} /> Login
+            <Icon type="login" style={{ color: 'white' }} /> เข้าสู้ระบบ
           </LoginButton>
         </FormItem>
       </Form>
@@ -108,8 +109,9 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <Logo />
       <Container>
+        <Logo src={LogoSVG} />
+        <Title>Back Office System</Title>
         <LoginForm />
       </Container>
     </>
