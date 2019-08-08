@@ -1,10 +1,11 @@
 import { Icon, Layout, Menu } from 'antd'
-import React, {  Fragment } from 'react'
+import { observer, useObservable } from 'mobx-react-lite'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
+import UserStore from '../stores/user'
 import Panel from '../ui/Panel'
-import history from '../utils/history'
 
 import LogoSVG from '../assets/logo.white.svg'
 
@@ -64,8 +65,10 @@ const MenuBar = (props: MenuBarProps) => {
   //   redirect: false
   // }
 
+  const userStore = useObservable(UserStore)
+
   const handleLogout = () => {
-    history.push('/')
+    userStore.doLogout()
   }
 
   const { menus, header, children } = props
@@ -107,4 +110,4 @@ const MenuBar = (props: MenuBarProps) => {
   )
 }
 
-export default MenuBar
+export default observer(MenuBar)
