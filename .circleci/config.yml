@@ -1,0 +1,37 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo/
+    branches:
+      only:
+        - refactor
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          keys:
+            - yarn-v1-{{ checksum "yarn.lock" }}
+            - yarn-v1-
+      - run:
+          name: Install NPM modules
+          command: |
+            yarn install
+            yarn add firebase-tools --dev
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn/v1
+      - run:
+          name: Build
+          command: |
+            yarn build
+      - run:
+          name: Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "refactor" ]; then
+              ./node_modules/firebase-tools/bin/firebase use ywc-backoffice
+              ./node_modules/firebase-tools/bin/firebase deploy --non-interactive --only hosting --token=$FIREBASE_TOKEN
+            fi
