@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "ywc-backoffice"
+  },
+  "targets": {
+    "ywc-backoffice": {
+      "hosting": {
+        "grading": [
+          "ywc-backoffice"
+        ],
+        "grading-dev": [
+          "ywc-backoffice-dev"
+        ]
+      }
+    }
   }
 }
