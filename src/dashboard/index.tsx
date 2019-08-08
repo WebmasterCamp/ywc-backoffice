@@ -1,13 +1,10 @@
-import { Button } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect } from 'react'
 import styled from 'styled-components'
 
 import DashboardStore from '../stores/dashboard'
 import Panel from '../ui/Panel'
-import { Heading, Padding } from '../utils/styled-helper'
-import CompletedTimelineChart from './CompletedTimelineChart'
-import CountUserStepChart from './CountUserStepChart'
+import { Padding } from '../utils/styled-helper'
 
 const MainStatContainer = styled.div`
   display: grid;
@@ -90,7 +87,7 @@ const Dashboard = () => {
             <span>ยอดผู้สมัครสาขา Design</span>
           </Panel>
         </MainStatContainer>
-        <br />
+        {/* <br />
         <br />
 
         <Heading>จำนวนผู้สมัครที่กรอกตาม STEP ต่างๆ</Heading>
@@ -112,7 +109,7 @@ const Dashboard = () => {
         </Button>
         <Button type="primary">
           Copy raw data to clipboard (completedTimeline)
-        </Button>
+        </Button> */}
       </Padding>
     </Fragment>
   )
