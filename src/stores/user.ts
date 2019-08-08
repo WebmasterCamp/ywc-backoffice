@@ -3,6 +3,7 @@ import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
 import history from '../utils/history'
 import notification from '../utils/notification'
+import { saveToken } from '../utils/token-helper'
 
 class User {
   @observable public isAuthentication: boolean = false
@@ -19,6 +20,8 @@ class User {
     const api = await fetch('auth/login/admin', { username, password }, 'POST')
 
     if (api.status === 'success') {
+      await saveToken(api.payload.token)
+
       const getProfile = await fetchWithToken(
         'admin/me',
         {},

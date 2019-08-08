@@ -2,8 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
 
 import { API_ENDPOINT } from '../config'
-
-const localStorage = window.localStorage
+import { getToken, removeToken } from './token-helper'
 
 // request data
 export const fetch = async (
@@ -31,7 +30,7 @@ export const fetchWithToken = async (
     data: qs.stringify(data),
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'x-access-token': token || localStorage.getItem('token')
+      'x-access-token': token || getToken()
     },
     method,
     url: `${API_ENDPOINT}/${route}`
@@ -44,7 +43,7 @@ export const fetchWithToken = async (
     // check error, if error = true and message = invalid access token
     // remove token from localStorage
     if (response.error && response.message === 'Authentication Error') {
-      localStorage.removeItem('token')
+      removeToken()
     }
     // return response data
     return response
