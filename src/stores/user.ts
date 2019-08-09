@@ -47,7 +47,7 @@ class User {
   @action
   public async doLogout() {
     removeToken()
-    notification('error', 'Logout success!', 'Goodbye~')
+    notification('success', 'Logout success!', 'Goodbye~')
     history.push('/')
   }
 
