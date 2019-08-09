@@ -1,6 +1,4 @@
-const env = process.env.NODE_ENV
+const env = process.env.REACT_APP_API_DEV
 
 export const API_ENDPOINT =
-  env === 'development'
-    ? 'https://api-staging.ywc.in.th'
-    : 'https://api.ywc.in.th'
+  env === 'true' ? 'https://api-staging.ywc.in.th' : 'https://api.ywc.in.th'
