@@ -30,7 +30,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               yarn build
             else
-              yarn build-dev
+              NODE_ENV=development yarn build
             fi
       - run:
           name: Deploy
