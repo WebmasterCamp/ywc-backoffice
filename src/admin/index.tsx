@@ -22,8 +22,39 @@ export default class Admin extends Component {
         <MenuBar
           header={this.getHeader()[this.getRoute()]}
           menus={[
-            { icon: 'user', name: 'Dashboard', to: '/admin' },
-            { icon: 'user', name: 'All Candidates', to: '/admin/candidates' }
+            { icon: 'pie-chart', name: 'แดชบอร์ด', to: '/admin' },
+            {
+              icon: 'pie-chart',
+              name: 'ผู้เข้าสมัครทั้งหมด',
+              to: '/admin/candidates'
+            },
+            {
+              icon: 'pie-chart',
+              name: 'คัดเลือกเข้าสัมภาษณ์',
+              submenu: [
+                {
+                  icon: '',
+                  name: 'สาขาคอนเทนท์',
+                  to: '/admin/candidates/1'
+                },
+                {
+                  icon: '',
+                  name: 'สาขาดีไซน์',
+                  to: '/admin/candidates/2'
+                },
+                {
+                  icon: '',
+                  name: 'สาขามาร์เก็ตติ้ง',
+                  to: '/admin/candidates/3'
+                },
+                {
+                  icon: '',
+                  name: 'สาขาโปรแกรมมิ่ง',
+                  to: '/admin/candidates/4'
+                }
+              ],
+              to: ''
+            }
           ]}
         >
           <Route path="/admin/" exact={true} component={Dashboard} />

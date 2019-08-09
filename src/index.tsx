@@ -10,7 +10,7 @@ import '@ibm/plex/css/ibm-plex.css'
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    background: #FBFCFF!important;
+    background: #F2F4F5 !important;
   }
 
   * {
@@ -24,6 +24,16 @@ const GlobalStyle = createGlobalStyle`
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
+  }
+
+  .candidates-table {
+    tbody {
+      background: #fff;
+    }
+
+    table {
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
   }
 `
 

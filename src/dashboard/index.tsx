@@ -51,8 +51,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dashboardStore.getDashboard()
-    // eslint-disable-next-line
-  }, [])
+  }, [dashboardStore])
 
   return (
     <>
@@ -72,19 +71,19 @@ const Dashboard = () => {
       <MainStatContainer size={4}>
         <Box>
           <h2>{dashboardStore.programming}</h2>
-          <span>ยอดผู้สมัครสาขา Programming</span>
+          <span>ยอดผู้สมัครสาขาโปรแกรมมิ่ง</span>
         </Box>
         <Box>
           <h2>{dashboardStore.marketing}</h2>
-          <span>ยอดผู้สมัครสาขา Maketing</span>
+          <span>ยอดผู้สมัครสาขามาร์เก็ตติ้ง</span>
         </Box>
         <Box>
           <h2>{dashboardStore.content}</h2>
-          <span>ยอดผู้สมัครสาขา Content</span>
+          <span>ยอดผู้สมัครสาขาคอนเทนท์</span>
         </Box>
         <Box>
           <h2>{dashboardStore.design}</h2>
-          <span>ยอดผู้สมัครสาขา Design</span>
+          <span>ยอดผู้สมัครสาขาดีไซน์</span>
         </Box>
       </MainStatContainer>
       {/* <br />

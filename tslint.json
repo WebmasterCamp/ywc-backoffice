@@ -2,6 +2,7 @@
   "extends": [
     "tslint:recommended",
     "tslint-react",
+    "tslint-react-hooks",
     "tslint-eslint-rules",
     "tslint-plugin-prettier",
     "tslint-config-prettier"

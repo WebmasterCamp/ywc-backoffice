@@ -1,12 +1,15 @@
 import { Icon, Layout, Menu } from 'antd'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import useReactRouter from 'use-react-router'
 
 import Panel from '../ui/Panel'
 
 import LogoSVG from '../assets/logo.white.svg'
 
+import { SelectParam } from 'antd/lib/menu'
+import SubMenu from 'antd/lib/menu/SubMenu'
 import { Padding } from '../utils/styled-helper'
 import ProfileBox from './ProfileBox'
 
@@ -54,20 +57,45 @@ interface MenuItem {
   to: string
 }
 
+interface MenuItems {
+  icon: string
+  name: string
+  to: string
+  submenu?: MenuItem[]
+}
+
 interface MenuBarProps {
   children: React.ReactChildren | any
-  menus: MenuItem[]
+  menus: MenuItems[]
   header: string
 }
 
 const MenuBar = (props: MenuBarProps) => {
-  // public state = {
-  //   redirect: false
-  // }
-
   const { menus, children } = props
 
   const [collapsed, setCollapsed] = useState(false)
+  const [selected, setSelected] = useState(['1'])
+
+  const { location } = useReactRouter()
+
+  const handleChange = (param: SelectParam) => {
+    setSelected([param.key])
+  }
+
+  useEffect(() => {
+    menus.forEach((menu, i) => {
+      if (menu.submenu) {
+        menu.submenu.forEach((submenu, j) => {
+          if (submenu.to === location.pathname) {
+            setSelected([`${i + 1}${j + 1}`])
+          }
+        })
+      }
+      if (menu.to === location.pathname) {
+        setSelected([`${i + 1}`])
+      }
+    })
+  }, [menus, location.pathname])
 
   return (
     <Fragment>
@@ -79,8 +107,39 @@ const MenuBar = (props: MenuBarProps) => {
         >
           <Logo src={LogoSVG} />
 
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={selected}
+            onSelect={handleChange}
+          >
             {menus.map((menu, i) => {
+              if (menu.submenu) {
+                const subMenus = menu.submenu.map((submenu, j) => {
+                  return (
+                    <Menu.Item key={`${i + 1}${j + 1}`}>
+                      <Link to={submenu.to}>
+                        {submenu.icon && <Icon type={submenu.icon} />}
+                        <span className="nav-text">{submenu.name}</span>
+                      </Link>
+                    </Menu.Item>
+                  )
+                })
+                return (
+                  <SubMenu
+                    key={i + 1}
+                    title={
+                      <>
+                        <Icon type={menu.icon} />
+                        <span className="nav-text">{menu.name}</span>
+                      </>
+                    }
+                  >
+                    {subMenus}
+                  </SubMenu>
+                )
+              }
+
               return (
                 <Menu.Item key={i + 1}>
                   <Link to={menu.to}>
