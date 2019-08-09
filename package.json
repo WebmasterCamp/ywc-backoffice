@@ -1,11 +1,11 @@
 {
   "name": "ywc-backoffice",
   "version": "0.1.0",
-  "homepage": "https://grading.ywc.in.th",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-dev": "NODE_ENV=development react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "yarn run lint --fix",
