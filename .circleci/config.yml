@@ -29,7 +29,6 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               yarn build
-            fi
             else
               yarn build-dev
             fi
