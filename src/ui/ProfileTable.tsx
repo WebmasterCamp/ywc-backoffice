@@ -17,7 +17,7 @@ const Container = styled.div`
 `
 
 const Item = styled.div`
-  font-family: 'Kanit', sans-serif;
+  font-family: 'IBM Plex Thai', sans-serif;
   font-size: 18px;
   padding: 10px 15px;
 

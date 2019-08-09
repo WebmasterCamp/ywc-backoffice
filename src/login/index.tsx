@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
 
         <FormItem>
           <LoginButton type="primary" htmlType="submit">
-            <Icon type="login" style={{ color: 'white' }} /> เข้าสู้ระบบ
+            <Icon type="login" style={{ color: 'white' }} /> เข้าสู่ระบบ
           </LoginButton>
         </FormItem>
       </Form>

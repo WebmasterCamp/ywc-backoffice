@@ -5,23 +5,25 @@ import { HashRouter } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import App from './App'
 
-const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Kanit');
+import '@ibm/plex/css/ibm-plex.css'
 
+const GlobalStyle = createGlobalStyle`
   body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #FBFCFF!important;
+    margin: 0;
+    background: #FBFCFF!important;
   }
+
   * {
-      box-sizing: border-box;
+    font-family: 'IBM Plex Thai';
+    box-sizing: border-box;
   }
+
   pre {
-      white-space: pre-wrap;
-      white-space: -moz-pre-wrap;
-      white-space: -pre-wrap;
-      white-space: -o-pre-wrap;
-      word-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
   }
 `
 

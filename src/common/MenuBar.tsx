@@ -1,13 +1,14 @@
 import { Icon, Layout, Menu } from 'antd'
-import { observer, useObservable } from 'mobx-react-lite'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import UserStore from '../stores/user'
 import Panel from '../ui/Panel'
 
 import LogoSVG from '../assets/logo.white.svg'
+
+import { Padding } from '../utils/styled-helper'
+import ProfileBox from './ProfileBox'
 
 const { Sider } = Layout
 
@@ -25,13 +26,12 @@ const Logo = styled.img`
   margin: 1em 0;
 `
 
-const Heading = styled.h1`
-  padding: 0;
-  color: #333;
-  font-size: 25px;
-  font-family: 'Kanit';
-  margin-bottom: 30px;
-`
+// const Heading = styled.h1`
+//   padding: 0;
+//   color: #333;
+//   font-size: 25px;
+//   margin-bottom: 30px;
+// `
 
 const ContentLayout = styled.div`
   position: absolute;
@@ -65,18 +65,18 @@ const MenuBar = (props: MenuBarProps) => {
   //   redirect: false
   // }
 
-  const userStore = useObservable(UserStore)
+  const { menus, children } = props
 
-  const handleLogout = () => {
-    userStore.doLogout()
-  }
-
-  const { menus, header, children } = props
+  const [collapsed, setCollapsed] = useState(false)
 
   return (
     <Fragment>
       <Layout>
-        <SideSlider>
+        <SideSlider
+          collapsible={true}
+          collapsed={collapsed}
+          onCollapse={setCollapsed}
+        >
           <Logo src={LogoSVG} />
 
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
@@ -90,16 +90,14 @@ const MenuBar = (props: MenuBarProps) => {
                 </Menu.Item>
               )
             })}
-            <Menu.Item onClick={handleLogout} key="logout">
-              <Icon type="lock" />
-              <span className="nav-text">ออกจากระบบ</span>
-            </Menu.Item>
           </Menu>
         </SideSlider>
 
         <ContentLayout>
-          <Heading>{header}</Heading>
-          <Panel>{children}</Panel>
+          <Padding>
+            <ProfileBox />
+            <Panel>{children}</Panel>
+          </Padding>
 
           <Footer>
             YWC Grading System @2019 Created by Wiput Pootong, Chun Rapeepat
@@ -110,4 +108,4 @@ const MenuBar = (props: MenuBarProps) => {
   )
 }
 
-export default observer(MenuBar)
+export default MenuBar

@@ -13,7 +13,7 @@ const Padding = styled.div`
 `
 
 const Heading = styled.div`
-  font-family: 'Kanit', sans-serif;
+  font-family: 'IBM Plex Thai', sans-serif;
   font-size: 20px;
   padding: 10px 0;
   font-weight: bold;
@@ -25,7 +25,7 @@ const Answer = styled.div`
 `
 
 const Label = styled.div`
-  font-family: 'Kanit', sans-serif;
+  font-family: 'IBM Plex Thai', sans-serif;
   font-size: 18px;
   color: #777;
 

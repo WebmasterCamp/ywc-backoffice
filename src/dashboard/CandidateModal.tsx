@@ -12,7 +12,7 @@ const Header = styled.h1`
   color: #333;
   padding: 7px 0;
   font-size: 25px;
-  font-family: 'Kanit';
+  font-family: 'IBM Plex Thai';
 `
 
 const SubHeader = styled.h2`

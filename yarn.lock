@@ -995,6 +995,11 @@
   dependencies:
     "@hapi/hoek" "6.x.x"
 
+"@ibm/plex@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ibm/plex/-/plex-2.0.0.tgz#309ac4d571ad23225fd28c4605ec86882d81997e"
+  integrity sha512-mmAyvkiDa8c17KwJN3u2HRfYkF0LwtvVNPkCkoXMjcoI7tKbhBegj+4Dr3UK4+EGzqv7/h6JBw5pTttXTBrRnw==
+
 "@jest/console@^24.7.1":
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.7.1.tgz#32a9e42535a97aedfe037e725bd67e954b459545"

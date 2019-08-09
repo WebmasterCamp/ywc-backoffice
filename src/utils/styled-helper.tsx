@@ -8,8 +8,8 @@ export const Heading = styled.h1`
   padding: 0;
   color: #333;
   font-size: 25px;
-  font-family: 'Kanit';
-  margin: 20px 0;
+  font-family: 'IBM Plex Thai';
+  margin: 30px 0;
 `
 
 export const applyBoxShadow = (Comp: any) => {
