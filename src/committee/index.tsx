@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router'
 
 import MenuBar from '../common/MenuBar'
+import Candidates from './Candidates'
 import Dashboard from './Dashboard'
-import Candidates from './Candidates';
 
 // import VoteCandidate from './VoteCandidate'
 

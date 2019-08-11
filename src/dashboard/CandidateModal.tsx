@@ -1,4 +1,4 @@
-import {  Drawer } from 'antd'
+import { Drawer } from 'antd'
 import React from 'react'
 
 // import Label from './Label'
