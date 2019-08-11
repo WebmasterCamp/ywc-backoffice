@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Tag, Button } from 'antd'
 // import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 // import styled from 'styled-components'
@@ -70,6 +70,66 @@ const Candidates = () => {
         return <span>{MAJOR(candidate.major)}</span>
       },
       title: 'สาขา'
+    },
+    {
+      key: 'status',
+      render: (user: Candidate) => (
+        <span>
+          {user.status === 'completed' ? (
+            <Tag color="geekblue" key={user.status}>
+              เรียบร้อย
+            </Tag>
+          ) : (
+            <Tag color="green" key={user.status}>
+              กำลังดำเนินการ
+            </Tag>
+          )}
+        </span>
+      ),
+      title: 'สถานะการส่งใบสมัคร'
+    },
+    {
+      key: 'staffPass',
+      render: (user: Candidate) => (
+        <span>
+          {user.status === 'completed' ? (
+            <Tag color="geekblue" key={user.status}>
+              เรียบร้อย
+            </Tag>
+          ) : (
+            <Tag color="green" key={user.status}>
+              กำลังดำเนินการ
+            </Tag>
+          )}
+        </span>
+      ),
+      title: 'สตาฟค่ายตรวจ'
+    },
+    {
+      key: 'committeePass',
+      render: (user: Candidate) => (
+        <span>
+          {user.status === 'completed' ? (
+            <Tag color="geekblue" key={user.status}>
+              เรียบร้อย
+            </Tag>
+          ) : (
+            <Tag color="green" key={user.status}>
+              กำลังดำเนินการ
+            </Tag>
+          )}
+        </span>
+      ),
+      title: 'ส่งให้กรรมการสาขา'
+    },
+    {
+      key: 'action',
+      render: (user: Candidate) => (
+        <span>
+          <Button>ดูใบสมัคร</Button>
+        </span>
+      ),
+      title: 'ดำเนินการ'
     }
   ]
 

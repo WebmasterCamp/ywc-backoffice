@@ -11,7 +11,6 @@ import LogoSVG from '../assets/logo.white.svg'
 import { SelectParam } from 'antd/lib/menu'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import { Padding } from '../utils/styled-helper'
-import ProfileBox from './ProfileBox'
 
 const { Sider } = Layout
 
@@ -154,7 +153,6 @@ const MenuBar = (props: MenuBarProps) => {
 
         <ContentLayout>
           <Padding>
-            <ProfileBox />
             <Panel>{children}</Panel>
           </Padding>
 

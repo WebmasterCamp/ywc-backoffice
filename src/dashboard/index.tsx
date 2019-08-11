@@ -2,6 +2,7 @@ import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
+import ProfileBox from '../common/ProfileBox'
 import DashboardStore from '../stores/dashboard'
 import Box from '../ui/Box'
 import { Heading } from '../utils/styled-helper'
@@ -55,6 +56,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <ProfileBox/>
       <Heading>ภาพรวมของผู้เข้าสมัครโครงการ</Heading>
       <MainStatContainer size={2}>
         <Box>
