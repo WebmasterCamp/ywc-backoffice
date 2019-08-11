@@ -66,7 +66,7 @@ interface MenuItems {
 interface MenuBarProps {
   children: React.ReactChildren | any
   menus: MenuItems[]
-  header: string
+  header?: string
 }
 
 const MenuBar = (props: MenuBarProps) => {

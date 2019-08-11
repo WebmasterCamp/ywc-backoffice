@@ -1,4 +1,4 @@
-import { Table, Tag, Button } from 'antd'
+import { Button, Table, Tag } from 'antd'
 // import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 // import styled from 'styled-components'
@@ -9,6 +9,7 @@ import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR } from '../utils/const'
 import { Heading } from '../utils/styled-helper'
+import CandidateModal from './CandidateModal'
 
 // const CustomSearch = styled.div`
 //   background: white;
@@ -29,6 +30,18 @@ const Candidates = () => {
   }, [candidatesStore])
 
   const [pagination, setPagination] = useState({})
+  const [visible, setVisible] = useState(false)
+  const [drawerId, setDrawerId] = useState('')
+
+  const openDrawer = (id: string) => {
+    setVisible(true)
+    setDrawerId(id)
+  }
+
+  const closeDrawer = () => {
+    setVisible(false)
+    setDrawerId('')
+  }
 
   const columns: ColumnProps<Candidate>[] = [
     {
@@ -46,6 +59,7 @@ const Candidates = () => {
       title: 'ชื่อ นามสกุล (ชื่อเล่น)'
     },
     {
+      filterMultiple: false,
       filters: [
         {
           text: 'โปรแกรมมิ่ง',
@@ -72,7 +86,21 @@ const Candidates = () => {
       title: 'สาขา'
     },
     {
+      filterMultiple: false,
+      filters: [
+        {
+          text: 'กำลังดำเนินการ',
+          value: 'in progress'
+        },
+        {
+          text: 'เรียบร้อย',
+          value: 'completed'
+        }
+      ],
       key: 'status',
+      onFilter: (value, record: Candidate) => {
+        return record.status === value
+      },
       render: (user: Candidate) => (
         <span>
           {user.status === 'completed' ? (
@@ -126,7 +154,7 @@ const Candidates = () => {
       key: 'action',
       render: (user: Candidate) => (
         <span>
-          <Button>ดูใบสมัคร</Button>
+          <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
         </span>
       ),
       title: 'ดำเนินการ'
@@ -160,6 +188,12 @@ const Candidates = () => {
         closeModal={closeModal}
         candidate={candidateData}
       /> */}
+
+      <CandidateModal
+        visible={visible}
+        onClose={closeDrawer}
+        candidateId={drawerId}
+      />
 
       <Table
         className="candidates-table"

@@ -51,6 +51,16 @@ class User {
     history.push('/')
   }
 
+  @action
+  public async getProfile() {
+    const profile = await fetchWithToken('admin/me', '', 'GET')
+
+    if (profile.status === 'success') {
+      await this.setProfile(profile.payload.profile)
+      await this.setIsAuthentication(true)
+    }
+  }
+
   @action.bound
   public setProfile(profile: Profile): void {
     this.profile = profile

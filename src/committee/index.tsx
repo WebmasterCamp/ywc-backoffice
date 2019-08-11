@@ -2,8 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router'
 
 import MenuBar from '../common/MenuBar'
-import Candidates from './Candidates'
-import VoteCandidate from './VoteCandidate'
+import Dashboard from './Dashboard'
+import Candidates from './Candidates';
+
+// import VoteCandidate from './VoteCandidate'
 
 export default class Committee extends Component {
   public getUserIdentity = () => {
@@ -15,11 +17,30 @@ export default class Committee extends Component {
     return (
       <Fragment>
         <MenuBar
-          header={`คัดผู้เข้าสมัครแต่ละสาขา (Committee)`}
-          menus={[{ icon: 'user', name: 'คัดคนเข้าสมัคร', to: '/committee' }]}
+          menus={[
+            { icon: 'pie-chart', name: 'แดชบอร์ด', to: '/committee' },
+            {
+              icon: 'pie-chart',
+              name: 'ตรวจคำตอบ',
+              submenu: [
+                { icon: '', to: '/committee/all', name: 'ใบสมัครทั้งหมด' },
+                {
+                  icon: '',
+                  name: 'ใบสมัครที่ตรวจไม่เสร็จ',
+                  to: '/committee/incomplete'
+                },
+                {
+                  icon: '',
+                  name: 'ใบสมัครที่ตรวจเสร็จ',
+                  to: '/committee/completed'
+                }
+              ],
+              to: ''
+            }
+          ]}
         >
-          <Route path="/committee" exact={true} component={Candidates} />
-          <Route path="/committee/:id" component={VoteCandidate} />
+          <Route path="/committee" exact={true} component={Dashboard} />
+          <Route path="/committee/all" component={Candidates} />
         </MenuBar>
       </Fragment>
     )

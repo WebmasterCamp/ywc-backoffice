@@ -1,51 +1,11 @@
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 
+import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
 import DashboardStore from '../stores/dashboard'
 import Box from '../ui/Box'
 import { Heading } from '../utils/styled-helper'
-
-const MainStatContainer = styled.div`
-  display: grid;
-  grid-gap: 20px;
-  text-align: center;
-  grid-template-columns: repeat(${({ size }: { size: number }) => size}, 1fr);
-
-  & > div {
-    padding: 15px 0;
-
-    & > h1 {
-      font-size: 80px;
-      font-weight: bold;
-      font-family: sans-serif;
-
-      color: #041527;
-      margin: 0;
-    }
-
-    & > h2 {
-      font-size: 60px;
-      font-weight: bold;
-      font-family: sans-serif;
-
-      color: #041527;
-      margin: 0;
-    }
-
-    & > span {
-      font-size: 18px;
-      color: #595959;
-      font-weight: bold;
-    }
-  }
-`
-
-// const Desc = styled.span`
-//   display: block;
-//   margin-bottom: 20px;
-// `
 
 const Dashboard = () => {
   const dashboardStore = useObservable(DashboardStore)
@@ -56,7 +16,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <ProfileBox/>
+      <ProfileBox />
       <Heading>ภาพรวมของผู้เข้าสมัครโครงการ</Heading>
       <MainStatContainer size={2}>
         <Box>

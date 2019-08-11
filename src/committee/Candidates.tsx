@@ -1,162 +1,109 @@
-import { Button, Icon, Table, Tag } from 'antd'
-import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Button, Table, Tag } from 'antd'
+// import moment from 'moment'
+import React, { useEffect, useState } from 'react'
+// import styled from 'styled-components'
 
-import { fetchWithToken } from '../utils/fetch'
+import { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { observer, useObservable } from 'mobx-react-lite'
+import CommitteeCandidate from '../interfaces/CommitteeCandidate'
+import CommitteeStore from '../stores/committee'
+import UserStore from '../stores/user'
+import { MAJOR } from '../utils/const'
+import { Heading } from '../utils/styled-helper'
 
-const Stat = styled.div`
-  color: #777;
-  margin-bottom: 20px;
-`
+const Candidates = () => {
+  const committeeStore = useObservable(CommitteeStore)
+  const userStore = useObservable(UserStore)
 
-const Padding = styled.div`
-  padding: 20px;
-  padding-bottom: 5px;
-`
+  useEffect(() => {
+    committeeStore.getApplications()
+    userStore.getProfile()
+  }, [committeeStore, userStore])
 
-export default class Candidates extends Component {
-  public totalCandidates = 0
-  public candidates = []
-  public passStaff = 0
-  public pagination = null
+  const [pagination, setPagination] = useState({})
 
-  public columns = [
+  const columns: ColumnProps<CommitteeCandidate>[] = [
     {
-      dataIndex: 'key',
-      key: 'key',
-      title: 'No.'
+      key: '_id',
+      render: (user: CommitteeCandidate) => <span>{user._id}</span>,
+      title: 'ID'
     },
     {
-      dataIndex: 'id',
-      key: 'id',
-      title: 'User ID.'
-    },
-    {
-      dataIndex: 'status',
+      filterMultiple: false,
       filters: [
         {
           text: 'ตรวจแล้ว',
-          value: 'true'
+          value: 'completed'
         },
         {
-          text: 'ยังไม่ได้ตรวจ',
-          value: 'false'
+          text: 'ยังไม่ตรวจตำตอบ',
+          value: 'incomplete'
         }
       ],
       key: 'status',
-      onFilter: (value: any, record: any) => value === `${record.status}`,
-      render: (status: any) => (
+      onFilter: (value: string, record: CommitteeCandidate) => {
+        return value === 'completed'
+          ? record.committeeVote.includes(userStore.profile.username)
+          : !record.committeeVote.includes(userStore.profile.username)
+      },
+      render: (user: CommitteeCandidate) => (
         <span>
-          <Tag color={!status ? 'red' : 'green'}>
-            {!status ? 'ยังไม่ได้ตรวจ' : 'ตรวจแล้ว'}
-          </Tag>
+          {user.committeeVote.includes(userStore.profile.username) ? (
+            <Tag color="green" key={user._id}>
+              ตรวจแล้ว
+            </Tag>
+          ) : (
+            <Tag color="orange" key={user._id}>
+              ยังไม่ตรวจตำตอบ
+            </Tag>
+          )}
         </span>
       ),
-      title: 'Status'
+      title: 'สถานะการตรวจ'
     },
     {
       key: 'action',
-      render: (data: any) => (
-        <Button>
-          <Link to={`/committee/${data.id}?id=${data.id}`}>
-            <Icon type="edit" theme="outlined" /> ตรวจคำถาม
-          </Link>
-        </Button>
+      render: (user: CommitteeCandidate) => (
+        <span>
+          {user.committeeVote.includes(userStore.profile.username) ? (
+            <Button>แก้ไขคะแนน</Button>
+          ) : (
+            <Button>ตรวจคำตอบ</Button>
+          )}
+        </span>
       ),
-      title: 'Action'
+      title: 'ดำเนินการ'
     }
   ]
 
-  // fetch and render data
-  public componentDidMount = async () => {
-    this.getCandidates()
-    this.getStat()
+  // const handleSearch = (selectedKeys: any, confirm: any) => () => {
+  //   confirm()
+  //   // this.setState({ searchText: selectedKeys[0] })
+  // }
+
+  // const handleReset = (clearFilters: any) => () => {
+  //   clearFilters()
+  //   // this.setState({ searchText: '' })
+  // }
+
+  const onPageChange = (p: PaginationConfig) => {
+    setPagination(p)
   }
 
-  public getCandidates = async () => {
-    // const { major } = this.props.auth.profile
-    const major = ''
-    const response = await fetchWithToken('users/committee', { major }, 'GET')
+  return (
+    <>
+      <Heading>ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})</Heading>
 
-    if (response.status === 'success') {
-      this.candidates = response.payload
-    }
-
-    // set pagination to current page on candidates table
-    // this.pagination = { current: PaginationStore.currentPage }
-  }
-
-  public getStat = async () => {
-    // const userResponse = await fetch('users/stat')
-    // const users = userResponse.payload
-
-    const statResponse = await fetchWithToken('users/committee/stat', {}, 'GET')
-
-    this.passStaff = statResponse.payload.passStaff
-    // this.totalCandidates = users[this.props.auth.profile.major]
-  }
-
-  public committeeScoreCounter = () => {
-    const result = ''
-    // const scores = this.candidates.reduce((prev, curr) => {
-    //   const key = curr.committeeScore
-
-    //   if (prev[key] === undefined) {
-    //     prev[key] = 1
-    //   } else {
-    //     ++prev[key]
-    //   }
-
-    //   return prev
-    // }, {})
-
-    // for (const key in scores) {
-    //   result += ` | คะแนน ${key} มีจำนวน ${scores[key]} คน | `
-    // }
-
-    return result
-  }
-
-  public onPageChange = (pagination: any) => {
-    // PaginationStore.currentPage = pagination.current
-    // this.pagination = { current: pagination.current }
-  }
-
-  public render() {
-    const profile = {
-      major: 'programming',
-      username: 'lel'
-    }
-
-    return (
-      <Fragment>
-        <Padding>
-          <Stat>
-            จำนวนใบสมัครทั้งหมด {this.totalCandidates} จำนวนที่ผ่านการคัด{' '}
-            {this.passStaff} จำนวนที่ตรวจแล้ว{' '}
-            {
-              this.candidates.filter(
-                (x: any) => x.committeeVote.indexOf(profile.username) !== -1
-              ).length
-            }{' '}
-            ({profile.major})<br />
-            จำนวนการโหวตผ่าน: {this.committeeScoreCounter()}
-          </Stat>
-        </Padding>
-
-        <Table
-          columns={this.columns}
-          onChange={this.onPageChange}
-          // pagination={this.pagination}
-          dataSource={this.candidates.map((candidate: any, i: number) => ({
-            id: candidate._id,
-            key: i + 1,
-            status: candidate.committeeVote.indexOf(profile.username) !== -1,
-            username: profile.username
-          }))}
-        />
-      </Fragment>
-    )
-  }
+      <Table
+        className="candidates-table"
+        columns={columns}
+        rowKey={(candidate: CommitteeCandidate, index: number) => candidate._id}
+        dataSource={committeeStore.applications}
+        onChange={onPageChange}
+        pagination={pagination}
+      />
+    </>
+  )
 }
+
+export default observer(Candidates)
