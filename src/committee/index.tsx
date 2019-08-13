@@ -6,6 +6,7 @@ import Candidates from './Candidates'
 import CompletedCandidates from './CompletedCandidates'
 import Dashboard from './Dashboard'
 import IncompleteCandidates from './IncompleteCandidates'
+import VoteCandidate from './VoteCandidate'
 
 // import VoteCandidate from './VoteCandidate'
 
@@ -48,6 +49,7 @@ export default class Committee extends Component {
             path="/committee/incomplete"
             component={IncompleteCandidates}
           />
+          <Route path="/committee/candidate/:id" component={VoteCandidate} />
         </MenuBar>
       </Fragment>
     )

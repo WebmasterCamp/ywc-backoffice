@@ -1,11 +1,18 @@
 import { action, observable } from 'mobx'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
+import CommitteeStatus from '../interfaces/CommitteeStatus'
 import { fetchWithToken } from '../utils/fetch'
 
 class Committee {
   @observable public applications: CommitteeCandidate[] = []
   @observable public completedApplication: CommitteeCandidate[] = []
   @observable public incompleteApplication: CommitteeCandidate[] = []
+  @observable public committeeStatus: CommitteeStatus = {
+    all: 0,
+    checked: 0,
+    notChecked: 0,
+    percent: 0
+  }
 
   @action
   public async getApplications() {
@@ -25,6 +32,27 @@ class Committee {
       )
 
       this.applications = applicationsList
+    }
+  }
+
+  @action
+  public async getCommitteeStatus() {
+    const committeeStatus = await fetchWithToken(
+      'grading/committee/status',
+      '',
+      'GET'
+    )
+
+    if (committeeStatus.status === 'success') {
+      this.committeeStatus = {
+        all: committeeStatus.payload.allApplications,
+        checked: committeeStatus.payload.checkedApplications,
+        notChecked: committeeStatus.payload.notCheckedApplications,
+        percent: Math.round(
+          committeeStatus.payload.checkedApplications /
+            committeeStatus.payload.notCheckedApplications
+        )
+      }
     }
   }
 

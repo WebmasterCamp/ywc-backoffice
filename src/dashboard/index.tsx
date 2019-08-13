@@ -5,7 +5,7 @@ import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
 import DashboardStore from '../stores/dashboard'
 import Box from '../ui/Box'
-import { Heading } from '../utils/styled-helper'
+import { DashboardTitle } from '../utils/styled-helper'
 
 const Dashboard = () => {
   const dashboardStore = useObservable(DashboardStore)
@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <>
       <ProfileBox />
-      <Heading>ภาพรวมของผู้เข้าสมัครโครงการ</Heading>
+      <DashboardTitle>ภาพรวมของผู้เข้าสมัครโครงการ</DashboardTitle>
       <MainStatContainer size={2}>
         <Box>
           <h1>{dashboardStore.totalCandidate}</h1>

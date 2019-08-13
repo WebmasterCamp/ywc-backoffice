@@ -1,7 +1,5 @@
 import { Button, Table, Tag } from 'antd'
-// import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-// import styled from 'styled-components'
 
 import { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
@@ -10,7 +8,7 @@ import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
-import { Heading } from '../utils/styled-helper'
+import { DashboardTitle } from '../utils/styled-helper'
 
 const CompletedCandidates = () => {
   const committeeStore = useObservable(CommitteeStore)
@@ -51,11 +49,11 @@ const CompletedCandidates = () => {
       render: (user: CommitteeCandidate) => (
         <span>
           {user.completed ? (
-            <Link to={`/committee/candidate/${user._id}`}>
+            <Link to={`/committee/candidate/detail/${user._id}`}>
               <Button>แก้ไขคะแนน</Button>
             </Link>
           ) : (
-            <Link to={`/committee/candidate/${user._id}`}>
+            <Link to={`/committee/candidate/detail/${user._id}`}>
               <Button>ตรวจคำตอบ</Button>
             </Link>
           )}
@@ -71,7 +69,9 @@ const CompletedCandidates = () => {
 
   return (
     <>
-      <Heading>ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})</Heading>
+      <DashboardTitle>
+        ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
+      </DashboardTitle>
 
       <Table
         className="candidates-table"

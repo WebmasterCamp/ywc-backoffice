@@ -9,6 +9,10 @@ export const Heading = styled.h1`
   color: #333;
   font-size: 25px;
   font-family: 'IBM Plex Thai';
+  margin: 0 0;
+`
+
+export const DashboardTitle = styled(Heading)`
   margin: 30px 0;
 `
 

@@ -1,7 +1,5 @@
 import { Button, Table, Tag } from 'antd'
-// import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-// import styled from 'styled-components'
 
 import { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
@@ -10,7 +8,7 @@ import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
-import { Heading } from '../utils/styled-helper'
+import { DashboardTitle } from '../utils/styled-helper'
 
 const Candidates = () => {
   const committeeStore = useObservable(CommitteeStore)
@@ -87,7 +85,9 @@ const Candidates = () => {
 
   return (
     <>
-      <Heading>ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})</Heading>
+      <DashboardTitle>
+        ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
+      </DashboardTitle>
 
       <Table
         className="candidates-table"
