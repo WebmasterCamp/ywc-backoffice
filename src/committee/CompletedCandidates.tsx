@@ -12,12 +12,12 @@ import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { Heading } from '../utils/styled-helper'
 
-const Candidates = () => {
+const CompletedCandidates = () => {
   const committeeStore = useObservable(CommitteeStore)
   const userStore = useObservable(UserStore)
 
   useEffect(() => {
-    committeeStore.getApplications()
+    committeeStore.getCompletedApplication()
     userStore.getProfile()
   }, [committeeStore, userStore])
 
@@ -30,23 +30,7 @@ const Candidates = () => {
       title: 'ID'
     },
     {
-      filterMultiple: false,
-      filters: [
-        {
-          text: 'ตรวจแล้ว',
-          value: 'completed'
-        },
-        {
-          text: 'ยังไม่ตรวจตำตอบ',
-          value: 'incomplete'
-        }
-      ],
       key: 'status',
-      onFilter: (value: string, record: CommitteeCandidate) => {
-        return value === 'completed'
-          ? record.completed === true
-          : record.completed === false
-      },
       render: (user: CommitteeCandidate) => (
         <span>
           {user.completed ? (
@@ -93,7 +77,7 @@ const Candidates = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(candidate: CommitteeCandidate, index: number) => candidate._id}
-        dataSource={committeeStore.applications}
+        dataSource={committeeStore.completedApplication}
         onChange={onPageChange}
         pagination={pagination}
       />
@@ -101,4 +85,4 @@ const Candidates = () => {
   )
 }
 
-export default observer(Candidates)
+export default observer(CompletedCandidates)

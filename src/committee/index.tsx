@@ -3,7 +3,9 @@ import { Route } from 'react-router'
 
 import MenuBar from '../common/MenuBar'
 import Candidates from './Candidates'
+import CompletedCandidates from './CompletedCandidates'
 import Dashboard from './Dashboard'
+import IncompleteCandidates from './IncompleteCandidates'
 
 // import VoteCandidate from './VoteCandidate'
 
@@ -41,6 +43,11 @@ export default class Committee extends Component {
         >
           <Route path="/committee" exact={true} component={Dashboard} />
           <Route path="/committee/all" component={Candidates} />
+          <Route path="/committee/completed" component={CompletedCandidates} />
+          <Route
+            path="/committee/incomplete"
+            component={IncompleteCandidates}
+          />
         </MenuBar>
       </Fragment>
     )
