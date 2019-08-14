@@ -8,6 +8,7 @@ jobs:
     branches:
       only:
         - refactor
+        - master
     steps:
       - checkout:
           path: ~/repo
