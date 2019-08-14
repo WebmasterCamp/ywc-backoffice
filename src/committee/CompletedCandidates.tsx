@@ -49,11 +49,11 @@ const CompletedCandidates = () => {
       render: (user: CommitteeCandidate) => (
         <span>
           {user.completed ? (
-            <Link to={`/committee/candidate/detail/${user._id}`}>
+            <Link to={`/committee/candidate/${user._id}`}>
               <Button>แก้ไขคะแนน</Button>
             </Link>
           ) : (
-            <Link to={`/committee/candidate/detail/${user._id}`}>
+            <Link to={`/committee/candidate/${user._id}`}>
               <Button>ตรวจคำตอบ</Button>
             </Link>
           )}

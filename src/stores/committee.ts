@@ -1,4 +1,5 @@
 import { action, observable } from 'mobx'
+import CommitteeApplication from '../interfaces/CommitteeApplication'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStatus from '../interfaces/CommitteeStatus'
 import { fetchWithToken } from '../utils/fetch'
@@ -12,6 +13,23 @@ class Committee {
     checked: 0,
     notChecked: 0,
     percent: 0
+  }
+  @observable public application: CommitteeApplication = {
+    academicYear: '',
+    activities: '',
+    department: '',
+    educationStatus: '',
+    equivalentEducationDegree: '',
+    faculty: '',
+    major: '',
+    questions: {
+      _id: '',
+      confirmedMajor: '',
+      generalQuestions: [],
+      majorQuestions: []
+    },
+    staffUsername: '',
+    university: ''
   }
 
   @action
@@ -32,6 +50,15 @@ class Committee {
       )
 
       this.applications = applicationsList
+    }
+  }
+
+  @action
+  public async getApplicationById(id: string) {
+    const application = await fetchWithToken(`users/committee/${id}`, '', 'GET')
+
+    if (application.status === 'success') {
+      this.application = application.payload
     }
   }
 

@@ -1,6 +1,6 @@
 import { Avatar, Col, Divider, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import styled from 'styled-components'
 
 import AnswerBox from '../common/AnswerBox'
@@ -17,16 +17,33 @@ const CandidateBox = styled(Box)`
   padding: 20px;
 `
 
-const VoteCandidate = () => {
+interface VoteCandidateProps {
+  match: {
+    params: {
+      id: string
+    }
+  }
+}
+
+const VoteCandidate = (props: VoteCandidateProps) => {
   const committeeStore = useObservable(CommitteeStore)
   const userStore = useObservable(UserStore)
   const questionsStore = useObservable(QuestionsStore)
 
+  const {
+    match: {
+      params: { id }
+    }
+  } = props
+
   useEffect(() => {
+    questionsStore.getQuestions()
+    committeeStore.getApplicationById(id)
     committeeStore.getCommitteeStatus()
     userStore.getProfile()
-    questionsStore.getQuestions()
-  }, [committeeStore, userStore, questionsStore])
+  }, [committeeStore, userStore, questionsStore, id])
+
+  const { application } = committeeStore
 
   return (
     <>
@@ -38,58 +55,68 @@ const VoteCandidate = () => {
           </Col>
           <Col md={19} lg={20} xl={21} xxl={22}>
             <table>
-              <tr>
-                <td style={{ textAlign: 'right', paddingRight: '7px' }}>
-                  <b>ระดับการศึกษา</b>
-                </td>
-                <td>ปี 2</td>
-              </tr>
-              <tr>
-                <td style={{ textAlign: 'right', paddingRight: '7px' }}>
-                  <b>คณะ</b>
-                </td>
-                <td>เทคโนโลยีสารสนเทศ</td>
-              </tr>
-              <tr>
-                <td style={{ textAlign: 'right', paddingRight: '7px' }}>
-                  <b>สาขาวิชา</b>
-                </td>
-                <td>เทคโนโลยีสารสนเทศ</td>
-              </tr>
-              <tr>
-                <td style={{ textAlign: 'right', paddingRight: '7px' }}>
-                  <b>มหาวิทยาลัย</b>
-                </td>
-                <td>สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>ระดับการศึกษา</b>
+                  </td>
+                  <td>{application.academicYear}</td>
+                </tr>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>คณะ</b>
+                  </td>
+                  <td>{application.faculty}</td>
+                </tr>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>สาขาวิชา</b>
+                  </td>
+                  <td>{application.department}</td>
+                </tr>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>มหาวิทยาลัย</b>
+                  </td>
+                  <td>{application.university}</td>
+                </tr>
+              </tbody>
             </table>
           </Col>
         </Row>
         <Divider />
         <Row>
           <SubHeading>กิจกรรมที่ทำผ่านมา</SubHeading>
+          <AnswerBox>
+            {application.activities.split('\n').map((item: any, i: number) => (
+              <Fragment key={i}>
+                {item}
+                <br />
+              </Fragment>
+            ))}
+          </AnswerBox>
         </Row>
         <Divider />
         <Row>
           <SubHeading>คำถามกลาง</SubHeading>
           {questionsStore.questions.general.map(
             (question: string, i: number) => (
-              <>
+              <Fragment key={i}>
                 <QuestionBox>
                   Q{i + 1}: {question}
                 </QuestionBox>
                 <AnswerBox>
-                  แจมวิลเลจเซ็นทรัล เฟรชช็อปบาร์บีคิวดีไซน์ เหมยโดมิโน ออดิชั่น
-                  มลภาวะแบคโฮเมจิกซูฮก โกะ แทงโก้เซลส์แมนเอ๋อพงษ์สามช่า
-                  ซูมไวอะกร้าบลอนด์ไลท์ราชบัณฑิตยสถาน มาร์ช ไนน์ แบล็คคันยิ
-                  ดั๊มพ์คาร์สตรอเบอรี อึมครึมปูอัดฟอร์ม แผดเผาอุปสงค์ไลน์
-                  แฟกซ์ไฮบริดตังค์แคปคำสาป ขั้นตอนเอนทรานซ์มอบตัวนายแบบเรต
-                  แอปพริคอทฮิตกัมมันตะอึ้มราเมน ตุ๊กตุ๊ก แบตเซ็กซี่
-                  เพียวคอนเฟิร์มวานิลา เมจิกซูมแบล็ก รันเวย์ เป่ายิงฉุบเฉิ่ม
-                  เกรดไฮแจ็คสึนามิ เคส ซูชิป๋าเวอร์ลีก รีทัช เห่ย อินเตอร์
-                  โฮลวีตหน่อมแน้ม โอวัลตินคำสาปเครป ออสซี่เหมย
+                  {application.questions.generalQuestions.length &&
+                    application.questions.generalQuestions[i].answer
+                      .split('\n')
+                      .map((item, j) => (
+                        <Fragment key={j}>
+                          {item}
+                          <br />
+                        </Fragment>
+                      ))}
                 </AnswerBox>
-              </>
+              </Fragment>
             )
           )}
         </Row>
@@ -99,23 +126,22 @@ const VoteCandidate = () => {
           {userStore.profile.major !== '' &&
             questionsStore.questions[userStore.profile.major].map(
               (question: string, i: number) => (
-                <>
+                <Fragment key={i}>
                   <QuestionBox>
                     Q{i + 1}: {question}
                   </QuestionBox>
                   <AnswerBox>
-                    แจมวิลเลจเซ็นทรัล เฟรชช็อปบาร์บีคิวดีไซน์ เหมยโดมิโน
-                    ออดิชั่น มลภาวะแบคโฮเมจิกซูฮก โกะ
-                    แทงโก้เซลส์แมนเอ๋อพงษ์สามช่า
-                    ซูมไวอะกร้าบลอนด์ไลท์ราชบัณฑิตยสถาน มาร์ช ไนน์ แบล็คคันยิ
-                    ดั๊มพ์คาร์สตรอเบอรี อึมครึมปูอัดฟอร์ม แผดเผาอุปสงค์ไลน์
-                    แฟกซ์ไฮบริดตังค์แคปคำสาป ขั้นตอนเอนทรานซ์มอบตัวนายแบบเรต
-                    แอปพริคอทฮิตกัมมันตะอึ้มราเมน ตุ๊กตุ๊ก แบตเซ็กซี่
-                    เพียวคอนเฟิร์มวานิลา เมจิกซูมแบล็ก รันเวย์ เป่ายิงฉุบเฉิ่ม
-                    เกรดไฮแจ็คสึนามิ เคส ซูชิป๋าเวอร์ลีก รีทัช เห่ย อินเตอร์
-                    โฮลวีตหน่อมแน้ม โอวัลตินคำสาปเครป ออสซี่เหมย
+                    {application.questions.majorQuestions.length &&
+                      application.questions.majorQuestions[i].answer
+                        .split('\n')
+                        .map((item, j) => (
+                          <Fragment key={j}>
+                            {item}
+                            <br />
+                          </Fragment>
+                        ))}
                   </AnswerBox>
-                </>
+                </Fragment>
               )
             )}
         </Row>
