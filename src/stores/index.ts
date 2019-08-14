@@ -1,7 +1,11 @@
+import Candidates from './candidates'
+import committee from './committee'
 import Dashboard from './dashboard'
 import User from './user'
 
 export default {
-  Dashboard,
-  User
+  CandidatesStore: Candidates,
+  CommitteeStore: committee,
+  DashboardStore: Dashboard,
+  UserStore: User
 }

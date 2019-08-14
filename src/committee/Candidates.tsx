@@ -8,7 +8,7 @@ import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
-import { DashboardTitle } from '../utils/styled-helper'
+import { PageTitle } from '../utils/styled-helper'
 
 const Candidates = () => {
   const committeeStore = useObservable(CommitteeStore)
@@ -85,9 +85,9 @@ const Candidates = () => {
 
   return (
     <>
-      <DashboardTitle>
+      <PageTitle>
         ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
-      </DashboardTitle>
+      </PageTitle>
 
       <Table
         className="candidates-table"
