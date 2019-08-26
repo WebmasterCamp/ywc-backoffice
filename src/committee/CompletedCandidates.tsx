@@ -70,7 +70,7 @@ const CompletedCandidates = () => {
   return (
     <>
       <PageTitle>
-        ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
+        ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(userStore.profile.major)})
       </PageTitle>
 
       <Table

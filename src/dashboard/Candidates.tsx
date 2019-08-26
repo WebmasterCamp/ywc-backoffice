@@ -8,7 +8,7 @@ import { observer, useObservable } from 'mobx-react-lite'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR } from '../utils/const'
-import { Heading } from '../utils/styled-helper'
+import { PageTitle } from '../utils/styled-helper'
 import CandidateModal from './CandidateModal'
 
 // const CustomSearch = styled.div`
@@ -177,7 +177,7 @@ const Candidates = () => {
 
   return (
     <>
-      <Heading>ผู้เข้าสมัครทั้งหมด</Heading>
+      <PageTitle>ผู้เข้าสมัครทั้งหมด</PageTitle>
       {/* <Padding>
         <pre>{scoreCounter}</pre>
       </Padding> */}

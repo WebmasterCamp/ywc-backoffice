@@ -1,4 +1,4 @@
-import { Avatar, Col, Divider, Row } from 'antd'
+import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect } from 'react'
 import styled from 'styled-components'
@@ -15,6 +15,10 @@ import { PageTitle, SubHeading } from '../utils/styled-helper'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
+`
+
+const VoteBox = styled(Box)`
+  padding: 10px 20px;
 `
 
 interface VoteCandidateProps {
@@ -150,6 +154,80 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <SubHeading>คอมเมนท์จากคณะดำเนินงาน</SubHeading>
         <AnswerBox>ความคิดเห็น</AnswerBox>
       </CommentBox>
+      <VoteBox>
+        <Row>
+          <Col md={1}>
+            <Button type="primary" shape="circle" icon="left" />
+          </Col>
+          <Col md={11} style={{ paddingLeft: '20px' }}>
+            Status
+          </Col>
+          <Col md={11} style={{ textAlign: 'right', paddingRight: '20px' }}>
+            <Popconfirm
+              placement="top"
+              title="ยืนยันการให้คะแนน"
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+              icon={
+                <Icon
+                  type="info-circle"
+                  theme="filled"
+                  style={{ color: '#1890FF' }}
+                />
+              }
+            >
+              <Button type="danger" icon="close">
+                ไม่ผ่าน
+              </Button>
+            </Popconfirm>{' '}
+            <Popconfirm
+              placement="top"
+              title="ยืนยันการให้คะแนน"
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+              icon={
+                <Icon
+                  type="info-circle"
+                  theme="filled"
+                  style={{ color: '#1890FF' }}
+                />
+              }
+            >
+              <Button
+                type="primary"
+                icon="question"
+                style={{ backgroundColor: '#EFAF42', borderColor: '#EFAF42' }}
+              >
+                คิดดูก่อน
+              </Button>
+            </Popconfirm>{' '}
+            <Popconfirm
+              placement="top"
+              title="ยืนยันการให้คะแนน"
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+              icon={
+                <Icon
+                  type="info-circle"
+                  theme="filled"
+                  style={{ color: '#1890FF' }}
+                />
+              }
+            >
+              <Button
+                type="primary"
+                icon="check"
+                style={{ backgroundColor: '#56C41A', borderColor: '#56C41A' }}
+              >
+                ผ่าน
+              </Button>
+            </Popconfirm>
+          </Col>
+          <Col md={1} style={{ textAlign: 'right' }}>
+            <Button type="primary" shape="circle" icon="right" />
+          </Col>
+        </Row>
+      </VoteBox>
     </>
   )
 }

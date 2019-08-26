@@ -1,9 +1,13 @@
 import { action, observable } from 'mobx'
+import { persist } from 'mobx-persist'
+import AdminCandidate from '../interfaces/AdminCandidate'
 import Candidate from '../interfaces/Candidate'
 import { fetchWithToken } from '../utils/fetch'
 
 class Candidates {
   @observable public candidates: Candidate[] = []
+  @observable public candidate = {} as AdminCandidate
+  @persist @observable public loading: boolean = true
 
   @action
   public async getCandidates() {
@@ -33,6 +37,17 @@ class Candidates {
 
       this.candidates = candidatesList
     }
+  }
+
+  @action
+  public async getCandidate(id: string) {
+    this.loading = true
+    const candidate = await fetchWithToken(`users/profile/${id}`, '', 'get')
+
+    if (candidate.status === 'success') {
+      this.candidate = candidate.payload
+    }
+    this.loading = false
   }
 }
 

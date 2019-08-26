@@ -70,7 +70,7 @@ const IncompleteCandidates = () => {
   return (
     <>
       <PageTitle>
-        ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
+        ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(userStore.profile.major)})
       </PageTitle>
 
       <Table
