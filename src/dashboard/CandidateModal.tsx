@@ -101,9 +101,11 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>ศาสนา</b>
                       </td>
-                      <td>{candidate.religion
+                      <td>
+                        {candidate.religion
                           ? candidate.religion
-                          : 'ยังไม่ได้กรอก'}</td>
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
