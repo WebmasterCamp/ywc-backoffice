@@ -52,7 +52,9 @@ const CandidateModal = ({
   const candidateStore = useObservable(CandidateStore)
 
   useEffect(() => {
-    candidateStore.getCandidate(candidateId)
+    if (candidateId) {
+      candidateStore.getCandidate(candidateId)
+    }
   }, [candidateStore, candidateId])
 
   const { candidate } = candidateStore
@@ -72,7 +74,12 @@ const CandidateModal = ({
           <>
             <Row>
               <Col md={4}>
-                <Avatar shape="square" size={96} icon="user" />
+                <Avatar
+                  shape="square"
+                  size={96}
+                  icon="user"
+                  src={candidate.picture}
+                />
               </Col>
               <Col md={20}>
                 <SubHeader>
@@ -111,67 +118,107 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>เบอร์โทรศัพท์</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.phone ? candidate.phone : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>อีเมล์</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.email ? candidate.email : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ระดับการศึกษา</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.educationStatus
+                          ? candidate.educationStatus
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ชั้นปี</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.academicYear
+                          ? candidate.academicYear
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>มหาวิทยาลัย</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.university
+                          ? candidate.university
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>คณะ</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.faculty
+                          ? candidate.faculty
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>สาขาวิชา</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.department
+                          ? candidate.department
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>โรคประจำตัว</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.disease
+                          ? candidate.disease
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>สิ่งที่แพ้ / อาหารที่แพ้</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.foodAllergy
+                          ? candidate.foodAllergy
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ยาที่แพ้</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.medAllergy
+                          ? candidate.medAllergy
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ไซส์เสื้อ</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.shirtSize
+                          ? candidate.shirtSize
+                          : 'ยังไม่ได้กรอก'}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -185,19 +232,31 @@ const CandidateModal = ({
                   <td style={{ paddingRight: '20px' }}>
                     <b>ชื่อ</b>
                   </td>
-                  <td>lul</td>
+                  <td>
+                    {candidate.emergencyFirstName
+                      ? `${candidate.emergencyFirstName} ${candidate.emergencyLastName}`
+                      : 'ยังไม่ได้กรอก'}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ paddingRight: '20px' }}>
                     <b>เบอร์โทรศัพท์</b>
                   </td>
-                  <td>lul</td>
+                  <td>
+                    {candidate.emergencyPhone
+                      ? candidate.emergencyPhone
+                      : 'ยังไม่ได้กรอก'}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ paddingRight: '20px' }}>
                     <b>ความเกี่ยวข้อง</b>
                   </td>
-                  <td>lul</td>
+                  <td>
+                    {candidate.emergencyPhoneRelated
+                      ? candidate.emergencyPhoneRelated
+                      : 'ยังไม่ได้กรอก'}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -212,37 +271,55 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>วันที่ Login ครั้งแรก</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {moment(candidate.created_at).format(
+                          'DD/MM/YYYY, h:mm:ssa'
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>วันที่กดส่งใบสมัคร</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.completed_at
+                          ? moment(candidate.completed_at).format(
+                              'DD/MM/YYYY, h:mm:ssa'
+                            )
+                          : 'ยังไม่ส่งใบสมัคร'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ผ่านรอบคำถามกลาง</b>
                       </td>
-                      <td>lul</td>
+                      <td>{candidate.isPassStaff ? 'ผ่าน' : 'ไม่ผ่าน'}</td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>ผู้ตรวจคำถามกลาง</b>
                       </td>
-                      <td>lul</td>
+                      <td>{candidate.staffUsername}</td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>วันที่ตรวจคำถามกลาง</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.staffCheckedAt
+                          ? moment(candidate.staffCheckedAt).format(
+                              'DD/MM/YYYY, h:mm:ssa'
+                            )
+                          : 'ยังไม่ทำการตรวจ'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>คอมเมนต์</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.staffComment ? candidate.staffComment : '-'}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -254,13 +331,18 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>ผ่านคำถามสาขา</b>
                       </td>
-                      <td>lul</td>
+                      <td>-</td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
                         <b>จำนวนผู้ให้ผ่าน</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.committeeVote.reduce(
+                          (a, vote) => a + vote.score,
+                          0
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
@@ -272,7 +354,7 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>ผ่านเข้ารอบสัมภาษณ์</b>
                       </td>
-                      <td>lul</td>
+                      <td>{candidate.passInterview ? 'ผ่าน' : 'ไม่ผ่าน'}</td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>
@@ -290,7 +372,7 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>มีสิทธิ์เข้าค่าย</b>
                       </td>
-                      <td>lul</td>
+                      <td>{candidate.isFinalist ? 'ผ่าน' : 'ไม่ผ่าน'}</td>
                     </tr>
                   </tbody>
                 </table>

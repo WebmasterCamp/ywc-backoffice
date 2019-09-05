@@ -4,6 +4,7 @@ interface AdminCandidate {
   status: string
   questions: [{ _id: string; answer: string }] | []
   completed_at: Date
+  created_at: Date
   profile: string
 
   // Step 1
@@ -49,6 +50,8 @@ interface AdminCandidate {
   isPassStaff: boolean
   staffComment: string
   staffUsername: string
+  staffCheckedAt: Date
+  committeeVote: [{ committee: string; score: number }]
 
   // status
   isAnswerGeneral: boolean
@@ -56,6 +59,8 @@ interface AdminCandidate {
   passInterview: boolean
   isFinalist: boolean
   verificationAmount: number
+  isReservation: boolean
+  reservationNo: number
 }
 
 export default AdminCandidate
