@@ -2,7 +2,11 @@ interface AdminCandidate {
   _id: string
   facebook: string
   status: string
-  questions: [{ _id: string; answer: string }] | []
+  questions: {
+    confirmedMajor: string
+    generalQuestions: [{ _id: string; answer: string }] | []
+    majorQuestions: [{ _id: string; answer: string }] | []
+  }
   completed_at: Date
   created_at: Date
   profile: string

@@ -76,8 +76,9 @@ class Committee {
         checked: committeeStatus.payload.checkedApplications,
         notChecked: committeeStatus.payload.notCheckedApplications,
         percent: Math.round(
-          committeeStatus.payload.checkedApplications /
-            committeeStatus.payload.notCheckedApplications
+          (committeeStatus.payload.checkedApplications /
+            committeeStatus.payload.allApplications) *
+            100
         )
       }
     }

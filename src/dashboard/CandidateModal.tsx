@@ -1,21 +1,12 @@
-import { Avatar, Col, Divider, Drawer, Row } from 'antd'
+import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import moment from 'moment'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import AnswerBox from '../common/AnswerBox'
 import CandidateStore from '../stores/candidates'
-import { MAJOR } from '../utils/const'
-
-// import Label from './Label'
-
-// const Header = styled.h1`
-//   margin: 0;
-//   color: #333;
-//   padding: 7px 0;
-//   font-size: 25px;
-//   font-family: 'IBM Plex Thai';
-// `
+import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
 
 const SubHeader = styled.h2`
   margin: 0;
@@ -26,17 +17,13 @@ const SubHeader = styled.h2`
   margin-bottom: 10px;
 `
 
-// const ProfileGrid = styled.div`
-//   display: grid;
-//   grid-gap: 30px;
-//   grid-template-columns: 1fr 3fr;
-// `
+const QuestionHeader = styled.h3`
+  margin: 0;
+  color: #333;
+  font-size: 16px;
 
-// const Image = styled.img`
-//   width: 100%;
-//   border-radius: 7px;
-//   margin-bottom: 20px;
-// `
+  margin-bottom: 10px;
+`
 
 interface CandidateModalProps {
   candidateId: string
@@ -51,9 +38,12 @@ const CandidateModal = ({
 }: CandidateModalProps) => {
   const candidateStore = useObservable(CandidateStore)
 
+  const [viewQuestion, setViewQuestion] = useState(false)
+
   useEffect(() => {
     if (candidateId) {
       candidateStore.getCandidate(candidateId)
+      setViewQuestion(false)
     }
   }, [candidateStore, candidateId])
 
@@ -262,6 +252,65 @@ const CandidateModal = ({
             </table>
             <Divider />
             <SubHeader>คำตอบกลาง และ คำตอบสาขา</SubHeader>
+            {viewQuestion ? (
+              <Row>
+                <Col md={24}>
+                  {candidate.questions.generalQuestions.length > 0 && (
+                    <>
+                      <QuestionHeader>คำตอบกลาง</QuestionHeader>
+                      {GENERAL_QUESTION.map((question, i) => (
+                        <Row key={i}>
+                          <Col md={24}>
+                            {i + 1}. {question}
+                          </Col>
+                          <Col md={24}>
+                            <AnswerBox
+                              disabled={true}
+                              autosize={true}
+                              value={
+                                candidate.questions.generalQuestions[i].answer
+                              }
+                            />
+                          </Col>
+                        </Row>
+                      ))}
+                    </>
+                  )}
+                  {candidate.questions.majorQuestions.length > 0 && (
+                    <>
+                      <QuestionHeader>คำตอบสาขา</QuestionHeader>
+                      {MAJOR_QUESTION(candidate.major).map((question, i) => (
+                        <Row key={i}>
+                          <Col md={24}>
+                            {i + 1}. {question}
+                          </Col>
+                          <Col md={24}>
+                            <AnswerBox
+                              disabled={true}
+                              autosize={true}
+                              value={
+                                candidate.questions.majorQuestions[i].answer
+                              }
+                            />
+                          </Col>
+                        </Row>
+                      ))}
+                    </>
+                  )}
+                </Col>
+                <Col md={24}>
+                  <Button onClick={() => setViewQuestion(false)}>
+                    ปิดคำตอบ
+                  </Button>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col md={24}>
+                  <Button onClick={() => setViewQuestion(true)}>ดูคำตอบ</Button>
+                </Col>
+              </Row>
+            )}
             <Divider />
             <Row>
               <Col md={12}>

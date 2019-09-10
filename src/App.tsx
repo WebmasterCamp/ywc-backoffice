@@ -3,6 +3,7 @@ import React from 'react'
 import Loadable from 'react-loadable'
 import { Route, Router } from 'react-router'
 
+import { createGlobalStyle } from 'styled-components'
 import store from './stores'
 import history from './utils/history'
 
@@ -28,13 +29,31 @@ const Manager = Loadable({
   loading: Loading
 })
 
+const Staff = Loadable({
+  loader: () => import('./staff'),
+  loading: Loading
+})
+
+const GlobalStyle = createGlobalStyle`
+  .ant-form-item-children > textarea {
+    font-family: 'Sarabun';
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .ant-form-item-control {
+    font-family: 'Sarabun';
+  }
+`
+
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router history={history}>
+        <GlobalStyle />
         <Route exact={true} path="/" component={Login} />
         <Route path="/admin" component={Admin} />
         <Route path="/committee" component={Committee} />
+        <Route path="/staff" component={Staff} />
         <Route path="/manager" component={Manager} />
       </Router>
     </Provider>
