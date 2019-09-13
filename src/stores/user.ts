@@ -1,4 +1,5 @@
 import { action, observable } from 'mobx'
+import { create, persist } from 'mobx-persist'
 import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
 import history from '../utils/history'
@@ -6,7 +7,7 @@ import notification from '../utils/notification'
 import { removeToken, saveToken } from '../utils/token-helper'
 
 class User {
-  @observable public isAuthentication: boolean = false
+  @persist @observable public isAuthentication: boolean = false
   @observable public profile: Profile = {
     _id: '',
     major: '',
@@ -37,7 +38,7 @@ class User {
           'Login Success',
           `Welcome ${this.profile.username}`
         )
-        history.push(`${this.profile.role}`)
+        return history.push(`${this.profile.role}`)
       }
     } else {
       notification('error', 'Login Error', 'Username or Password incorrect')
@@ -47,6 +48,7 @@ class User {
   @action
   public doLogout() {
     removeToken()
+    this.isAuthentication = false
     notification('success', 'Logout success!', 'Goodbye~')
     history.push('/')
   }
@@ -61,6 +63,17 @@ class User {
     }
   }
 
+  @action
+  public async checkAuthentication() {
+    const profile = await fetchWithToken('admin/me', '', 'GET')
+
+    if (profile.status === 'success') {
+      await this.setProfile(profile.payload.profile)
+      await this.setIsAuthentication(true)
+      return history.push(`/${this.profile.role}`)
+    }
+  }
+
   @action.bound
   public setProfile(profile: Profile): void {
     this.profile = profile
@@ -72,4 +85,9 @@ class User {
   }
 }
 
-export default new User()
+const hydrate = create()
+
+const UserStore = new User()
+
+export default UserStore
+hydrate('user', UserStore)

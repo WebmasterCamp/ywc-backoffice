@@ -1,7 +1,7 @@
 import { Button, Form, Icon, Input } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import { observer, useObservable } from 'mobx-react-lite'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 
 import UserStore from '../stores/user'
@@ -47,6 +47,10 @@ interface ILoginForm {
 
 const LoginPage: React.FC = () => {
   const userStore = useObservable(UserStore)
+
+  useEffect(() => {
+    userStore.checkAuthentication()
+  }, [userStore])
 
   const handleSubmit = useCallback(
     (form: ILoginForm) => {

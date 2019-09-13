@@ -9,5 +9,5 @@ export const saveToken = (token: string) => {
 }
 
 export const removeToken = () => {
-  localStorage.removeItem('token')
+  localStorage.setItem('token', '')
 }
