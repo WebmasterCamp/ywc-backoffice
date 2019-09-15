@@ -1,15 +1,20 @@
 import { action, observable } from 'mobx'
-import { persist } from 'mobx-persist'
+import { create, persist } from 'mobx-persist'
 import StaffApplication from '../interfaces/StaffApplication'
 import StaffCandidate from '../interfaces/StaffCandidate'
 import StaffStatus from '../interfaces/StaffStatus'
 import { fetchWithToken } from '../utils/fetch'
 import history from '../utils/history'
 
-class Committee {
-  @persist @observable public applications: StaffCandidate[] = []
-  @observable public completedApplication: StaffCandidate[] = []
-  @observable public incompleteApplication: StaffCandidate[] = []
+class Staff {
+  @persist @observable public loading: boolean = false
+  @persist('list') @observable public applications: StaffCandidate[] = []
+  @persist('list')
+  @observable
+  public completedApplication: StaffCandidate[] = []
+  @persist('list')
+  @observable
+  public incompleteApplication: StaffCandidate[] = []
   @observable public staffStatus: StaffStatus = {
     all: 0,
     checked: 0,
@@ -95,6 +100,7 @@ class Committee {
 
   @action
   public async doVotePass(id: string, comment: string) {
+    this.loading = true
     const voteStatus = await fetchWithToken(
       'grading/staff/pass',
       { id, comment },
@@ -102,13 +108,16 @@ class Committee {
     )
 
     if (voteStatus.status === 'success') {
-      const current = this.applications.map(a => a._id).indexOf(id)
-      if (current === this.applications.length - 1) {
+      await this.getIncompleteApplication()
+      this.loading = false
+      if (this.incompleteApplication.length === 0) {
         return history.push('/staff/all')
       }
       return history.push(
-        `/staff/candidate/${this.applications[current + 1]._id}`
+        `/staff/candidate/${this.incompleteApplication[0]._id}`
       )
+    } else {
+      this.loading = false
     }
   }
 
@@ -121,15 +130,22 @@ class Committee {
     )
 
     if (voteStatus.status === 'success') {
-      const current = this.applications.map(a => a._id).indexOf(id)
-      if (current === this.applications.length - 1) {
+      await this.getIncompleteApplication()
+      this.loading = false
+      if (this.incompleteApplication.length === 0) {
         return history.push('/staff/all')
       }
       return history.push(
-        `/staff/candidate/${this.applications[current + 1]._id}`
+        `/staff/candidate/${this.incompleteApplication[0]._id}`
       )
+    } else {
+      this.loading = false
     }
   }
 }
+const hydrate = create({ jsonify: true })
 
-export default new Committee()
+const StaffStore = new Staff()
+
+export default StaffStore
+hydrate('staff', StaffStore)

@@ -28,6 +28,7 @@ interface CommitteeApplication {
   activities: string
   major: string
   staffUsername: string
+  staffComment: string
 }
 
 export default CommitteeApplication

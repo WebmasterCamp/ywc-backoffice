@@ -1,6 +1,6 @@
 import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import AnswerBox from '../common/AnswerBox'
@@ -10,8 +10,9 @@ import QuestionsStore from '../stores/questions'
 import UserStore from '../stores/user'
 import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
-import { MAJOR } from '../utils/const'
+import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
+import CandidateModal from './CandidateModal'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -41,16 +42,40 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   } = props
 
   useEffect(() => {
-    questionsStore.getQuestions()
     committeeStore.getApplicationById(id)
     committeeStore.getCommitteeStatus()
     userStore.getProfile()
   }, [committeeStore, userStore, questionsStore, id])
 
+  const [visible, setVisible] = useState(false)
+  const [portfolioUrl, setPortfolioUrl] = useState('')
+
   const { application } = committeeStore
+
+  const currentApplication =
+    committeeStore.applications.map(a => a._id).indexOf(id) + 1
+  const totalApplication = committeeStore.applications.length
+  const percentOfApplication = Math.floor(
+    (currentApplication / totalApplication) * 100
+  )
+
+  const openDrawer = (url: string) => {
+    setVisible(true)
+    setPortfolioUrl(url)
+  }
+
+  const closeDrawer = () => {
+    setVisible(false)
+    setPortfolioUrl('')
+  }
 
   return (
     <>
+      <CandidateModal
+        visible={visible}
+        onClose={closeDrawer}
+        url={portfolioUrl}
+      />
       <PageTitle>ตรวจใบสมัคร (สาขา{MAJOR(userStore.profile.major)})</PageTitle>
       <CandidateBox>
         <Row gutter={16}>
@@ -91,76 +116,99 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <Divider />
         <Row>
           <SubHeading>กิจกรรมที่ทำผ่านมา</SubHeading>
-          <AnswerBox>
-            {application.activities.split('\n').map((item: any, i: number) => (
-              <Fragment key={i}>
-                {item}
-                <br />
-              </Fragment>
-            ))}
-          </AnswerBox>
+          <AnswerBox
+            disabled={true}
+            autosize={true}
+            value={application.activities}
+          />
         </Row>
         <Divider />
         <Row>
           <SubHeading>คำถามกลาง</SubHeading>
-          {questionsStore.questions.general.map(
-            (question: string, i: number) => (
+          {application.questions.generalQuestions.length !== 0 &&
+            GENERAL_QUESTION.map((question: string, i: number) => (
               <Fragment key={i}>
                 <QuestionBox>
                   Q{i + 1}: {question}
                 </QuestionBox>
-                <AnswerBox>
-                  {application.questions.generalQuestions.length &&
-                    application.questions.generalQuestions[i].answer
-                      .split('\n')
-                      .map((item, j) => (
-                        <Fragment key={j}>
-                          {item}
-                          <br />
-                        </Fragment>
-                      ))}
-                </AnswerBox>
+                <AnswerBox
+                  disabled={true}
+                  autosize={true}
+                  value={application.questions.generalQuestions[i].answer}
+                />
               </Fragment>
-            )
-          )}
+            ))}
         </Row>
         <Divider />
         <Row>
           <SubHeading>คำถามสาขา ({MAJOR(userStore.profile.major)})</SubHeading>
-          {userStore.profile.major !== '' &&
-            questionsStore.questions[userStore.profile.major].map(
-              (question: string, i: number) => (
-                <Fragment key={i}>
-                  <QuestionBox>
-                    Q{i + 1}: {question}
-                  </QuestionBox>
-                  <AnswerBox>
-                    {application.questions.majorQuestions.length &&
-                      application.questions.majorQuestions[i].answer
-                        .split('\n')
-                        .map((item, j) => (
-                          <Fragment key={j}>
-                            {item}
-                            <br />
-                          </Fragment>
-                        ))}
-                  </AnswerBox>
-                </Fragment>
-              )
+          {application.questions.majorQuestions.length !== 0 &&
+            MAJOR_QUESTION(userStore.profile.major).map(
+              (question: string, i: number) => {
+                const answer = application.questions.majorQuestions[i].answer
+                if (userStore.profile.major === 'design' && i === 3) {
+                  return (
+                    <Fragment key={i}>
+                      <QuestionBox>
+                        Q{i + 1}: {question}
+                      </QuestionBox>
+                      <Button
+                        icon="download"
+                        onClick={() => openDrawer(answer)}
+                      >
+                        ดูคำตอบ
+                      </Button>
+                    </Fragment>
+                  )
+                }
+
+                return (
+                  <Fragment key={i}>
+                    <QuestionBox>
+                      Q{i + 1}: {question}
+                    </QuestionBox>
+                    <AnswerBox
+                      disabled={true}
+                      autosize={true}
+                      value={application.questions.majorQuestions[i].answer}
+                    />
+                  </Fragment>
+                )
+              }
             )}
         </Row>
       </CandidateBox>
       <CommentBox>
         <SubHeading>คอมเมนท์จากคณะดำเนินงาน</SubHeading>
-        <AnswerBox>ความคิดเห็น</AnswerBox>
+        <AnswerBox
+          disabled={true}
+          autosize={true}
+          value={
+            application.staffComment
+              ? application.staffComment
+              : 'ไม่มีความเห็น'
+          }
+        />
       </CommentBox>
       <VoteBox>
         <Row>
           <Col md={1}>
             <Button type="primary" shape="circle" icon="left" />
           </Col>
-          <Col md={11} style={{ paddingLeft: '20px' }}>
-            Status
+          <Col
+            md={11}
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              height: '32px',
+              paddingLeft: '20px'
+            }}
+          >
+            <div>
+              ใบสมัครที่ <b>{currentApplication}</b> จากทั้งหมด{' '}
+              <b>{totalApplication}</b> ใบ คิดเป็น{' '}
+              <b>{percentOfApplication}%</b>
+            </div>
           </Col>
           <Col md={11} style={{ textAlign: 'right', paddingRight: '20px' }}>
             <Popconfirm
@@ -178,27 +226,6 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             >
               <Button type="danger" icon="close">
                 ไม่ผ่าน
-              </Button>
-            </Popconfirm>{' '}
-            <Popconfirm
-              placement="top"
-              title="ยืนยันการให้คะแนน"
-              okText="ยืนยัน"
-              cancelText="ยกเลิก"
-              icon={
-                <Icon
-                  type="info-circle"
-                  theme="filled"
-                  style={{ color: '#1890FF' }}
-                />
-              }
-            >
-              <Button
-                type="primary"
-                icon="question"
-                style={{ backgroundColor: '#EFAF42', borderColor: '#EFAF42' }}
-              >
-                คิดดูก่อน
               </Button>
             </Popconfirm>{' '}
             <Popconfirm

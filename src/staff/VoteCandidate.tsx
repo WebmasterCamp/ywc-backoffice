@@ -45,6 +45,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
 
   useEffect(() => {
     setStaffComment('')
+    staffStore.getApplications()
     staffStore.getApplicationById(id)
     staffStore.getCommitteeStatus()
     userStore.getProfile()
@@ -59,6 +60,13 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   const onConfirmFailed = () => {
     staffStore.doVoteFailed(id, staffComment)
   }
+
+  const currentApplication =
+    staffStore.applications.map(a => a._id).indexOf(id) + 1
+  const totalApplication = staffStore.applications.length
+  const percentOfApplication = Math.floor(
+    (currentApplication / totalApplication) * 100
+  )
 
   return (
     <>
@@ -98,9 +106,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         </Row>
         <Divider />
         <Row>
-          <SubHeading>
-            คำถามกลาง {application.questions.generalQuestions.length}
-          </SubHeading>
+          <SubHeading>คำถามกลาง</SubHeading>
           {application.questions.generalQuestions.length !== 0 &&
             GENERAL_QUESTION.map((question: string, i: number) => (
               <Fragment key={i}>
@@ -131,8 +137,20 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1}>
             <Button type="primary" shape="circle" icon="left" />
           </Col>
-          <Col md={11} style={{ paddingLeft: '20px' }}>
-            Status
+          <Col
+            md={11}
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              height: '32px',
+              paddingLeft: '20px'
+            }}
+          >
+            <div>
+              ใบสมัครที่ <b>{currentApplication}</b> จากทั้งหมด{' '}
+              <b>{totalApplication}</b> ใบ คิดเป็น{' '}
+              <b>{percentOfApplication}%</b>
+            </div>
           </Col>
           <Col md={11} style={{ textAlign: 'right', paddingRight: '20px' }}>
             <Popconfirm

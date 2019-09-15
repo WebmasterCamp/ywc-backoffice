@@ -8,7 +8,7 @@ import { removeToken, saveToken } from '../utils/token-helper'
 
 class User {
   @persist @observable public isAuthentication: boolean = false
-  @observable public profile: Profile = {
+  @persist('object') @observable public profile: Profile = {
     _id: '',
     major: '',
     role: '',
@@ -85,7 +85,7 @@ class User {
   }
 }
 
-const hydrate = create()
+const hydrate = create({ jsonify: true })
 
 const UserStore = new User()
 

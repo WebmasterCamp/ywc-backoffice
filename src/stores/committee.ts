@@ -1,13 +1,18 @@
 import { action, observable } from 'mobx'
+import { create, persist } from 'mobx-persist'
 import CommitteeApplication from '../interfaces/CommitteeApplication'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStatus from '../interfaces/CommitteeStatus'
 import { fetchWithToken } from '../utils/fetch'
 
 class Committee {
-  @observable public applications: CommitteeCandidate[] = []
-  @observable public completedApplication: CommitteeCandidate[] = []
-  @observable public incompleteApplication: CommitteeCandidate[] = []
+  @persist('list') @observable public applications: CommitteeCandidate[] = []
+  @persist('list')
+  @observable
+  public completedApplication: CommitteeCandidate[] = []
+  @persist('list')
+  @observable
+  public incompleteApplication: CommitteeCandidate[] = []
   @observable public committeeStatus: CommitteeStatus = {
     all: 0,
     checked: 0,
@@ -28,6 +33,7 @@ class Committee {
       generalQuestions: [],
       majorQuestions: []
     },
+    staffComment: '',
     staffUsername: '',
     university: ''
   }
@@ -103,4 +109,9 @@ class Committee {
   }
 }
 
-export default new Committee()
+const hydrate = create({ jsonify: true })
+
+const CommitteeStore = new Committee()
+
+export default CommitteeStore
+hydrate('committee', CommitteeStore)

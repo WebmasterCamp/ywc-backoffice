@@ -35,7 +35,7 @@ const ProfileBox = () => {
       <Padding>
         <Row justify="space-between" gutter={8}>
           <Col md={4} xl={2}>
-            <Avatar shape="square" size={64} icon="user" />
+            <Avatar size={64} icon="user" />
           </Col>
           <Col md={14} xl={18}>
             <b>ยินดีต้อนรับ</b>
