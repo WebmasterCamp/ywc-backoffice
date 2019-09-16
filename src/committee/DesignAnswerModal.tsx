@@ -1,13 +1,17 @@
 import { Drawer } from 'antd'
 import React from 'react'
 
-interface CandidateModalProps {
+interface DesignAnswerModalProps {
   url: string
   visible: boolean
   onClose: () => void
 }
 
-const CandidateModal = ({ visible, onClose, url }: CandidateModalProps) => {
+const DesignAnswerModal = ({
+  visible,
+  onClose,
+  url
+}: DesignAnswerModalProps) => {
   return (
     <>
       <Drawer
@@ -30,4 +34,4 @@ const CandidateModal = ({ visible, onClose, url }: CandidateModalProps) => {
   )
 }
 
-export default CandidateModal
+export default DesignAnswerModal

@@ -12,7 +12,7 @@ import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
 import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
-import CandidateModal from './CandidateModal'
+import DesignAnswerModal from './DesignAnswerModal'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -69,9 +69,17 @@ const VoteCandidate = (props: VoteCandidateProps) => {
     setPortfolioUrl('')
   }
 
+  const onConfirmPass = () => {
+    committeeStore.doVote(id, 1)
+  }
+
+  const onConfirmFailed = () => {
+    committeeStore.doVote(id, 0)
+  }
+
   return (
     <>
-      <CandidateModal
+      <DesignAnswerModal
         visible={visible}
         onClose={closeDrawer}
         url={portfolioUrl}
@@ -215,6 +223,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               placement="top"
               title="ยืนยันการให้คะแนน"
               okText="ยืนยัน"
+              onConfirm={onConfirmPass}
               cancelText="ยกเลิก"
               icon={
                 <Icon
@@ -232,6 +241,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               placement="top"
               title="ยืนยันการให้คะแนน"
               okText="ยืนยัน"
+              onConfirm={onConfirmFailed}
               cancelText="ยกเลิก"
               icon={
                 <Icon

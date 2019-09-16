@@ -4,8 +4,10 @@ import CommitteeApplication from '../interfaces/CommitteeApplication'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStatus from '../interfaces/CommitteeStatus'
 import { fetchWithToken } from '../utils/fetch'
+import history from '../utils/history'
 
 class Committee {
+  @observable public loading: boolean = false
   @persist('list') @observable public applications: CommitteeCandidate[] = []
   @persist('list')
   @observable
@@ -106,6 +108,29 @@ class Committee {
     this.incompleteApplication = this.applications.filter(
       application => !application.completed
     )
+  }
+
+  @action
+  public async doVote(id: string, score: number) {
+    this.loading = true
+    const voteStatus = await fetchWithToken(
+      'grading/committee/vote',
+      { id, score },
+      'POST'
+    )
+
+    if (voteStatus.status === 'success') {
+      await this.getIncompleteApplication()
+      this.loading = false
+      if (this.incompleteApplication.length === 0) {
+        return history.push('/committee/all')
+      }
+      return history.push(
+        `/committee/candidate/${this.incompleteApplication[0]._id}`
+      )
+    } else {
+      this.loading = false
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import AnswerBox from '../common/AnswerBox'
 import CandidateStore from '../stores/candidates'
 import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
+import DesignAnswerModal from './DesignAnswerModal'
 
 const SubHeader = styled.h2`
   margin: 0;
@@ -39,6 +40,8 @@ const CandidateModal = ({
   const candidateStore = useObservable(CandidateStore)
 
   const [viewQuestion, setViewQuestion] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [portfolioUrl, setPortfolioUrl] = useState('')
 
   useEffect(() => {
     if (candidateId) {
@@ -49,8 +52,23 @@ const CandidateModal = ({
 
   const { candidate } = candidateStore
 
+  const openDrawer = (url: string) => {
+    setModalVisible(true)
+    setPortfolioUrl(url)
+  }
+
+  const closeDrawer = () => {
+    setModalVisible(false)
+    setPortfolioUrl('')
+  }
+
   return (
     <>
+      <DesignAnswerModal
+        visible={modalVisible}
+        onClose={closeDrawer}
+        url={portfolioUrl}
+      />
       <Drawer
         visible={visible}
         onClose={onClose}
@@ -279,22 +297,46 @@ const CandidateModal = ({
                   {candidate.questions.majorQuestions.length > 0 && (
                     <>
                       <QuestionHeader>คำตอบสาขา</QuestionHeader>
-                      {MAJOR_QUESTION(candidate.major).map((question, i) => (
-                        <Row key={i}>
-                          <Col md={24}>
-                            {i + 1}. {question}
-                          </Col>
-                          <Col md={24}>
-                            <AnswerBox
-                              disabled={true}
-                              autosize={true}
-                              value={
-                                candidate.questions.majorQuestions[i].answer
-                              }
-                            />
-                          </Col>
-                        </Row>
-                      ))}
+                      {MAJOR_QUESTION(candidate.major).map((question, i) => {
+                        const answer =
+                          candidate.questions.majorQuestions[i].answer
+                        if (candidate.major === 'design' && i === 3) {
+                          return (
+                            <Row key={i}>
+                              <Col md={24}>
+                                {i + 1}. {question}
+                              </Col>
+                              <Col md={24}>
+                                <Button
+                                  icon="download"
+                                  onClick={() => openDrawer(answer)}
+                                >
+                                  ดูคำตอบ
+                                </Button>
+                                <br />
+                                <br />
+                              </Col>
+                            </Row>
+                          )
+                        }
+
+                        return (
+                          <Row key={i}>
+                            <Col md={24}>
+                              {i + 1}. {question}
+                            </Col>
+                            <Col md={24}>
+                              <AnswerBox
+                                disabled={true}
+                                autosize={true}
+                                value={
+                                  candidate.questions.majorQuestions[i].answer
+                                }
+                              />
+                            </Col>
+                          </Row>
+                        )
+                      })}
                     </>
                   )}
                 </Col>
