@@ -156,9 +156,7 @@ const MenuBar = (props: MenuBarProps) => {
             <Panel>{children}</Panel>
           </Padding>
 
-          <Footer>
-            YWC Grading System @2019 Created by Wiput Pootong, Chun Rapeepat
-          </Footer>
+          <Footer>YWC Grading System @2019 Created by YWC17</Footer>
         </ContentLayout>
       </Layout>
     </Fragment>
