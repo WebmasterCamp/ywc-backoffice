@@ -65,6 +65,8 @@ interface AdminCandidate {
   verificationAmount: number
   isReservation: boolean
   reservationNo: number
+  interviewCheck: boolean
+  interviewRef: string
 }
 
 export default AdminCandidate

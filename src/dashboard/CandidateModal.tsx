@@ -439,7 +439,11 @@ const CandidateModal = ({
                       <td style={{ paddingRight: '20px' }}>
                         <b>ผู้ตรวจคำถามสาขา</b>
                       </td>
-                      <td>lul</td>
+                      <td>
+                        {candidate.committeeVote.length
+                          ? candidate.committeeVote.map(c => `${c.committee} `)
+                          : 'ยังไม่มีตรวจ'}
+                      </td>
                     </tr>
                     <tr>
                       <td style={{ paddingRight: '20px' }}>

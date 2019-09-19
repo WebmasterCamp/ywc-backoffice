@@ -14,7 +14,18 @@ interface Candidate {
   isAnswerGeneral: boolean
   isAnswerMajor: boolean
   isPassStaff: boolean
+  staffUsername: string
+  failed: boolean
   birthdate: string
+  committeeVote:
+    | [
+        {
+          _id: string
+          score: number
+          committee: string
+        }
+      ]
+    | []
 }
 
 export default Candidate

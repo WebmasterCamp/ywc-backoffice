@@ -120,7 +120,7 @@ const Candidates = () => {
       key: 'staffPass',
       render: (user: Candidate) => (
         <span>
-          {user.status === 'completed' ? (
+          {user.isPassStaff || user.failed ? (
             <Tag color="geekblue" key={user.status}>
               เรียบร้อย
             </Tag>
@@ -137,7 +137,7 @@ const Candidates = () => {
       key: 'committeePass',
       render: (user: Candidate) => (
         <span>
-          {user.status === 'completed' ? (
+          {user.committeeVote ? (
             <Tag color="geekblue" key={user.status}>
               เรียบร้อย
             </Tag>
