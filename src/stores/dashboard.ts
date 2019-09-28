@@ -11,6 +11,7 @@ class Dashboard {
   @observable public marketing = 0
   @observable public countUserStep: CountUserStep[] = []
   @observable public completedTimeline: CompletedTimeline[] = []
+  @observable public userCompleted = 0
   @observable public userNotCompleted = 0
 
   @action.bound
@@ -29,7 +30,22 @@ class Dashboard {
       this.userNotCompleted = this.countUserNotCompleted(
         payload.completedTimeline
       )
+      this.userCompleted = this.countUserCompleted(payload.completedTimeline)
     }
+  }
+
+  @action
+  private countUserCompleted(completedTimeline: CompletedTimeline[]): number {
+    if (completedTimeline.length === 0) {
+      return 0
+    }
+
+    return completedTimeline.reduce((a, b) => {
+      if (b._id.month !== null) {
+        return a + b.count
+      }
+      return a
+    }, 0)
   }
 
   @action

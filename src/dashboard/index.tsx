@@ -18,10 +18,14 @@ const Dashboard = () => {
     <>
       <ProfileBox />
       <DashboardTitle>ภาพรวมของผู้เข้าสมัครโครงการ</DashboardTitle>
-      <MainStatContainer size={2}>
+      <MainStatContainer size={3}>
         <Box>
           <h1>{dashboardStore.totalCandidate}</h1>
           <span>ยอดผู้สมัครทั้งหมด</span>
+        </Box>
+        <Box>
+          <h1>{dashboardStore.userCompleted}</h1>
+          <span>ยอดผู้สมัครที่กดส่ง</span>
         </Box>
         <Box>
           <h1>{dashboardStore.userNotCompleted}</h1>
