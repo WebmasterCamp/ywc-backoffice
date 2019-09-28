@@ -1,14 +1,39 @@
+import { Table } from 'antd'
+import { ColumnProps, PaginationConfig } from 'antd/lib/table/interface'
 import { observer, useObservable } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
+import GroupByUniversity from '../interfaces/GroupByUniversity'
 import DashboardStore from '../stores/dashboard'
 import Box from '../ui/Box'
 import { DashboardTitle } from '../utils/styled-helper'
 
 const Dashboard = () => {
   const dashboardStore = useObservable(DashboardStore)
+
+  const [pagination, setPagination] = useState({})
+
+  const onPageChange = (p: PaginationConfig) => {
+    setPagination(p)
+  }
+
+  const columns: ColumnProps<GroupByUniversity>[] = [
+    {
+      key: 'name',
+      render: (user: GroupByUniversity) => <span>{user.name}</span>,
+
+      title: 'มหาวิทยาลัย'
+    },
+    {
+      key: 'value',
+      render: (user: GroupByUniversity) => <span>{user.value}</span>,
+      sortOrder: 'descend',
+      sorter: (a, b) => a.value - b.value,
+      title: 'จำนวน'
+    }
+  ]
 
   useEffect(() => {
     dashboardStore.getDashboard()
@@ -33,7 +58,6 @@ const Dashboard = () => {
         </Box>
       </MainStatContainer>
       <br />
-
       <MainStatContainer size={4}>
         <Box>
           <h2>{dashboardStore.programming}</h2>
@@ -51,6 +75,19 @@ const Dashboard = () => {
           <h2>{dashboardStore.design}</h2>
           <span>ยอดผู้สมัครสาขาดีไซน์</span>
         </Box>
+      </MainStatContainer>
+      <DashboardTitle>จำนวนผู้สมัครค่ายของแต่ละมหาวิทยาลัย</DashboardTitle>
+      <MainStatContainer size={1}>
+        <Table
+          className="candidates-table"
+          columns={columns}
+          rowKey={(university: GroupByUniversity, index: number) =>
+            university.name
+          }
+          dataSource={dashboardStore.universityStat}
+          onChange={onPageChange}
+          pagination={pagination}
+        />
       </MainStatContainer>
       {/* <br />
         <br />

@@ -10,6 +10,7 @@ interface Candidate {
   phone: string
   status: string
   email: string
+  university: string
   facebook: string
   isAnswerGeneral: boolean
   isAnswerMajor: boolean

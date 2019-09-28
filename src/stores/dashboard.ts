@@ -1,6 +1,9 @@
 import { action, observable } from 'mobx'
+import * as R from 'ramda'
+import Candidate from '../interfaces/Candidate'
 import CompletedTimeline from '../interfaces/CompletedTimeline'
 import CountUserStep from '../interfaces/CountUserStep'
+import GroupByUniversity from '../interfaces/GroupByUniversity'
 import { fetchWithToken } from '../utils/fetch'
 
 class Dashboard {
@@ -13,13 +16,16 @@ class Dashboard {
   @observable public completedTimeline: CompletedTimeline[] = []
   @observable public userCompleted = 0
   @observable public userNotCompleted = 0
+  @observable public universityStat: GroupByUniversity[] = []
 
   @action.bound
   public async getDashboard() {
     const dashboard = await fetchWithToken('users/stat/all', '', 'get')
+    const getAllUser = await fetchWithToken('users/all', '', 'get')
 
-    if (dashboard.status === 'success') {
+    if (dashboard.status === 'success' && getAllUser.status === 'success') {
       const payload = dashboard.payload
+      const userPayload = getAllUser.payload
       this.totalCandidate = payload.totalCandidate
       this.programming = payload.programming
       this.design = payload.design
@@ -31,7 +37,23 @@ class Dashboard {
         payload.completedTimeline
       )
       this.userCompleted = this.countUserCompleted(payload.completedTimeline)
+      this.universityStat = this.calculateGroupByUniversity(userPayload)
     }
+  }
+
+  @action
+  private calculateGroupByUniversity(candidates: Candidate[]): any[] {
+    const byUniversity = R.groupBy((candidate: Candidate) => {
+      return candidate.university
+    })
+
+    return R.filter(
+      v => v.name !== 'undefined',
+      R.map(
+        v => ({ name: v[0], value: v[1] }),
+        R.toPairs(R.map(v => v.length, byUniversity(candidates)))
+      )
+    )
   }
 
   @action
