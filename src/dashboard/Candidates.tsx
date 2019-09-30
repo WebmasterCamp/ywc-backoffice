@@ -7,7 +7,7 @@ import { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
-import { MAJOR } from '../utils/const'
+import { MAJOR, STEP } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 import CandidateModal from './CandidateModal'
 
@@ -115,6 +115,45 @@ const Candidates = () => {
         </span>
       ),
       title: 'สถานะการส่งใบสมัคร'
+    },
+    {
+      filterMultiple: false,
+      filters: [
+        {
+          text: 'ข้อมูลส่วนตัว',
+          value: 'info'
+        },
+        {
+          text: 'ข้อมูลการติดต่อ',
+          value: 'contact'
+        },
+        {
+          text: 'คำถามกลาง',
+          value: 'general'
+        },
+        {
+          text: 'คำถามสาขา',
+          value: 'major'
+        },
+        {
+          text: 'สรุปข้อมูล',
+          value: 'summary'
+        }
+      ],
+      key: 'step',
+      onFilter: (value: string, record: Candidate) =>
+        record.step === value && record.status !== 'completed',
+      render: (candidate: Candidate) => {
+        if (candidate.status === 'completed') {
+          return (
+            <Tag color="geekblue" key={candidate.status}>
+              ลงทะเบียนสำเร็จ
+            </Tag>
+          )
+        }
+        return <span>{STEP(candidate.step)}</span>
+      },
+      title: 'ขั้นตอน'
     },
     {
       key: 'staffPass',

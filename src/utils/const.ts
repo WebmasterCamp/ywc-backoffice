@@ -4,6 +4,11 @@ interface MajorDetail {
   value: string
 }
 
+interface StepDetail {
+  text: string
+  value: string
+}
+
 export const MAJOR = (major: string): string => {
   const majors = [
     {
@@ -33,6 +38,37 @@ export const MAJOR = (major: string): string => {
   }
 
   return result.name
+}
+
+export const STEP = (step: string): string => {
+  const steps = [
+    {
+      text: 'ข้อมูลส่วนตัว',
+      value: 'info'
+    },
+    {
+      text: 'ข้อมูลการติดต่อ',
+      value: 'contact'
+    },
+    {
+      text: 'คำถามกลาง',
+      value: 'general'
+    },
+    {
+      text: 'คำถามสาขา',
+      value: 'major'
+    },
+    {
+      text: 'สรุปข้อมูล',
+      value: 'summary'
+    }
+  ]
+
+  const result = steps.find((s: StepDetail) => s.value === step) || {
+    text: ''
+  }
+
+  return result.text
 }
 
 export const GENERAL_QUESTION = [

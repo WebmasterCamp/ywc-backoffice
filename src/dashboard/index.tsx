@@ -76,6 +76,29 @@ const Dashboard = () => {
           <span>ยอดผู้สมัครสาขาดีไซน์</span>
         </Box>
       </MainStatContainer>
+      <DashboardTitle>จำนวนผู้สมัครที่กำลังกรอกใบสมัคร</DashboardTitle>
+      <MainStatContainer size={5}>
+        <Box>
+          <h2>{dashboardStore.stepStat.info}</h2>
+          <span>ข้อมูลส่วนตัว</span>
+        </Box>
+        <Box>
+          <h2>{dashboardStore.stepStat.contact}</h2>
+          <span>ข้อมูลการติดต่อ</span>
+        </Box>
+        <Box>
+          <h2>{dashboardStore.stepStat.general}</h2>
+          <span>คำถามกลาง</span>
+        </Box>
+        <Box>
+          <h2>{dashboardStore.stepStat.major}</h2>
+          <span>คำถามสาขา</span>
+        </Box>
+        <Box>
+          <h2>{dashboardStore.stepStat.summary}</h2>
+          <span>ยืนยันใบสมัคร</span>
+        </Box>
+      </MainStatContainer>
       <DashboardTitle>จำนวนผู้สมัครค่ายของแต่ละมหาวิทยาลัย</DashboardTitle>
       <MainStatContainer size={1}>
         <Table
@@ -88,29 +111,6 @@ const Dashboard = () => {
           onChange={onPageChange}
           pagination={pagination}
         />
-      </MainStatContainer>
-      <DashboardTitle>จำนวนผู้สมัครที่กำลังกรอกใบสมัคร</DashboardTitle>
-      <MainStatContainer size={5}>
-        <Box>
-          <h2>{dashboardStore.stepStat.info}</h2>
-          <span>ขั้นตอนข้อมูลส่วนตัว</span>
-        </Box>
-        <Box>
-          <h2>{dashboardStore.stepStat.contact}</h2>
-          <span>ขั้นตอนข้อมูลข้อมูลการติดต่อ</span>
-        </Box>
-        <Box>
-          <h2>{dashboardStore.stepStat.general}</h2>
-          <span>ขั้นตอนตอบคำถามกลาง</span>
-        </Box>
-        <Box>
-          <h2>{dashboardStore.stepStat.major}</h2>
-          <span>ขั้นตอนตอบคำถามสาขา</span>
-        </Box>
-        <Box>
-          <h2>{dashboardStore.stepStat.summary}</h2>
-          <span>ขั้นตอนยืนยันใบสมัคร</span>
-        </Box>
       </MainStatContainer>
       {/* <br />
         <br />

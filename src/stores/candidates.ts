@@ -31,7 +31,8 @@ class Candidates {
           nickname: candidate.nickname,
           phone: candidate.phone,
           sex: candidate.sex,
-          status: candidate.status
+          status: candidate.status,
+          step: candidate.step
         }
       })
 
