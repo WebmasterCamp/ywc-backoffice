@@ -9,6 +9,7 @@ interface Candidate {
   sex: string
   phone: string
   status: string
+  step: string
   email: string
   university: string
   facebook: string
