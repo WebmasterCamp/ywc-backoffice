@@ -96,7 +96,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 </tr>
                 <tr>
                   <td style={{ textAlign: 'right', paddingRight: '7px' }}>
-                    <b>สถาณะ</b>
+                    <b>สถานะ</b>
                   </td>
                   <td>{application.educationStatus}</td>
                 </tr>

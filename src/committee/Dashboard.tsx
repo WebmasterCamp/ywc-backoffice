@@ -19,7 +19,7 @@ const Dashboard = () => {
   return (
     <>
       <ProfileBox />
-      <DashboardTitle>สถาณะของท่าน</DashboardTitle>
+      <DashboardTitle>สถานะของท่าน</DashboardTitle>
       <MainStatContainer size={3}>
         <Box>
           <h1>{committeeStatus.checked}</h1>
