@@ -108,13 +108,20 @@ class Staff {
     )
 
     if (voteStatus.status === 'success') {
-      await this.getIncompleteApplication()
-      this.loading = false
-      if (this.incompleteApplication.length === 0) {
+      this.loading = true
+      await this.getApplications()
+      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      if (nextApplicationIndex + 1 >= this.applications.length) {
         return history.push('/staff/all')
       }
+      while (this.applications[nextApplicationIndex + 1].completed) {
+        nextApplicationIndex += 1
+        if (nextApplicationIndex === this.applications.length - 1) {
+          return history.push('/staff/all')
+        }
+      }
       return history.push(
-        `/staff/candidate/${this.incompleteApplication[0]._id}`
+        `/staff/candidate/${this.applications[nextApplicationIndex + 1]._id}`
       )
     } else {
       this.loading = false
@@ -130,13 +137,20 @@ class Staff {
     )
 
     if (voteStatus.status === 'success') {
-      await this.getIncompleteApplication()
-      this.loading = false
-      if (this.incompleteApplication.length === 0) {
+      this.loading = true
+      await this.getApplications()
+      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      if (nextApplicationIndex + 1 >= this.applications.length) {
         return history.push('/staff/all')
       }
+      while (this.applications[nextApplicationIndex + 1].completed) {
+        nextApplicationIndex += 1
+        if (nextApplicationIndex === this.applications.length - 1) {
+          return history.push('/staff/all')
+        }
+      }
       return history.push(
-        `/staff/candidate/${this.incompleteApplication[0]._id}`
+        `/staff/candidate/${this.applications[nextApplicationIndex + 1]._id}`
       )
     } else {
       this.loading = false
