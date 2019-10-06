@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 import AnswerBox from '../common/AnswerBox'
 import QuestionBox from '../common/QuestionBox'
 import QuestionsStore from '../stores/questions'
@@ -67,6 +68,14 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
   )
+  const prevApplicationId =
+    currentApplication - 2 < 0
+      ? ''
+      : staffStore.applications[currentApplication - 2]._id
+  const nextApplicationId =
+    currentApplication >= staffStore.applications.length
+      ? ''
+      : staffStore.applications[currentApplication]._id
 
   return (
     <>
@@ -135,7 +144,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
       <VoteBox>
         <Row>
           <Col md={1}>
-            <Button type="primary" shape="circle" icon="left" />
+            {prevApplicationId && (
+              <Link to={`/staff/candidate/${prevApplicationId}`}>
+                <Button type="primary" shape="circle" icon="left" />
+              </Link>
+            )}
           </Col>
           <Col
             md={11}
@@ -195,7 +208,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             </Popconfirm>
           </Col>
           <Col md={1} style={{ textAlign: 'right' }}>
-            <Button type="primary" shape="circle" icon="right" />
+            {nextApplicationId && (
+              <Link to={`/staff/candidate/${nextApplicationId}`}>
+                <Button type="primary" shape="circle" icon="right" />
+              </Link>
+            )}
           </Col>
         </Row>
       </VoteBox>
