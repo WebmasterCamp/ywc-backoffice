@@ -122,9 +122,15 @@ class Committee {
     if (voteStatus.status === 'success') {
       this.loading = true
       await this.getApplications()
-      const nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
         return history.push('/committee/all')
+      }
+      while (this.applications[nextApplicationIndex + 1].completed) {
+        nextApplicationIndex += 1
+        if (nextApplicationIndex === this.applications.length - 1) {
+          return history.push('/committee/all')
+        }
       }
       return history.push(
         `/committee/candidate/${this.applications[nextApplicationIndex + 1]._id}`
