@@ -1,7 +1,7 @@
 import { Icon, Layout, Menu } from 'antd'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import styled, { StyledFunction } from 'styled-components'
+import styled from 'styled-components'
 import useReactRouter from 'use-react-router'
 
 import Panel from '../ui/Panel'
@@ -27,13 +27,6 @@ const Logo = styled.img`
   padding: 0 1em;
   margin: 1em 0;
 `
-
-// const Heading = styled.h1`
-//   padding: 0;
-//   color: #333;
-//   font-size: 25px;
-//   margin-bottom: 30px;
-// `
 
 interface ContentLayoutProps {
   collapsed: boolean
