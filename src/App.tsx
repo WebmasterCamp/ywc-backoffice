@@ -43,6 +43,9 @@ const GlobalStyle = createGlobalStyle`
   .ant-form-item-control {
     font-family: 'Sarabun';
   }
+  .ant-avatar > img {
+    height: auto;
+  }
 `
 
 const App: React.FC = () => {
