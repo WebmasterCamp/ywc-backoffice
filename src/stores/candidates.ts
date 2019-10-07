@@ -20,6 +20,7 @@ class Candidates {
           birthdate: candidate.birthdate,
           email: candidate.email,
           facebook: candidate.facebook,
+          failed: candidate.failed,
           firstName: candidate.firstName,
           firstNameEN: candidate.firstNameEN,
           isAnswerGeneral: candidate.isAnswerGeneral,
