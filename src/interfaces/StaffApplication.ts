@@ -23,6 +23,8 @@ interface StaffApplication {
   }
   major: string
   sex: string
+  staffComment: string
+  completed: boolean
 }
 
 export default StaffApplication

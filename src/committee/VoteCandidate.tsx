@@ -1,6 +1,7 @@
 import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AnswerBox from '../common/AnswerBox'
@@ -58,6 +59,14 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
   )
+  const prevApplicationId =
+    currentApplication - 2 < 0
+      ? ''
+      : committeeStore.applications[currentApplication - 2]._id
+  const nextApplicationId =
+    currentApplication >= committeeStore.applications.length
+      ? ''
+      : committeeStore.applications[currentApplication]._id
 
   const openDrawer = (url: string) => {
     setVisible(true)
@@ -88,11 +97,25 @@ const VoteCandidate = (props: VoteCandidateProps) => {
       <CandidateBox>
         <Row gutter={16}>
           <Col md={5} lg={4} xl={3} xxl={2}>
-            <Avatar shape="square" size={96} icon="user" />
+            <Avatar
+              shape="square"
+              size={96}
+              icon="user"
+              src={application.picture}
+            />
           </Col>
           <Col md={19} lg={20} xl={21} xxl={22}>
             <table>
               <tbody>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>ชื่อ - นามสกุล</b>
+                  </td>
+                  <td>
+                    {application.firstName} {application.lastName} (
+                    {application.nickname})
+                  </td>
+                </tr>
                 <tr>
                   <td style={{ textAlign: 'right', paddingRight: '7px' }}>
                     <b>ระดับการศึกษา</b>
@@ -201,7 +224,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
       <VoteBox>
         <Row>
           <Col md={1}>
-            <Button type="primary" shape="circle" icon="left" />
+            {prevApplicationId && (
+              <Link to={`/committee/candidate/${prevApplicationId}`}>
+                <Button type="primary" shape="circle" icon="left" />
+              </Link>
+            )}
           </Col>
           <Col
             md={11}
@@ -261,7 +288,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             </Popconfirm>
           </Col>
           <Col md={1} style={{ textAlign: 'right' }}>
-            <Button type="primary" shape="circle" icon="right" />
+            {nextApplicationId && (
+              <Link to={`/committee/candidate/${nextApplicationId}`}>
+                <Button type="primary" shape="circle" icon="right" />
+              </Link>
+            )}
           </Col>
         </Row>
       </VoteBox>

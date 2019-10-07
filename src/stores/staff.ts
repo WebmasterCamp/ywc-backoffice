@@ -23,6 +23,7 @@ class Staff {
   }
   @observable public application: StaffApplication = {
     birthdate: '',
+    completed: false,
     educationStatus: '',
     major: '',
     questions: {
@@ -31,7 +32,8 @@ class Staff {
       generalQuestions: [],
       majorQuestions: []
     },
-    sex: ''
+    sex: '',
+    staffComment: ''
   }
 
   @action

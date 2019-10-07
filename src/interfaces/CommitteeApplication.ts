@@ -27,6 +27,10 @@ interface CommitteeApplication {
   }
   activities: string
   major: string
+  picture: string
+  firstName: string
+  lastName: string
+  nickname: string
   staffUsername: string
   staffComment: string
 }

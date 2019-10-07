@@ -1,7 +1,7 @@
 import { Icon, Layout, Menu } from 'antd'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { StyledFunction } from 'styled-components'
 import useReactRouter from 'use-react-router'
 
 import Panel from '../ui/Panel'
@@ -35,11 +35,17 @@ const Logo = styled.img`
 //   margin-bottom: 30px;
 // `
 
-const ContentLayout = styled.div`
+interface ContentLayoutProps {
+  collapsed: boolean
+}
+
+const ContentLayout = styled.div<ContentLayoutProps>`
   position: absolute;
-  width: calc(100vw - 200px);
-  left: 200px;
+  width: ${(props: ContentLayoutProps) =>
+    props.collapsed ? 'calc(100vw - 80px)' : 'calc(100vw - 200px)'};
+  left: ${(props: ContentLayoutProps) => (props.collapsed ? '80px' : '200px')};
   padding: 20px;
+  transition: all 0.2s;
 `
 
 const Footer = styled.div`
@@ -151,7 +157,7 @@ const MenuBar = (props: MenuBarProps) => {
           </Menu>
         </SideSlider>
 
-        <ContentLayout>
+        <ContentLayout collapsed={collapsed}>
           <Padding>
             <Panel>{children}</Panel>
           </Padding>

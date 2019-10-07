@@ -28,7 +28,11 @@ class Committee {
     educationStatus: '',
     equivalentEducationDegree: '',
     faculty: '',
+    firstName: '',
+    lastName: '',
     major: '',
+    nickname: '',
+    picture: '',
     questions: {
       _id: '',
       confirmedMajor: '',
