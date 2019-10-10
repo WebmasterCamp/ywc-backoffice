@@ -1,5 +1,4 @@
 const isWindows = () => {
-  const userAgent = window.navigator.userAgent
   const platform = window.navigator.platform
   const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
 
