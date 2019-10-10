@@ -35,8 +35,8 @@ interface ContentLayoutProps {
 const ContentLayout = styled.div<ContentLayoutProps>`
   position: absolute;
   width: ${(props: ContentLayoutProps) =>
-    props.collapsed ? 'calc(100vw - 80px)' : 'calc(100vw - 200px)'};
-  left: ${(props: ContentLayoutProps) => (props.collapsed ? '80px' : '200px')};
+    props.collapsed ? 'calc(100vw - 97px)' : 'calc(100vw - 217px)'};
+  left: ${(props: ContentLayoutProps) => (props.collapsed ? '97px' : '217px')};
   padding: 20px;
   transition: all 0.2s;
 `
