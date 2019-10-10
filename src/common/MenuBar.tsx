@@ -36,7 +36,7 @@ const ContentLayout = styled.div<ContentLayoutProps>`
   position: absolute;
   width: ${(props: ContentLayoutProps) =>
     props.collapsed ? 'calc(100vw - 97px)' : 'calc(100vw - 217px)'};
-  left: ${(props: ContentLayoutProps) => (props.collapsed ? '97px' : '217px')};
+  left: ${(props: ContentLayoutProps) => (props.collapsed ? '80px' : '200px')};
   padding: 20px;
   transition: all 0.2s;
 `
