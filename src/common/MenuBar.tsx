@@ -10,6 +10,7 @@ import LogoSVG from '../assets/logo.white.svg'
 
 import { SelectParam } from 'antd/lib/menu'
 import SubMenu from 'antd/lib/menu/SubMenu'
+import isWindows from '../utils/isWindows'
 import { Padding } from '../utils/styled-helper'
 
 const { Sider } = Layout
@@ -35,7 +36,9 @@ interface ContentLayoutProps {
 const ContentLayout = styled.div<ContentLayoutProps>`
   position: absolute;
   width: ${(props: ContentLayoutProps) =>
-    props.collapsed ? 'calc(100vw - 97px)' : 'calc(100vw - 217px)'};
+    props.collapsed
+      ? `calc(100vw - ${isWindows ? '97px' : '80px'})`
+      : `calc(100vw - ${isWindows ? '217px' : '200px'})`};
   left: ${(props: ContentLayoutProps) => (props.collapsed ? '80px' : '200px')};
   padding: 20px;
   transition: all 0.2s;
