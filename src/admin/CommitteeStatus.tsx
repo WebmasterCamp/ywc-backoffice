@@ -19,7 +19,7 @@ const CommitteeStatus = () => {
     <>
       <ProfileBox />
       <DashboardTitle>สถานะการตรวจใบสมัคร</DashboardTitle>
-      <MainStatContainer size={3}>
+      <MainStatContainer size={4}>
         {committeeStatusStore.staffStatus.map(user => (
           <Box key={user.username}>
             <h1>
@@ -35,7 +35,7 @@ const CommitteeStatus = () => {
         ))}
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('content')}</DashboardTitle>
-      <MainStatContainer size={3}>
+      <MainStatContainer size={4}>
         {committeeStatusStore.contentCommittee.map(user => (
           <Box key={user.username}>
             <h1>
@@ -51,7 +51,7 @@ const CommitteeStatus = () => {
         ))}
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('design')}</DashboardTitle>
-      <MainStatContainer size={3}>
+      <MainStatContainer size={4}>
         {committeeStatusStore.designCommittee.map(user => (
           <Box key={user.username}>
             <h1>
@@ -67,7 +67,7 @@ const CommitteeStatus = () => {
         ))}
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('marketing')}</DashboardTitle>
-      <MainStatContainer size={3}>
+      <MainStatContainer size={4}>
         {committeeStatusStore.marketingCommittee.map(user => (
           <Box key={user.username}>
             <h1>
@@ -83,7 +83,7 @@ const CommitteeStatus = () => {
         ))}
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('programming')}</DashboardTitle>
-      <MainStatContainer size={3}>
+      <MainStatContainer size={4}>
         {committeeStatusStore.programmingCommittee.map(user => (
           <Box key={user.username}>
             <h1>
