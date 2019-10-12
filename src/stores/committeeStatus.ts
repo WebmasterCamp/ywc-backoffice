@@ -1,7 +1,6 @@
 import { action, observable } from 'mobx'
 import ApplicationStatus from '../interfaces/ApplicationStatus'
 import { fetchWithToken } from '../utils/fetch'
-import history from '../utils/history'
 
 class CommitteeStatus {
   @observable public staffStatus: ApplicationStatus[] = []

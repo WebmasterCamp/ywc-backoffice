@@ -13,7 +13,7 @@ const CommitteeStatus = () => {
 
   useEffect(() => {
     committeeStatusStore.getApplicationStatus()
-  }, [])
+  }, [committeeStatusStore])
 
   return (
     <>
