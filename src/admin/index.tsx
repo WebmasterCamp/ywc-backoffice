@@ -9,6 +9,7 @@ import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
 import Candidates from '../dashboard/Candidates'
 import UserStore from '../stores/user'
+import CommitteeStatus from './CommitteeStatus'
 
 const Admin = () => {
   const userStore = useObservable(UserStore)
@@ -33,6 +34,11 @@ const Admin = () => {
             icon: 'pie-chart',
             name: 'ผู้เข้าสมัครทั้งหมด',
             to: '/admin/candidates'
+          },
+          {
+            icon: 'pie-chart',
+            name: 'สถานะการตรวจใบสมัคร',
+            to: '/admin/status'
           },
           {
             icon: 'pie-chart',
@@ -65,6 +71,7 @@ const Admin = () => {
       >
         <Route path="/admin/" exact={true} component={Dashboard} />
         <Route path="/admin/candidates" exact={true} component={Candidates} />
+        <Route path="/admin/status" exact={true} component={CommitteeStatus} />
       </MenuBar>
     </Fragment>
   )
