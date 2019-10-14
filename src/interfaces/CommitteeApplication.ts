@@ -33,6 +33,7 @@ interface CommitteeApplication {
   firstName: string
   lastName: string
   nickname: string
+  score: number
   staffUsername: string
   staffComment: string
 }

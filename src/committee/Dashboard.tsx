@@ -33,6 +33,14 @@ const Dashboard = () => {
           <h1>{committeeStatus.percent}%</h1>
           <span>เปอร์เซ็นต์การตรวจของท่าน</span>
         </Box>
+        <Box>
+          <h1>{committeeStatus.pass}</h1>
+          <span>จำนวนผู้สมัครที่ผ่าน</span>
+        </Box>
+        <Box>
+          <h1>{committeeStatus.notPass}</h1>
+          <span>จำนวนผู้สมัครที่ไม่ผ่าน</span>
+        </Box>
       </MainStatContainer>
     </>
   )
