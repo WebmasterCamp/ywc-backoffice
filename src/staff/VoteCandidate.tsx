@@ -48,7 +48,6 @@ const VoteCandidate = (props: VoteCandidateProps) => {
     setStaffComment('')
     staffStore.getApplications()
     staffStore.getApplicationById(id)
-    staffStore.getCommitteeStatus()
     userStore.getProfile()
   }, [staffStore, userStore, questionsStore, id])
 

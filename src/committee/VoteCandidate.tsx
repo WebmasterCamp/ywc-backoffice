@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row } from 'antd'
+import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row, Tag } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -48,10 +48,15 @@ const VoteCandidate = (props: VoteCandidateProps) => {
     userStore.getProfile()
   }, [committeeStore, userStore, questionsStore, id])
 
+  const { application } = committeeStore
+
+  useEffect(() => {
+    setComment(application.comment)
+  }, [application.comment])
+
   const [visible, setVisible] = useState(false)
   const [portfolioUrl, setPortfolioUrl] = useState('')
-
-  const { application } = committeeStore
+  const [comment, setComment] = useState('')
 
   const currentApplication =
     committeeStore.applications.map(a => a._id).indexOf(id) + 1
@@ -79,11 +84,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   }
 
   const onConfirmPass = () => {
-    committeeStore.doVote(id, 1)
+    committeeStore.doVote(id, 1, comment)
   }
 
   const onConfirmFailed = () => {
-    committeeStore.doVote(id, 0)
+    committeeStore.doVote(id, 0, comment)
   }
 
   return (
@@ -139,6 +144,18 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     <b>มหาวิทยาลัย</b>
                   </td>
                   <td>{application.university}</td>
+                </tr>
+                <tr>
+                  <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                    <b>สถานะการตรวจ</b>
+                  </td>
+                  <td>
+                    {application.completed ? (
+                      <Tag color="green">ตรวจแล้ว</Tag>
+                    ) : (
+                      <Tag color="orange">ยังไม่ตรวจตำตอบ</Tag>
+                    )}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -219,6 +236,16 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               ? application.staffComment
               : 'ไม่มีความเห็น'
           }
+        />
+      </CommentBox>
+      <CommentBox>
+        <SubHeading>คอมเมนท์ของกรรมการ</SubHeading>
+        <AnswerBox
+          rows={6}
+          value={comment}
+          onChange={e => {
+            setComment(e.target.value)
+          }}
         />
       </CommentBox>
       <VoteBox>

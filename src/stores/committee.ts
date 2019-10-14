@@ -24,6 +24,8 @@ class Committee {
   @observable public application: CommitteeApplication = {
     academicYear: '',
     activities: '',
+    comment: '',
+    completed: false,
     department: '',
     educationStatus: '',
     equivalentEducationDegree: '',
@@ -115,11 +117,11 @@ class Committee {
   }
 
   @action
-  public async doVote(id: string, score: number) {
+  public async doVote(id: string, score: number, comment: string) {
     this.loading = true
     const voteStatus = await fetchWithToken(
       'grading/committee/vote',
-      { id, score },
+      { id, score, comment },
       'POST'
     )
 

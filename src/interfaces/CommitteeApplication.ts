@@ -1,5 +1,7 @@
 interface CommitteeApplication {
   academicYear: string
+  completed: boolean
+  comment: string
   department: string
   educationStatus: string
   equivalentEducationDegree: string
