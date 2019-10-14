@@ -250,7 +250,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               placement="top"
               title="ยืนยันการให้คะแนน"
               okText="ยืนยัน"
-              onConfirm={onConfirmPass}
+              onConfirm={onConfirmFailed}
               cancelText="ยกเลิก"
               icon={
                 <Icon
@@ -268,7 +268,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               placement="top"
               title="ยืนยันการให้คะแนน"
               okText="ยืนยัน"
-              onConfirm={onConfirmFailed}
+              onConfirm={onConfirmPass}
               cancelText="ยกเลิก"
               icon={
                 <Icon
