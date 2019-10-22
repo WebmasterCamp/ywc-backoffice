@@ -157,6 +157,20 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     )}
                   </td>
                 </tr>
+                {application.completed && (
+                  <tr>
+                    <td style={{ textAlign: 'right', paddingRight: '7px' }}>
+                      <b>ผลการตรวจ</b>
+                    </td>
+                    <td>
+                      {application.score === 1 ? (
+                        <Tag color="green">ผ่าน</Tag>
+                      ) : (
+                        <Tag color="red">ไม่ผ่าน</Tag>
+                      )}
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </Col>

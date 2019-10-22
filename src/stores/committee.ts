@@ -19,6 +19,8 @@ class Committee {
     all: 0,
     checked: 0,
     notChecked: 0,
+    notPass: 0,
+    pass: 0,
     percent: 0
   }
   @observable public application: CommitteeApplication = {
@@ -41,6 +43,7 @@ class Committee {
       generalQuestions: [],
       majorQuestions: []
     },
+    score: 0,
     staffComment: '',
     staffUsername: '',
     university: ''
@@ -89,6 +92,8 @@ class Committee {
         all: committeeStatus.payload.allApplications,
         checked: committeeStatus.payload.checkedApplications,
         notChecked: committeeStatus.payload.notCheckedApplications,
+        notPass: committeeStatus.payload.passApplications,
+        pass: committeeStatus.payload.notPassApplications,
         percent: Math.round(
           (committeeStatus.payload.checkedApplications /
             committeeStatus.payload.allApplications) *
