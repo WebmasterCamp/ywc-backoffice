@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import { action, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import AdminCandidate from '../interfaces/AdminCandidate'
@@ -6,6 +7,7 @@ import { fetchWithToken } from '../utils/fetch'
 
 class Candidates {
   @observable public candidates: Candidate[] = []
+  @observable public filteredCandidates: Candidate[] = []
   @observable public candidate = {} as AdminCandidate
   @persist @observable public loading: boolean = true
 
@@ -18,6 +20,7 @@ class Candidates {
         return {
           _id: candidate._id,
           birthdate: candidate.birthdate,
+          committeeScore: candidate.committeeScore,
           email: candidate.email,
           facebook: candidate.facebook,
           failed: candidate.failed,
@@ -38,6 +41,51 @@ class Candidates {
       })
 
       this.candidates = candidatesList
+    }
+  }
+
+  @action
+  public async getCandidatesByMajor(major: string) {
+    const candidates = await fetchWithToken(
+      `users/interview/${major}`,
+      '',
+      'get'
+    )
+
+    if (candidates.status === 'success') {
+      const candidatesList = candidates.payload
+
+      this.candidates = candidatesList
+    }
+
+    this.filteredCandidates = this.candidates.filter(a => a.major === major)
+  }
+
+  @action
+  public async doPassInterview(ids: string[], major: string) {
+    const candidatePassInterview = await fetchWithToken(
+      `users/interview/pass`,
+      { candidates: ids },
+      'POST'
+    )
+
+    if (candidatePassInterview.status === 'success') {
+      message.success('Success')
+      this.getCandidatesByMajor(major)
+    }
+  }
+
+  @action
+  public async doEjectInterview(ids: string[], major: string) {
+    const candidateEjectInterview = await fetchWithToken(
+      `users/interview/eject`,
+      { candidates: ids },
+      'POST'
+    )
+
+    if (candidateEjectInterview.status === 'success') {
+      message.success('Success')
+      this.getCandidatesByMajor(major)
     }
   }
 
