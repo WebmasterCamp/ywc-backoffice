@@ -143,6 +143,7 @@ class Committee {
           return history.push('/committee/all')
         }
       }
+      window.scrollTo(0, 0)
       return history.push(
         `/committee/candidate/${this.applications[nextApplicationIndex + 1]._id}`
       )

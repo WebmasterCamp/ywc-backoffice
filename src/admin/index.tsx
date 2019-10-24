@@ -9,6 +9,7 @@ import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
 import Candidates from '../dashboard/Candidates'
 import UserStore from '../stores/user'
+import CandidateInterview from './CandidateInterview'
 import CommitteeStatus from './CommitteeStatus'
 
 const Admin = () => {
@@ -47,22 +48,22 @@ const Admin = () => {
               {
                 icon: '',
                 name: 'สาขาคอนเทนท์',
-                to: '/admin/candidates/1'
+                to: '/admin/candidates/content'
               },
               {
                 icon: '',
                 name: 'สาขาดีไซน์',
-                to: '/admin/candidates/2'
+                to: '/admin/candidates/design'
               },
               {
                 icon: '',
                 name: 'สาขามาร์เก็ตติ้ง',
-                to: '/admin/candidates/3'
+                to: '/admin/candidates/marketing'
               },
               {
                 icon: '',
                 name: 'สาขาโปรแกรมมิ่ง',
-                to: '/admin/candidates/4'
+                to: '/admin/candidates/programming'
               }
             ],
             to: ''
@@ -71,6 +72,11 @@ const Admin = () => {
       >
         <Route path="/admin/" exact={true} component={Dashboard} />
         <Route path="/admin/candidates" exact={true} component={Candidates} />
+        <Route
+          path="/admin/candidates/:major"
+          exact={true}
+          component={CandidateInterview}
+        />
         <Route path="/admin/status" exact={true} component={CommitteeStatus} />
       </MenuBar>
     </Fragment>

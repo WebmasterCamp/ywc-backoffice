@@ -16,9 +16,11 @@ interface Candidate {
   isAnswerGeneral: boolean
   isAnswerMajor: boolean
   isPassStaff: boolean
+  passInterview: boolean
   staffUsername: string
   failed: boolean
   birthdate: string
+  committeeScore: number
   committeeVote:
     | [
         {
