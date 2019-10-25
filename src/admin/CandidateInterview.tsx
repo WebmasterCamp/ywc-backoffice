@@ -94,7 +94,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
     },
     {
       defaultSortOrder: 'descend',
-      filterMultiple: false,
+      filterMultiple: true,
       filters: [
         {
           text: '0',
@@ -118,11 +118,117 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
         }
       ],
       key: 'committeeScore',
-      onFilter: (value, record: Candidate) => record.committeeScore >= value,
+      onFilter: (value, record: Candidate) =>
+        record.committeeScore === Number(value),
       render: (user: Candidate) => <span>{user.committeeScore}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.committeeScore - b.committeeScore,
-      title: 'คะแนนจากกรรมการสาขา'
+      title: 'คะแนน'
+    },
+    {
+      filterMultiple: true,
+      filters: [
+        {
+          children: [
+            {
+              text: 'pong.jakrapong@moonshot.co.th',
+              value: 'pong.jakrapong@moonshot.co.th'
+            },
+            {
+              text: 'apisilp@gmail.com',
+              value: 'apisilp@gmail.com'
+            },
+            {
+              text: 'khajochi@gmail.com',
+              value: 'khajochi@gmail.com'
+            },
+            {
+              text: 'Supadej@vronline.in.th',
+              value: 'Supadej@vronline.in.th'
+            }
+          ],
+          text: MAJOR('content'),
+          value: 'content'
+        },
+        {
+          children: [
+            {
+              text: 'pond@dek-d.com',
+              value: 'pond@dek-d.com'
+            },
+            {
+              text: 'khonteeneung@gmail.com',
+              value: 'khonteeneung@gmail.com'
+            },
+            {
+              text: 'sutham.tmw@gmail.com',
+              value: 'sutham.tmw@gmail.com'
+            },
+            {
+              text: 'inthanon@grappik.com',
+              value: 'inthanon@grappik.com'
+            }
+          ],
+          text: MAJOR('design'),
+          value: 'design'
+        },
+        {
+          children: [
+            {
+              text: 'ajgoople@gmail.com',
+              value: 'ajgoople@gmail.com'
+            },
+            {
+              text: 'maytapriya@gmail.com',
+              value: 'maytapriya@gmail.com'
+            },
+            {
+              text: 'Jarern@gmail.com',
+              value: 'Jarern@gmail.com'
+            }
+          ],
+          text: MAJOR('marketing'),
+          value: 'marketing'
+        },
+        {
+          children: [
+            {
+              text: 'panjmp@gmail.com',
+              value: 'panjmp@gmail.com'
+            },
+            {
+              text: 'warat.w@wisesight.com',
+              value: 'warat.w@wisesight.com'
+            },
+            {
+              text: 'chaiyapong@3dsinteractive.com',
+              value: 'chaiyapong@3dsinteractive.com'
+            }
+          ],
+          text: MAJOR('programming'),
+          value: 'programming'
+        }
+      ],
+      key: 'committeeVote',
+      onFilter: (value, record: Candidate) => {
+        const committeeList = record.committeeVote.map(c => c.committee)
+        if (committeeList.indexOf(value) !== -1) {
+          return record.committeeVote[committeeList.indexOf(value)].score === 1
+        }
+        return false
+      },
+      render: (user: Candidate) => (
+        <span>
+          {user.committeeVote
+            .filter(c => c.score === 1)
+            .map(c => (
+              <p style={{ marginBlockEnd: 0 }} key={c._id}>
+                {c.committee}
+              </p>
+            ))}
+        </span>
+      ),
+      title: 'กรรมการสาขาที่ให้ผ่าน'
     }
   ]
 

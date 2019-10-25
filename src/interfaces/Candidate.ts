@@ -21,15 +21,13 @@ interface Candidate {
   failed: boolean
   birthdate: string
   committeeScore: number
-  committeeVote:
-    | [
-        {
-          _id: string
-          score: number
-          committee: string
-        }
-      ]
-    | []
+  committeeVote: [
+    {
+      _id: string
+      score: number
+      committee: string
+    }
+  ]
 }
 
 export default Candidate
