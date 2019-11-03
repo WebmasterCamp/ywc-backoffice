@@ -99,6 +99,69 @@ class Candidates {
     }
     this.loading = false
   }
+
+  @action
+  public async getPassCandidatesByMajor(major: string) {
+    const candidates = await fetchWithToken(
+      `users/interview/pass/${major}`,
+      '',
+      'get'
+    )
+
+    if (candidates.status === 'success') {
+      const candidatesList = candidates.payload
+
+      this.candidates = candidatesList
+    }
+
+    this.filteredCandidates = this.candidates.filter(a => a.major === major)
+  }
+
+  @action
+  public async doPassFinalist(id: string, major: string) {
+    const candidatePassFinalist = await fetchWithToken(
+      `users/finalist/pass`,
+      { id },
+      'POST'
+    )
+
+    if (candidatePassFinalist.status === 'success') {
+      message.success('Success')
+      this.getPassCandidatesByMajor(major)
+    }
+  }
+
+  @action
+  public async doReserveFinalist(id: string, reserveNo: number, major: string) {
+    const candidateReserveFinalist = await fetchWithToken(
+      `users/finalist/reserve`,
+      { id, reserveNo },
+      'POST'
+    )
+
+    if (candidateReserveFinalist.status === 'success') {
+      message.success('Success')
+      this.getPassCandidatesByMajor(major)
+    }
+  }
+
+  @action
+  public async doChangeVerificationAmount(
+    id: string,
+    verificationAmount: number,
+    major: string
+  ) {
+    const changeVerificationAmount = await fetchWithToken(
+      `users/finalist/verification`,
+      { id, verificationAmount },
+      'POST'
+    )
+
+    if (changeVerificationAmount.status === 'success') {
+      message.success('Success')
+      this.getPassCandidatesByMajor(major)
+    }
+  }
 }
 
 export default new Candidates()
