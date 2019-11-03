@@ -9,6 +9,7 @@ import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
 import Candidates from '../dashboard/Candidates'
 import UserStore from '../stores/user'
+import CandidateFinalist from './CandidateFinalist'
 import CandidateInterview from './CandidateInterview'
 import CommitteeStatus from './CommitteeStatus'
 
@@ -67,6 +68,33 @@ const Admin = () => {
               }
             ],
             to: ''
+          },
+          {
+            icon: 'pie-chart',
+            name: 'คัดเลือกเข้าค่าย',
+            submenu: [
+              {
+                icon: '',
+                name: 'สาขาคอนเทนท์',
+                to: '/admin/finalist/content'
+              },
+              {
+                icon: '',
+                name: 'สาขาดีไซน์',
+                to: '/admin/finalist/design'
+              },
+              {
+                icon: '',
+                name: 'สาขามาร์เก็ตติ้ง',
+                to: '/admin/finalist/marketing'
+              },
+              {
+                icon: '',
+                name: 'สาขาโปรแกรมมิ่ง',
+                to: '/admin/finalist/programming'
+              }
+            ],
+            to: ''
           }
         ]}
       >
@@ -76,6 +104,11 @@ const Admin = () => {
           path="/admin/candidates/:major"
           exact={true}
           component={CandidateInterview}
+        />
+        <Route
+          path="/admin/finalist/:major"
+          exact={true}
+          component={CandidateFinalist}
         />
         <Route path="/admin/status" exact={true} component={CommitteeStatus} />
       </MenuBar>
