@@ -1,4 +1,4 @@
-import { Button, Col, Icon, message, Popconfirm, Row, Tag } from 'antd'
+import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
@@ -30,7 +30,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
   }, [candidatesStore, major])
 
   const [pagination, setPagination] = useState({})
-  const [selected, setSelected] = useState<string[]>([])
+  const [, setSelected] = useState<string[]>([])
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
@@ -208,7 +208,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate, index: number) => candidate._id}
+        rowKey={(candidate: Candidate) => candidate._id}
         dataSource={candidatesStore.filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}
