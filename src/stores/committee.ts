@@ -145,7 +145,9 @@ class Committee {
       }
       window.scrollTo(0, 0)
       return history.push(
-        `/committee/candidate/${this.applications[nextApplicationIndex + 1]._id}`
+        `/committee/candidate/${
+          this.applications[nextApplicationIndex + 1]._id
+        }`
       )
     } else {
       this.loading = false
