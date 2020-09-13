@@ -50,7 +50,7 @@ class Committee {
   }
 
   @action
-  public async getApplications() {
+  public async getApplications () {
     const applications = await fetchWithToken('users/committee', '', 'get')
 
     if (applications.status === 'success') {
@@ -71,7 +71,7 @@ class Committee {
   }
 
   @action
-  public async getApplicationById(id: string) {
+  public async getApplicationById (id: string) {
     const application = await fetchWithToken(`users/committee/${id}`, '', 'GET')
 
     if (application.status === 'success') {
@@ -80,7 +80,7 @@ class Committee {
   }
 
   @action
-  public async getCommitteeStatus() {
+  public async getCommitteeStatus () {
     const committeeStatus = await fetchWithToken(
       'grading/committee/status',
       '',
@@ -94,17 +94,17 @@ class Committee {
         notChecked: committeeStatus.payload.notCheckedApplications,
         notPass: committeeStatus.payload.notPassApplications,
         pass: committeeStatus.payload.passApplications,
-        percent: Math.round(
+        percent: !committeeStatus.payload.allApplications ? Math.round(
           (committeeStatus.payload.checkedApplications /
             committeeStatus.payload.allApplications) *
-            100
-        )
+          100
+        ) : 0
       }
     }
   }
 
   @action
-  public async getCompletedApplication() {
+  public async getCompletedApplication () {
     await this.getApplications()
 
     this.completedApplication = this.applications.filter(
@@ -113,7 +113,7 @@ class Committee {
   }
 
   @action
-  public async getIncompleteApplication() {
+  public async getIncompleteApplication () {
     await this.getApplications()
 
     this.incompleteApplication = this.applications.filter(
@@ -122,7 +122,7 @@ class Committee {
   }
 
   @action
-  public async doVote(id: string, score: number, comment: string) {
+  public async doVote (id: string, score: number, comment: string) {
     this.loading = true
     const voteStatus = await fetchWithToken(
       'grading/committee/vote',
