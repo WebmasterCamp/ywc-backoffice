@@ -121,11 +121,13 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 <QuestionBox>
                   Q{i + 1}: {question}
                 </QuestionBox>
-                <AnswerBox
-                  disabled={true}
-                  autosize={true}
-                  value={application.questions.generalQuestions[i].answer}
-                />
+                {!!application.questions.generalQuestions[i] && (
+                  <AnswerBox
+                    disabled={true}
+                    autosize={true}
+                    value={application.questions.generalQuestions[i].answer}
+                  />
+                )}
               </Fragment>
             ))}
         </Row>

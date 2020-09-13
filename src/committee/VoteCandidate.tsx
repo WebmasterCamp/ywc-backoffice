@@ -91,6 +91,17 @@ const VoteCandidate = (props: VoteCandidateProps) => {
     committeeStore.doVote(id, 0, comment)
   }
 
+  const isDownloadableAnswer = (major: string, idx: number): boolean => {
+    switch (major) {
+      case 'design':
+        return [0, 2, 3].indexOf(idx) >= 0
+      case 'marketing':
+        return idx === 7
+      default:
+        return false
+    }
+  }
+
   return (
     <>
       <DesignAnswerModal
@@ -190,14 +201,16 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           {application.questions.generalQuestions.length !== 0 &&
             GENERAL_QUESTION.map((question: string, i: number) => (
               <Fragment key={i}>
-                <QuestionBox>
-                  Q{i + 1}: {question}
-                </QuestionBox>
-                <AnswerBox
-                  disabled={true}
-                  autosize={true}
-                  value={application.questions.generalQuestions[i].answer}
+                <QuestionBox
+                  dangerouslySetInnerHTML={{ __html: `Q${i + 1}: ${question}` }}
                 />
+                {!!application.questions.generalQuestions[i] && (
+                  <AnswerBox
+                    disabled={true}
+                    autosize={true}
+                    value={application.questions.generalQuestions[i].answer}
+                  />
+                )}
               </Fragment>
             ))}
         </Row>
@@ -208,15 +221,18 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             MAJOR_QUESTION(userStore.profile.major).map(
               (question: string, i: number) => {
                 const answer = application.questions.majorQuestions[i].answer
-                if (userStore.profile.major === 'design' && i === 3) {
+                if (isDownloadableAnswer(userStore.profile.major, i)) {
                   return (
                     <Fragment key={i}>
-                      <QuestionBox>
-                        Q{i + 1}: {question}
-                      </QuestionBox>
+                      <QuestionBox
+                        dangerouslySetInnerHTML={{
+                          __html: `Q${i + 1}: ${question}`
+                        }}
+                      />
                       <Button
                         icon="download"
                         onClick={() => openDrawer(answer)}
+                        style={{ margin: '5px auto 25px auto' }}
                       >
                         ดูคำตอบ
                       </Button>
@@ -226,9 +242,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
 
                 return (
                   <Fragment key={i}>
-                    <QuestionBox>
-                      Q{i + 1}: {question}
-                    </QuestionBox>
+                    <QuestionBox
+                      dangerouslySetInnerHTML={{
+                        __html: `Q${i + 1}: ${question}`
+                      }}
+                    />
                     <AnswerBox
                       disabled={true}
                       autosize={true}
