@@ -42,7 +42,7 @@ const CompletedCandidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจกรรมการกลาง'
+      title: 'สถานะการตรวจ'
     },
     {
       key: 'isPassStaff',

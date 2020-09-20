@@ -61,6 +61,27 @@ const Candidates = () => {
       title: 'สถานะการตรวจ'
     },
     {
+      key: 'isPassStaff',
+      render: (user: StaffCandidate) => {
+        return typeof user.isPassStaff === 'boolean' ? (
+          <span>
+            {user.isPassStaff ? (
+              <Tag color="green" key={user._id}>
+                ผ่าน
+              </Tag>
+            ) : (
+              <Tag color="red" key={user._id}>
+                ไม่ผ่าน
+              </Tag>
+            )}
+          </span>
+        ) : (
+          ``
+        )
+      },
+      title: 'ผลการตรวจ'
+    },
+    {
       key: 'action',
       render: (user: StaffCandidate) => (
         <span>
