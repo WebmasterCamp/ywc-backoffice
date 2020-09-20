@@ -46,6 +46,7 @@ class Staff {
           return {
             _id: application._id,
             completed: application.completed,
+            isPassStaff: application.isPassStaff,
             major: application.major
           }
         }

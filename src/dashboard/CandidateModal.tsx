@@ -282,13 +282,15 @@ const CandidateModal = ({
                             {i + 1}. {question}
                           </Col>
                           <Col md={24}>
-                            <AnswerBox
-                              disabled={true}
-                              autosize={true}
-                              value={
-                                candidate.questions.generalQuestions[i].answer
-                              }
-                            />
+                            {candidate.questions.generalQuestions[i] && (
+                              <AnswerBox
+                                disabled={true}
+                                autosize={true}
+                                value={
+                                  candidate.questions.generalQuestions[i].answer
+                                }
+                              />
+                            )}
                           </Col>
                         </Row>
                       ))}
@@ -298,9 +300,11 @@ const CandidateModal = ({
                     <>
                       <QuestionHeader>คำตอบสาขา</QuestionHeader>
                       {MAJOR_QUESTION(candidate.major).map((question, i) => {
-                        const answer =
-                          candidate.questions.majorQuestions[i].answer
-                        if (candidate.major === 'design' && i === 3) {
+                        const answer = candidate.questions.majorQuestions[i]
+                          ? candidate.questions.majorQuestions[i].answer
+                          : ``
+                        if (candidate.major === 'design' && i !== 1) {
+                          // ข้อ 1 / 3 / 4 เป็น Upload file
                           return (
                             <Row key={i}>
                               <Col md={24}>
@@ -329,9 +333,7 @@ const CandidateModal = ({
                               <AnswerBox
                                 disabled={true}
                                 autosize={true}
-                                value={
-                                  candidate.questions.majorQuestions[i].answer
-                                }
+                                value={answer}
                               />
                             </Col>
                           </Row>
