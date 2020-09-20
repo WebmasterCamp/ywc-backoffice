@@ -37,7 +37,7 @@ class Staff {
   }
 
   @action
-  public async getApplications() {
+  public async getApplications () {
     const applications = await fetchWithToken('users/staff', '', 'get')
 
     if (applications.status === 'success') {
@@ -46,6 +46,7 @@ class Staff {
           return {
             _id: application._id,
             completed: application.completed,
+            isPassStaff: application.isPassStaff,
             major: application.major
           }
         }
@@ -56,7 +57,7 @@ class Staff {
   }
 
   @action
-  public async getApplicationById(id: string) {
+  public async getApplicationById (id: string) {
     const application = await fetchWithToken(`users/staff/${id}`, '', 'GET')
 
     if (application.status === 'success') {
@@ -65,7 +66,7 @@ class Staff {
   }
 
   @action
-  public async getCommitteeStatus() {
+  public async getCommitteeStatus () {
     const staffStatus = await fetchWithToken('grading/staff/status', '', 'GET')
 
     if (staffStatus.status === 'success') {
@@ -76,14 +77,14 @@ class Staff {
         percent: Math.round(
           (staffStatus.payload.checkedApplications /
             staffStatus.payload.allApplications) *
-            100
+          100
         )
       }
     }
   }
 
   @action
-  public async getCompletedApplication() {
+  public async getCompletedApplication () {
     await this.getApplications()
 
     this.completedApplication = this.applications.filter(
@@ -92,7 +93,7 @@ class Staff {
   }
 
   @action
-  public async getIncompleteApplication() {
+  public async getIncompleteApplication () {
     await this.getApplications()
 
     this.incompleteApplication = this.applications.filter(
@@ -101,7 +102,7 @@ class Staff {
   }
 
   @action
-  public async doVotePass(id: string, comment: string) {
+  public async doVotePass (id: string, comment: string) {
     this.loading = true
     const voteStatus = await fetchWithToken(
       'grading/staff/pass',
@@ -131,7 +132,7 @@ class Staff {
   }
 
   @action
-  public async doVoteFailed(id: string, comment: string) {
+  public async doVoteFailed (id: string, comment: string) {
     const voteStatus = await fetchWithToken(
       'grading/staff/eject',
       { id, comment },
