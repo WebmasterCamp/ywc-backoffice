@@ -126,7 +126,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
           </span>
         )
       },
-      title: 'สถาณะการคัดเลือก'
+      title: 'สถานะการคัดเลือก'
     },
     {
       key: 'reserveNo',
