@@ -82,12 +82,14 @@ const CandidateModal = ({
           <>
             <Row>
               <Col md={4}>
-                <Avatar
-                  shape="square"
-                  size={96}
-                  icon="user"
-                  src={candidate.picture}
-                />
+                <a href={candidate.picture} target="_blank" rel="noopener noreferrer">
+                  <Avatar
+                    shape="square"
+                    size={96}
+                    icon="user"
+                    src={candidate.picture}
+                  />
+                </a>
               </Col>
               <Col md={20}>
                 <SubHeader>
