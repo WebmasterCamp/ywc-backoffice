@@ -158,7 +158,7 @@ const MenuBar = (props: MenuBarProps) => {
             <Panel>{children}</Panel>
           </Padding>
 
-          <Footer>YWC Grading System @2019 Created by YWC17</Footer>
+          <Footer>&copy; 2019 YWC Grading System by YWC17</Footer>
         </ContentLayout>
       </Layout>
     </Fragment>
