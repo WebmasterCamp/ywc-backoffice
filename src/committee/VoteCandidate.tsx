@@ -97,10 +97,6 @@ const VoteCandidate = (props: VoteCandidateProps) => {
     committeeStore.doVote(id, 0, comment)
   }
 
-  const isDownloadableAnswer = (question: IQuestion): boolean => {
-    return question.type === QUESTION_TYPES.FILE
-  }
-
   return (
     <>
       <DesignAnswerModal
@@ -227,7 +223,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                         __html: question.title
                       }}
                     />
-                    {isDownloadableAnswer(question) ? (
+                    {question.type === QUESTION_TYPES.FILE ? (
                       <Button
                         icon="download"
                         onClick={() => openDrawer(answer)}
