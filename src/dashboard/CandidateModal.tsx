@@ -2,7 +2,6 @@ import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { observer, useObservable } from 'mobx-react-lite'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AnswerBox from '../common/AnswerBox'
@@ -83,7 +82,7 @@ const CandidateModal = ({
           <>
             <Row>
               <Col md={4}>
-                <a href={candidate.picture} target="_blank">
+                <a href={candidate.picture} target="_blank" rel="noopener noreferrer">
                   <Avatar
                     shape="square"
                     size={96}
