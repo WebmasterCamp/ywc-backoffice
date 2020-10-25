@@ -12,7 +12,7 @@ import StaffStore from '../stores/staff'
 import UserStore from '../stores/user'
 import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
-import { GENERAL_QUESTION, MAJOR } from '../utils/const'
+import { GENERAL_QUESTION, IQuestion, MAJOR } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
 
 const CandidateBox = styled(Box)`
@@ -116,11 +116,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <Row>
           <SubHeading>คำถามกลาง</SubHeading>
           {application.questions.generalQuestions.length !== 0 &&
-            GENERAL_QUESTION.map((question: string, i: number) => (
+            GENERAL_QUESTION.map((question: IQuestion, i: number) => (
               <Fragment key={i}>
-                <QuestionBox>
-                  Q{i + 1}: {question}
-                </QuestionBox>
+                <QuestionBox
+                  dangerouslySetInnerHTML={{ __html: question.title }}
+                />
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}

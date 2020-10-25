@@ -11,7 +11,13 @@ import QuestionsStore from '../stores/questions'
 import UserStore from '../stores/user'
 import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
-import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
+import {
+  GENERAL_QUESTION,
+  IQuestion,
+  MAJOR,
+  MAJOR_QUESTION,
+  QUESTION_TYPES
+} from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
 import DesignAnswerModal from './DesignAnswerModal'
 
@@ -89,17 +95,6 @@ const VoteCandidate = (props: VoteCandidateProps) => {
 
   const onConfirmFailed = () => {
     committeeStore.doVote(id, 0, comment)
-  }
-
-  const isDownloadableAnswer = (major: string, idx: number): boolean => {
-    switch (major) {
-      case 'design':
-        return [0, 2, 3].indexOf(idx) >= 0
-      case 'marketing':
-        return idx === 7
-      default:
-        return false
-    }
   }
 
   return (
@@ -199,10 +194,10 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <Row>
           <SubHeading>คำถามกลาง</SubHeading>
           {application.questions.generalQuestions.length !== 0 &&
-            GENERAL_QUESTION.map((question: string, i: number) => (
+            GENERAL_QUESTION.map((question: IQuestion, i: number) => (
               <Fragment key={i}>
                 <QuestionBox
-                  dangerouslySetInnerHTML={{ __html: `Q${i + 1}: ${question}` }}
+                  dangerouslySetInnerHTML={{ __html: question.title }}
                 />
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
@@ -219,16 +214,16 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <SubHeading>คำถามสาขา ({MAJOR(userStore.profile.major)})</SubHeading>
           {application.questions.majorQuestions.length !== 0 &&
             MAJOR_QUESTION(userStore.profile.major).map(
-              (question: string, i: number) => {
+              (question: IQuestion, i: number) => {
                 const answer = application.questions.majorQuestions[i].answer
-                if (isDownloadableAnswer(userStore.profile.major, i)) {
-                  return (
-                    <Fragment key={i}>
-                      <QuestionBox
-                        dangerouslySetInnerHTML={{
-                          __html: `Q${i + 1}: ${question}`
-                        }}
-                      />
+                return (
+                  <Fragment key={i}>
+                    <QuestionBox
+                      dangerouslySetInnerHTML={{
+                        __html: question.title
+                      }}
+                    />
+                    {question.type === QUESTION_TYPES.FILE ? (
                       <Button
                         icon="download"
                         onClick={() => openDrawer(answer)}
@@ -236,22 +231,13 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                       >
                         ดูคำตอบ
                       </Button>
-                    </Fragment>
-                  )
-                }
-
-                return (
-                  <Fragment key={i}>
-                    <QuestionBox
-                      dangerouslySetInnerHTML={{
-                        __html: `Q${i + 1}: ${question}`
-                      }}
-                    />
-                    <AnswerBox
-                      disabled={true}
-                      autosize={true}
-                      value={application.questions.majorQuestions[i].answer}
-                    />
+                    ) : (
+                      <AnswerBox
+                        disabled={true}
+                        autosize={true}
+                        value={application.questions.majorQuestions[i].answer}
+                      />
+                    )}
                   </Fragment>
                 )
               }
