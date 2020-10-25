@@ -6,7 +6,13 @@ import styled from 'styled-components'
 
 import AnswerBox from '../common/AnswerBox'
 import CandidateStore from '../stores/candidates'
-import { GENERAL_QUESTION, MAJOR, MAJOR_QUESTION } from '../utils/const'
+import {
+  GENERAL_QUESTION,
+  IQuestion,
+  MAJOR,
+  MAJOR_QUESTION,
+  QUESTION_TYPES
+} from '../utils/const'
 import DesignAnswerModal from './DesignAnswerModal'
 
 const SubHeader = styled.h2`
@@ -82,12 +88,18 @@ const CandidateModal = ({
           <>
             <Row>
               <Col md={4}>
-                <Avatar
-                  shape="square"
-                  size={96}
-                  icon="user"
-                  src={candidate.picture}
-                />
+                <a
+                  href={candidate.picture}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Avatar
+                    shape="square"
+                    size={96}
+                    icon="user"
+                    src={candidate.picture}
+                  />
+                </a>
               </Col>
               <Col md={20}>
                 <SubHeader>
@@ -276,11 +288,14 @@ const CandidateModal = ({
                   {candidate.questions.generalQuestions.length > 0 && (
                     <>
                       <QuestionHeader>คำตอบกลาง</QuestionHeader>
-                      {GENERAL_QUESTION.map((question, i) => (
+                      {GENERAL_QUESTION.map((question: IQuestion, i) => (
                         <Row key={i}>
-                          <Col md={24}>
-                            {i + 1}. {question}
-                          </Col>
+                          <Col
+                            md={24}
+                            dangerouslySetInnerHTML={{
+                              __html: question.title
+                            }}
+                          />
                           <Col md={24}>
                             {candidate.questions.generalQuestions[i] && (
                               <AnswerBox
@@ -299,46 +314,46 @@ const CandidateModal = ({
                   {candidate.questions.majorQuestions.length > 0 && (
                     <>
                       <QuestionHeader>คำตอบสาขา</QuestionHeader>
-                      {MAJOR_QUESTION(candidate.major).map((question, i) => {
-                        const answer = candidate.questions.majorQuestions[i]
-                          ? candidate.questions.majorQuestions[i].answer
-                          : ``
-                        if (candidate.major === 'design' && i !== 1) {
-                          // ข้อ 1 / 3 / 4 เป็น Upload file
+                      {MAJOR_QUESTION(candidate.major).map(
+                        (question: IQuestion, i) => {
+                          const answer = candidate.questions.majorQuestions[i]
+                            ? candidate.questions.majorQuestions[i].answer
+                            : ``
+
                           return (
-                            <Row key={i}>
-                              <Col md={24}>
-                                {i + 1}. {question}
-                              </Col>
-                              <Col md={24}>
-                                <Button
-                                  icon="download"
-                                  onClick={() => openDrawer(answer)}
-                                >
-                                  ดูคำตอบ
-                                </Button>
-                                <br />
-                                <br />
-                              </Col>
-                            </Row>
+                            answer && (
+                              <Row key={i}>
+                                <Col
+                                  md={24}
+                                  dangerouslySetInnerHTML={{
+                                    __html: question.title
+                                  }}
+                                />
+                                {question.type === QUESTION_TYPES.FILE ? (
+                                  <Col md={24}>
+                                    <Button
+                                      icon="download"
+                                      onClick={() => openDrawer(answer)}
+                                    >
+                                      ดูคำตอบ
+                                    </Button>
+                                    <br />
+                                    <br />
+                                  </Col>
+                                ) : (
+                                  <Col md={24}>
+                                    <AnswerBox
+                                      disabled={true}
+                                      autosize={true}
+                                      value={answer}
+                                    />
+                                  </Col>
+                                )}
+                              </Row>
+                            )
                           )
                         }
-
-                        return (
-                          <Row key={i}>
-                            <Col md={24}>
-                              {i + 1}. {question}
-                            </Col>
-                            <Col md={24}>
-                              <AnswerBox
-                                disabled={true}
-                                autosize={true}
-                                value={answer}
-                              />
-                            </Col>
-                          </Row>
-                        )
-                      })}
+                      )}
                     </>
                   )}
                 </Col>
