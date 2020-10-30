@@ -8,6 +8,7 @@ import { getToken } from '../utils/token-helper'
 import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
 import Candidates from '../dashboard/Candidates'
+import Trackings from '../dashboard/Trackings'
 import UserStore from '../stores/user'
 import CandidateFinalist from './CandidateFinalist'
 import CandidateInterview from './CandidateInterview'
@@ -95,6 +96,11 @@ const Admin = () => {
               }
             ],
             to: ''
+          },
+          {
+            icon: 'pie-chart',
+            name: 'ระบบติดตาม',
+            to: '/admin/tracking'
           }
         ]}
       >
@@ -111,6 +117,7 @@ const Admin = () => {
           component={CandidateFinalist}
         />
         <Route path="/admin/status" exact={true} component={CommitteeStatus} />
+        <Route path="/admin/tracking" exact={true} component={Trackings} />
       </MenuBar>
     </Fragment>
   )
