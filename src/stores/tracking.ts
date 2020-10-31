@@ -1,32 +1,32 @@
 import { action, observable } from 'mobx'
 import { persist } from 'mobx-persist'
-import ITracking, { TrackingForm } from '../interfaces/Tracking'
+import Candidate from '../interfaces/Candidate'
+import Tracking, { TrackingForm } from '../interfaces/Tracking'
 import { fetchWithToken } from '../utils/fetch'
 
-class Tracking {
-  @observable public trackings: ITracking[] = []
-  @observable public filteredCandidates: ITracking[] = []
+class TrackingStore {
+  @observable public trackings: Candidate[] = []
   @persist @observable public loading: boolean = true
 
   @action
   public async getTrackings() {
     const trackings = await fetchWithToken('tracking/', '', 'get')
     if (trackings.status === 'success') {
-      const trackingsList = trackings.payload.map((tracking: ITracking) => {
+      const candidates = trackings.payload.map((candidate: Candidate) => {
         return {
-          _id: tracking._id,
-          firstName: tracking.firstName,
-          lastName: tracking.lastName,
-          major: tracking.major,
-          nickname: tracking.nickname,
-          phone: tracking.phone,
-          status: tracking.status,
-          step: tracking.step,
-          trackings: tracking.trackings
+          _id: candidate._id,
+          firstName: candidate.firstName,
+          lastName: candidate.lastName,
+          major: candidate.major,
+          nickname: candidate.nickname,
+          phone: candidate.phone,
+          status: candidate.status,
+          step: candidate.step,
+          trackings: candidate.trackings
         }
       })
 
-      this.trackings = trackingsList
+      this.trackings = candidates
     }
   }
 
@@ -36,4 +36,4 @@ class Tracking {
     return result.status === 'success'
   }
 }
-export default new Tracking()
+export default new TrackingStore()

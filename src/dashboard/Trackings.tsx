@@ -2,7 +2,8 @@ import { Button, Col, Form, Icon, Modal, Row, Select, Table, Tag } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import { ColumnProps } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Candidate from '../interfaces/Candidate'
 import ITracking, { TrackingForm } from '../interfaces/Tracking'
 import TrackingStore from '../stores/tracking'
 import UserStore from '../stores/user'
@@ -111,15 +112,15 @@ const Tracking = () => {
     setDrawerId('')
   }
 
-  const columns: ColumnProps<ITracking>[] = [
+  const columns: ColumnProps<Candidate>[] = [
     {
       key: '_id',
-      render: (user: ITracking) => <span>{user._id}</span>,
+      render: (user: Candidate) => <span>{user._id}</span>,
       title: 'ID'
     },
     {
       key: 'name',
-      render: (user: ITracking) => (
+      render: (user: Candidate) => (
         <span>
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
@@ -147,8 +148,8 @@ const Tracking = () => {
         }
       ],
       key: 'major',
-      onFilter: (value: string, record: ITracking) => record.major === value,
-      render: (tracking: ITracking) => {
+      onFilter: (value: string, record: Candidate) => record.major === value,
+      render: (tracking: Candidate) => {
         return <span>{MAJOR(tracking.major)}</span>
       },
       title: 'สาขา'
@@ -178,9 +179,9 @@ const Tracking = () => {
         }
       ],
       key: 'step',
-      onFilter: (value: string, record: ITracking) =>
+      onFilter: (value: string, record: Candidate) =>
         record.step === value && record.status !== 'completed',
-      render: (candidate: ITracking) => {
+      render: (candidate: Candidate) => {
         if (candidate.status === 'completed') {
           return (
             <Tag color="geekblue" key={candidate.status}>
@@ -205,10 +206,10 @@ const Tracking = () => {
         }
       ],
       key: 'status',
-      onFilter: (value, record: ITracking) => {
+      onFilter: (value, record: Candidate) => {
         return record.status === value
       },
-      render: (user: ITracking) => (
+      render: (user: Candidate) => (
         <span>
           {user.status === 'completed' ? (
             <Tag color="geekblue" key={user.status}>
@@ -225,12 +226,12 @@ const Tracking = () => {
     },
     {
       key: 'totalTrackings',
-      render: (user: ITracking) => <span>{user.trackings.length}</span>,
+      render: (user: Candidate) => <span>{user.trackings.length}</span>,
       title: 'จำนวนการติดตาม'
     },
     {
       key: 'action',
-      render: (user: ITracking) => (
+      render: (user: Candidate) => (
         <span>
           <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
         </span>
@@ -252,11 +253,11 @@ const Tracking = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(tracking: ITracking, index: number) => tracking._id}
+        rowKey={(tracking: Candidate, index: number) => tracking._id}
         dataSource={trackingStore.trackings}
         pagination={{ pageSize: 20 }}
         rowSelection={{
-          onChange: (_: any, selectedRows: ITracking[]) => {
+          onChange: (_: any, selectedRows: Candidate[]) => {
             setSelectedRowKeys(selectedRows.map(c => c._id))
           },
           selectedRowKeys
