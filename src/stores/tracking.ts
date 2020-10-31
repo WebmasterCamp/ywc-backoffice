@@ -9,7 +9,7 @@ class Tracking {
   @persist @observable public loading: boolean = true
 
   @action
-  public async getTrackings () {
+  public async getTrackings() {
     const trackings = await fetchWithToken('tracking/', '', 'get')
     if (trackings.status === 'success') {
       const trackingsList = trackings.payload.map((tracking: ITracking) => {
@@ -29,7 +29,7 @@ class Tracking {
   }
 
   @action
-  public async createBulkTrackings (payload: TrackingForm) {
+  public async createBulkTrackings(payload: TrackingForm) {
     const result = await fetchWithToken('tracking/', payload, 'POST')
     return result.status === 'success'
   }
