@@ -186,7 +186,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <SubHeading>กิจกรรมที่ทำผ่านมา</SubHeading>
           <AnswerBox
             disabled={true}
-            autosize={true}
+            autoSize={true}
             value={application.activities}
           />
         </Row>
@@ -202,7 +202,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}
-                    autosize={true}
+                    autoSize={true}
                     value={application.questions.generalQuestions[i].answer}
                   />
                 )}
@@ -234,7 +234,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     ) : (
                       <AnswerBox
                         disabled={true}
-                        autosize={true}
+                        autoSize={true}
                         value={application.questions.majorQuestions[i].answer}
                       />
                     )}
@@ -248,7 +248,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <SubHeading>คอมเมนท์จากคณะดำเนินงาน</SubHeading>
         <AnswerBox
           disabled={true}
-          autosize={true}
+          autoSize={true}
           value={
             application.staffComment
               ? application.staffComment

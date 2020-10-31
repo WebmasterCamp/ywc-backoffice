@@ -124,7 +124,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}
-                    autosize={true}
+                    autoSize={true}
                     value={application.questions.generalQuestions[i].answer}
                   />
                 )}
@@ -138,7 +138,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <AnswerBox
             key="comment-disable"
             disabled={true}
-            autosize={true}
+            autoSize={true}
             value={
               application.staffComment
                 ? application.staffComment
