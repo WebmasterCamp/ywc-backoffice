@@ -1,13 +1,18 @@
+import Candidate from './Candidate'
+
 interface Tracking {
   _id: string
-  firstName: string
-  lastName: string
-  nickname: string
-  major: string
+  purpose: string
+  assigner: string
+  assignee: string
+  user: Candidate
+  remark: string
+  result: string
   status: string
+  group: string
   step: string
-  phone: string
-  trackings: string[]
+  created_at: string
+  completed_at: string
 }
 
 export interface TrackingForm {

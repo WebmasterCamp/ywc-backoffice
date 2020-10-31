@@ -261,7 +261,6 @@ export const MAJOR_QUESTION = (major: string): IQuestion[] => {
   }
 }
 
-
 // API Enum
 export interface IEnum {
   description: string
@@ -288,5 +287,5 @@ export const TRACKING_STATUS = [
 export const TRACKING_GROUP = [
   { description: 'ไม่มี', value: 'no_group' },
   { description: 'สนใจสมัครค่าย', value: 'interested' },
-  { description: 'ไม่สนใจสมัครค่าย', value: 'interested' },
+  { description: 'ไม่สนใจสมัครค่าย', value: 'interested' }
 ]
