@@ -19,9 +19,9 @@ class Tracking {
           lastName: tracking.lastName,
           major: tracking.major,
           nickname: tracking.nickname,
+          phone: tracking.phone,
           status: tracking.status,
           step: tracking.step,
-          phone: tracking.phone,
           trackings: tracking.trackings
         }
       })
