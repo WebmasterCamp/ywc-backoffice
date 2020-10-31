@@ -6,6 +6,8 @@ interface Tracking {
   major: string
   status: string
   step: string
+  phone: string
+  trackings: string[]
 }
 
 export interface TrackingForm {

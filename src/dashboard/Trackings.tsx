@@ -224,6 +224,11 @@ const Tracking = () => {
       title: 'สถานะการดำเนินการ'
     },
     {
+      key: 'totalTrackings',
+      render: (user: ITracking) => <span>{user.trackings.length}</span>,
+      title: 'จำนวนการติดตาม'
+    },
+    {
       key: 'action',
       render: (user: ITracking) => (
         <span>

@@ -20,7 +20,9 @@ class Tracking {
           major: tracking.major,
           nickname: tracking.nickname,
           status: tracking.status,
-          step: tracking.step
+          step: tracking.step,
+          phone: tracking.phone,
+          trackings: tracking.trackings
         }
       })
 
