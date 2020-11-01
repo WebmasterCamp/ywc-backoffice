@@ -159,8 +159,8 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     {application.completed ? (
                       <Tag color="green">ตรวจแล้ว</Tag>
                     ) : (
-                        <Tag color="orange">ยังไม่ตรวจตำตอบ</Tag>
-                      )}
+                      <Tag color="orange">ยังไม่ตรวจตำตอบ</Tag>
+                    )}
                   </td>
                 </tr>
                 {application.completed && (
@@ -172,8 +172,8 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                       {application.score === 1 ? (
                         <Tag color="green">ผ่าน</Tag>
                       ) : (
-                          <Tag color="red">ไม่ผ่าน</Tag>
-                        )}
+                        <Tag color="red">ไม่ผ่าน</Tag>
+                      )}
                     </td>
                   </tr>
                 )}
@@ -232,12 +232,12 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                         ดูคำตอบ
                       </Button>
                     ) : (
-                        <AnswerBox
-                          disabled={true}
-                          autosize={true}
-                          value={application.questions.majorQuestions[i].answer}
-                        />
-                      )}
+                      <AnswerBox
+                        disabled={true}
+                        autosize={true}
+                        value={application.questions.majorQuestions[i].answer}
+                      />
+                    )}
                   </Fragment>
                 )
               }
