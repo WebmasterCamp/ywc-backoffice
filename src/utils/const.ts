@@ -260,3 +260,32 @@ export const MAJOR_QUESTION = (major: string): IQuestion[] => {
       return []
   }
 }
+
+// API Enum
+export interface IEnum {
+  description: string
+  value: string
+}
+export const TRACKING_PURPOSE = [
+  { description: 'แจ้งเตือนปิดรับสมัคร', value: 'remind_registration' },
+  { description: 'แจ้งเตือนตัวจริง', value: 'remind_finalist' },
+  { description: 'แจ้งปัญหาใบสมัคร', value: 'application_problem' }
+]
+
+export const TRACKING_RESULT = [
+  { description: 'ติดต่อแล้ว', value: 'contacted' },
+  { description: 'เบอร์ผิด', value: 'wrong number' },
+  { description: 'ไม่รับสาย', value: 'not answer' },
+  { description: 'ตัดสาย/รับสายแต่ไม่สะดวกคุย', value: 'busy' }
+]
+
+export const TRACKING_STATUS = [
+  { description: 'รอดำเนินการ', value: 'pending' },
+  { description: 'ติดต่อแล้ว', value: 'completed' }
+]
+
+export const TRACKING_GROUP = [
+  { description: 'ไม่มี', value: 'no_group' },
+  { description: 'สนใจสมัครค่าย', value: 'interested' },
+  { description: 'ไม่สนใจสมัครค่าย', value: 'not interested' }
+]

@@ -32,6 +32,7 @@ interface Candidate {
       committee: string
     }
   ]
+  trackings: string[]
 }
 
 export default Candidate

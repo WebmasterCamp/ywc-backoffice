@@ -300,7 +300,7 @@ const CandidateModal = ({
                             {candidate.questions.generalQuestions[i] && (
                               <AnswerBox
                                 disabled={true}
-                                autosize={true}
+                                autoSize={true}
                                 value={
                                   candidate.questions.generalQuestions[i].answer
                                 }
@@ -344,7 +344,7 @@ const CandidateModal = ({
                                   <Col md={24}>
                                     <AnswerBox
                                       disabled={true}
-                                      autosize={true}
+                                      autoSize={true}
                                       value={answer}
                                     />
                                   </Col>

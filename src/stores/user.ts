@@ -8,6 +8,7 @@ import { removeToken, saveToken } from '../utils/token-helper'
 
 class User {
   @persist @observable public isAuthentication: boolean = false
+  @persist('object') @observable public admins: Profile[] = []
   @persist('object') @observable public profile: Profile = {
     _id: '',
     major: '',
@@ -42,6 +43,13 @@ class User {
       }
     } else {
       notification('error', 'Login Error', 'Username or Password incorrect')
+    }
+  }
+
+  @action public async getUsersByRole(role: string) {
+    const users = await fetchWithToken(`admin/role/${role}`, '', 'GET')
+    if (users.status === 'success') {
+      this.admins = users.payload.admins
     }
   }
 
