@@ -273,19 +273,19 @@ export const TRACKING_PURPOSE = [
 ]
 
 export const TRACKING_RESULT = [
-  { description: 'เบอร์ผิด', value: 'wrong number' },
   { description: 'ติดต่อแล้ว', value: 'contacted' },
+  { description: 'เบอร์ผิด', value: 'wrong number' },
   { description: 'ไม่รับสาย', value: 'not answer' },
   { description: 'ตัดสาย/รับสายแต่ไม่สะดวกคุย', value: 'busy' }
 ]
 
 export const TRACKING_STATUS = [
   { description: 'รอดำเนินการ', value: 'pending' },
-  { description: 'ดำเนินการแล้ว', value: 'completed' }
+  { description: 'ติดต่อแล้ว', value: 'completed' }
 ]
 
 export const TRACKING_GROUP = [
   { description: 'ไม่มี', value: 'no_group' },
   { description: 'สนใจสมัครค่าย', value: 'interested' },
-  { description: 'ไม่สนใจสมัครค่าย', value: 'interested' }
+  { description: 'ไม่สนใจสมัครค่าย', value: 'not interested' }
 ]

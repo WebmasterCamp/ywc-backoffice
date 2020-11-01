@@ -100,7 +100,14 @@ const Admin = () => {
           {
             icon: 'pie-chart',
             name: 'ระบบติดตาม',
-            to: '/admin/tracking'
+            submenu: [
+              {
+                icon: '',
+                name: 'สร้างการติดตาม',
+                to: '/admin/tracking/candidates'
+              }
+            ],
+            to: ''
           }
         ]}
       >
@@ -117,7 +124,11 @@ const Admin = () => {
           component={CandidateFinalist}
         />
         <Route path="/admin/status" exact={true} component={CommitteeStatus} />
-        <Route path="/admin/tracking" exact={true} component={Trackings} />
+        <Route
+          path="/admin/tracking/candidates"
+          exact={true}
+          component={Trackings}
+        />
       </MenuBar>
     </Fragment>
   )

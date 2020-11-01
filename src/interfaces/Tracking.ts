@@ -11,6 +11,7 @@ interface Tracking {
   status: string
   group: string
   step: string
+  phone: string
   created_at: string
   completed_at: string
 }

@@ -4,10 +4,10 @@ import { ColumnProps } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import Candidate from '../interfaces/Candidate'
-import ITracking, { TrackingForm } from '../interfaces/Tracking'
+import { TrackingForm } from '../interfaces/Tracking'
 import TrackingStore from '../stores/tracking'
 import UserStore from '../stores/user'
-import { MAJOR, STEP } from '../utils/const'
+import { MAJOR, STEP, TRACKING_STATUS } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 import CandidateModal from './CandidateModal'
 const { Option } = Select
@@ -27,9 +27,9 @@ const Tracking = () => {
 
   useEffect(() => {
     if (showModal) {
-      userStore.getUsersByRole('committee')
+      userStore.getUsersByRole('callcenter')
     }
-  }, [showModal])
+  }, [userStore, showModal])
 
   const handleSubmit = async (form: TrackingForm) => {
     await trackingStore.createBulkTrackings({
@@ -43,10 +43,6 @@ const Tracking = () => {
   const formItemLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 18 }
-  }
-
-  const buttonItemLayout = {
-    wrapperCol: { span: 14, offset: 4 }
   }
 
   // FORM
@@ -195,16 +191,10 @@ const Tracking = () => {
     },
     {
       filterMultiple: false,
-      filters: [
-        {
-          text: 'กำลังดำเนินการ',
-          value: 'in progress'
-        },
-        {
-          text: 'เรียบร้อย',
-          value: 'completed'
-        }
-      ],
+      filters: TRACKING_STATUS.map((status: any) => ({
+        text: status.description,
+        value: status.value
+      })),
       key: 'status',
       onFilter: (value, record: Candidate) => {
         return record.status === value
