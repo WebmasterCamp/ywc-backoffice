@@ -25,7 +25,7 @@ class TrackingStore {
   @persist @observable public loading: boolean = true
 
   @action
-  public async getTrackings() {
+  public async getTrackings () {
     const trackings = await fetchWithToken('tracking/', '', 'get')
     if (trackings.status === 'success') {
       const candidates = trackings.payload.map((candidate: Candidate) => {
@@ -47,13 +47,13 @@ class TrackingStore {
   }
 
   @action
-  public async createBulkTrackings(payload: TrackingForm) {
+  public async createBulkTrackings (payload: TrackingForm) {
     const result = await fetchWithToken('tracking/', payload, 'POST')
     return result.status === 'success'
   }
 
   @action
-  public async getTrackingCallCenter() {
+  public async getTrackingCallCenter () {
     const trackings = await fetchWithToken('tracking/me', '', 'GET')
     if (trackings.status === 'success') {
       this.tracking = trackings.payload.map((tracking: Tracking) => tracking)
@@ -61,12 +61,12 @@ class TrackingStore {
   }
 
   @action
-  public async getTrackingById(id: string) {
+  public async getTrackingById (id: string) {
     const tracking = await fetchWithToken(`tracking/${id}`, '', 'GET')
     this.selectedTracking = { ...this.selectedTracking, ...tracking.payload }
   }
   @action
-  public async updateTracking(id: string, payload: any) {
+  public async updateTracking (id: string, payload: any) {
     const tracking = await fetchWithToken(`tracking/${id}`, payload, 'PUT')
     if (tracking.status === 'success') {
       this.resetSelectedTracking()
@@ -75,7 +75,7 @@ class TrackingStore {
   }
 
   @action
-  public resetSelectedTracking() {
+  public resetSelectedTracking () {
     this.selectedTracking = {
       _id: '',
       assignee: '',

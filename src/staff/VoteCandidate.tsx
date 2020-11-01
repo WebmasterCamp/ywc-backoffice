@@ -124,7 +124,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}
-                    autoSize={true}
+                    autosize={true}
                     value={application.questions.generalQuestions[i].answer}
                   />
                 )}
@@ -138,7 +138,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <AnswerBox
             key="comment-disable"
             disabled={true}
-            autoSize={true}
+            autosize={true}
             value={
               application.staffComment
                 ? application.staffComment
@@ -146,15 +146,15 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             }
           />
         ) : (
-          <AnswerBox
-            key="comment-edit"
-            onChange={e => {
-              setStaffComment(e.target.value)
-            }}
-            value={staffComment}
-            rows={6}
-          />
-        )}
+            <AnswerBox
+              key="comment-edit"
+              onChange={e => {
+                setStaffComment(e.target.value)
+              }}
+              value={staffComment}
+              rows={6}
+            />
+          )}
       </CommentBox>
       <VoteBox>
         <Row>
@@ -194,49 +194,49 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               <div>ใบสมัครนี้ได้ถูกตรวจแล้ว</div>
             </Col>
           ) : (
-            <Col md={11} style={{ textAlign: 'right', paddingRight: '20px' }}>
-              <Popconfirm
-                placement="top"
-                title="ยืนยันการให้คะแนน"
-                okText="ยืนยัน"
-                onConfirm={onConfirmFailed}
-                cancelText="ยกเลิก"
-                icon={
-                  <Icon
-                    type="info-circle"
-                    theme="filled"
-                    style={{ color: '#1890FF' }}
-                  />
-                }
-              >
-                <Button type="danger" icon="close">
-                  ไม่ผ่าน
-                </Button>
-              </Popconfirm>{' '}
-              <Popconfirm
-                placement="top"
-                title="ยืนยันการให้คะแนน"
-                okText="ยืนยัน"
-                onConfirm={onConfirmPass}
-                cancelText="ยกเลิก"
-                icon={
-                  <Icon
-                    type="info-circle"
-                    theme="filled"
-                    style={{ color: '#1890FF' }}
-                  />
-                }
-              >
-                <Button
-                  type="primary"
-                  icon="check"
-                  style={{ backgroundColor: '#56C41A', borderColor: '#56C41A' }}
+              <Col md={11} style={{ textAlign: 'right', paddingRight: '20px' }}>
+                <Popconfirm
+                  placement="top"
+                  title="ยืนยันการให้คะแนน"
+                  okText="ยืนยัน"
+                  onConfirm={onConfirmFailed}
+                  cancelText="ยกเลิก"
+                  icon={
+                    <Icon
+                      type="info-circle"
+                      theme="filled"
+                      style={{ color: '#1890FF' }}
+                    />
+                  }
                 >
-                  ผ่าน
+                  <Button type="danger" icon="close">
+                    ไม่ผ่าน
                 </Button>
-              </Popconfirm>
-            </Col>
-          )}
+                </Popconfirm>{' '}
+                <Popconfirm
+                  placement="top"
+                  title="ยืนยันการให้คะแนน"
+                  okText="ยืนยัน"
+                  onConfirm={onConfirmPass}
+                  cancelText="ยกเลิก"
+                  icon={
+                    <Icon
+                      type="info-circle"
+                      theme="filled"
+                      style={{ color: '#1890FF' }}
+                    />
+                  }
+                >
+                  <Button
+                    type="primary"
+                    icon="check"
+                    style={{ backgroundColor: '#56C41A', borderColor: '#56C41A' }}
+                  >
+                    ผ่าน
+                </Button>
+                </Popconfirm>
+              </Col>
+            )}
           <Col md={1} style={{ textAlign: 'right' }}>
             {nextApplicationId && (
               <Link to={`/staff/candidate/${nextApplicationId}`}>
