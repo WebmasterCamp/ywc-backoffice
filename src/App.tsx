@@ -34,6 +34,11 @@ const Staff = Loadable({
   loading: Loading
 })
 
+const CallCenter = Loadable({
+  loader: () => import('./callcenter'),
+  loading: Loading
+})
+
 const GlobalStyle = createGlobalStyle`
   .ant-form-item-children > textarea {
     font-family: 'Sarabun';
@@ -58,6 +63,7 @@ const App: React.FC = () => {
         <Route path="/committee" component={Committee} />
         <Route path="/staff" component={Staff} />
         <Route path="/manager" component={Manager} />
+        <Route path="/callcenter" component={CallCenter} />
       </Router>
     </Provider>
   )
