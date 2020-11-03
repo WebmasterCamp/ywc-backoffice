@@ -295,9 +295,9 @@ const Tracking = () => {
       title: 'สถานะการดำเนินการ'
     },
     {
-      key: 'remark',
-      render: (tracking: ITracking) => <span>{tracking.remark}</span>,
-      title: 'หมายเหตุ'
+      key: 'result',
+      render: (tracking: ITracking) => <span>{tracking.result}</span>,
+      title: 'Result'
     },
     {
       key: 'action',
