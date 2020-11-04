@@ -215,7 +215,25 @@ const Tracking = () => {
       title: 'สถานะการดำเนินการ'
     },
     {
+      filterMultiple: false,
+      filters: [
+        {
+          text: '0',
+          value: 0
+        },
+        {
+          text: '1',
+          value: 1
+        },
+        {
+          text: '2',
+          value: 2
+        }
+      ],
       key: 'totalTrackings',
+      onFilter: (value, user: Candidate) => {
+        return user.trackings.length === value
+      },
       render: (user: Candidate) => <span>{user.trackings.length}</span>,
       title: 'จำนวนการติดตาม'
     },
