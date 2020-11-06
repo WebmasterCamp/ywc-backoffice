@@ -56,7 +56,9 @@ class TrackingStore {
   public async getTrackingCallCenter() {
     const trackings = await fetchWithToken('tracking/me', '', 'GET')
     if (trackings.status === 'success') {
-      this.tracking = trackings.payload.map((tracking: Tracking) => tracking)
+      this.tracking = trackings.payload
+        .map((tracking: Tracking) => tracking)
+        .filter((tracking: Tracking) => !!tracking.user)
     }
   }
 
