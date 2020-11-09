@@ -35,7 +35,7 @@ const Candidates = () => {
           value: 'completed'
         },
         {
-          text: 'ยังไม่ตรวจตำตอบ',
+          text: 'ยังไม่ตรวจคำตอบ',
           value: 'incomplete'
         }
       ],
@@ -53,7 +53,7 @@ const Candidates = () => {
             </Tag>
           ) : (
             <Tag color="orange" key={user._id}>
-              ยังไม่ตรวจตำตอบ
+              ยังไม่ตรวจคำตอบ
             </Tag>
           )}
         </span>

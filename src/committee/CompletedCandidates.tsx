@@ -37,7 +37,7 @@ const CompletedCandidates = () => {
             </Tag>
           ) : (
             <Tag color="orange" key={user._id}>
-              ยังไม่ตรวจตำตอบ
+              ยังไม่ตรวจคำตอบ
             </Tag>
           )}
         </span>

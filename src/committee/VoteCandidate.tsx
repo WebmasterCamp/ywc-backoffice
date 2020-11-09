@@ -159,7 +159,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     {application.completed ? (
                       <Tag color="green">ตรวจแล้ว</Tag>
                     ) : (
-                      <Tag color="orange">ยังไม่ตรวจตำตอบ</Tag>
+                      <Tag color="orange">ยังไม่ตรวจคำตอบ</Tag>
                     )}
                   </td>
                 </tr>
@@ -217,28 +217,30 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               (question: IQuestion, i: number) => {
                 const answer = application.questions.majorQuestions[i].answer
                 return (
-                  <Fragment key={i}>
-                    <QuestionBox
-                      dangerouslySetInnerHTML={{
-                        __html: question.title
-                      }}
-                    />
-                    {question.type === QUESTION_TYPES.FILE ? (
-                      <Button
-                        icon="download"
-                        onClick={() => openDrawer(answer)}
-                        style={{ margin: '5px auto 25px auto' }}
-                      >
-                        ดูคำตอบ
-                      </Button>
-                    ) : (
-                      <AnswerBox
-                        disabled={true}
-                        autosize={true}
-                        value={application.questions.majorQuestions[i].answer}
+                  answer && (
+                    <Fragment key={i}>
+                      <QuestionBox
+                        dangerouslySetInnerHTML={{
+                          __html: question.title
+                        }}
                       />
-                    )}
-                  </Fragment>
+                      {question.type === QUESTION_TYPES.FILE ? (
+                        <Button
+                          icon="download"
+                          onClick={() => openDrawer(answer)}
+                          style={{ margin: '5px auto 25px auto' }}
+                        >
+                          ดูคำตอบ
+                        </Button>
+                      ) : (
+                        <AnswerBox
+                          disabled={true}
+                          autosize={true}
+                          value={application.questions.majorQuestions[i].answer}
+                        />
+                      )}
+                    </Fragment>
+                  )
                 )
               }
             )}
