@@ -61,7 +61,10 @@ class Committee {
             committeeScore: application.committeeScore,
             committeeVote: application.committeeVote,
             completed: application.completed,
-            major: application.major
+            firstName: application.firstName,
+            lastName: application.lastName,
+            major: application.major,
+            nickname: application.nickname
           }
         }
       )
