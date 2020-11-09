@@ -28,6 +28,11 @@ const CompletedCandidates = () => {
       title: 'ID'
     },
     {
+      key: 'fullName',
+      render: (user: CommitteeCandidate) => <span>{user.firstName} {user.lastName} ({user.nickname})</span>,
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+    },
+    {
       key: 'status',
       render: (user: CommitteeCandidate) => (
         <span>

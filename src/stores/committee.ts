@@ -50,7 +50,7 @@ class Committee {
   }
 
   @action
-  public async getApplications() {
+  public async getApplications () {
     const applications = await fetchWithToken('users/committee', '', 'get')
 
     if (applications.status === 'success') {
@@ -61,7 +61,10 @@ class Committee {
             committeeScore: application.committeeScore,
             committeeVote: application.committeeVote,
             completed: application.completed,
-            major: application.major
+            firstName: application.firstName,
+            lastName: application.lastName,
+            major: application.major,
+            nickname: application.nickname,
           }
         }
       )
@@ -71,7 +74,7 @@ class Committee {
   }
 
   @action
-  public async getApplicationById(id: string) {
+  public async getApplicationById (id: string) {
     const application = await fetchWithToken(`users/committee/${id}`, '', 'GET')
 
     if (application.status === 'success') {
@@ -80,7 +83,7 @@ class Committee {
   }
 
   @action
-  public async getCommitteeStatus() {
+  public async getCommitteeStatus () {
     const committeeStatus = await fetchWithToken(
       'grading/committee/status',
       '',
@@ -97,14 +100,14 @@ class Committee {
         percent: Math.round(
           (committeeStatus.payload.checkedApplications /
             committeeStatus.payload.allApplications) *
-            100
+          100
         )
       }
     }
   }
 
   @action
-  public async getCompletedApplication() {
+  public async getCompletedApplication () {
     await this.getApplications()
 
     this.completedApplication = this.applications.filter(
@@ -113,7 +116,7 @@ class Committee {
   }
 
   @action
-  public async getIncompleteApplication() {
+  public async getIncompleteApplication () {
     await this.getApplications()
 
     this.incompleteApplication = this.applications.filter(
@@ -122,7 +125,7 @@ class Committee {
   }
 
   @action
-  public async doVote(id: string, score: number, comment: string) {
+  public async doVote (id: string, score: number, comment: string) {
     this.loading = true
     const voteStatus = await fetchWithToken(
       'grading/committee/vote',
@@ -145,8 +148,7 @@ class Committee {
       }
       window.scrollTo(0, 0)
       return history.push(
-        `/committee/candidate/${
-          this.applications[nextApplicationIndex + 1]._id
+        `/committee/candidate/${this.applications[nextApplicationIndex + 1]._id
         }`
       )
     } else {
