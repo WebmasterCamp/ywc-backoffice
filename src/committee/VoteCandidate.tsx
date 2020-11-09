@@ -159,7 +159,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     {application.completed ? (
                       <Tag color="green">ตรวจแล้ว</Tag>
                     ) : (
-                      <Tag color="orange">ยังไม่ตรวจตำตอบ</Tag>
+                      <Tag color="orange">ยังไม่ตรวจคำตอบ</Tag>
                     )}
                   </td>
                 </tr>
