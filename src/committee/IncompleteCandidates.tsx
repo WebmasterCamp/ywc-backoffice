@@ -29,7 +29,11 @@ const IncompleteCandidates = () => {
     },
     {
       key: 'fullName',
-      render: (user: CommitteeCandidate) => <span>{user.firstName} {user.lastName} ({user.nickname})</span>,
+      render: (user: CommitteeCandidate) => (
+        <span>
+          {user.firstName} {user.lastName} ({user.nickname})
+        </span>
+      ),
       title: 'ชื่อ นามสกุล (ชื่อเล่น)'
     },
     {
