@@ -18,7 +18,7 @@ const DesignAnswerModal = ({
         visible={visible}
         onClose={onClose}
         maskClosable={false}
-        title="Portfolio สาขา Design"
+        title="ไฟล์ที่แนบมากับใบสมัคร"
         width="60%"
         bodyStyle={{ padding: '0', height: 'calc(100% - 65px)' }}
       >
