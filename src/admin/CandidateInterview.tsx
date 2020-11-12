@@ -143,8 +143,8 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
               value: 'khajochi@gmail.com'
             },
             {
-              text: 'Supadej@vronline.in.th',
-              value: 'Supadej@vronline.in.th'
+              text: 'supadej@vronline.in.th',
+              value: 'supadej@vronline.in.th'
             }
           ],
           text: MAJOR('content'),
@@ -153,16 +153,12 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
         {
           children: [
             {
-              text: 'pond@dek-d.com',
-              value: 'pond@dek-d.com'
+              text: 'paul@dek-d.com',
+              value: 'paul@dek-d.com'
             },
             {
               text: 'khonteeneung@gmail.com',
               value: 'khonteeneung@gmail.com'
-            },
-            {
-              text: 'sutham.tmw@gmail.com',
-              value: 'sutham.tmw@gmail.com'
             },
             {
               text: 'inthanon@grappik.com',
@@ -175,16 +171,16 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
         {
           children: [
             {
-              text: 'ajgoople@gmail.com',
-              value: 'ajgoople@gmail.com'
+              text: 'oweera@gmail.com',
+              value: 'oweera@gmail.com'
             },
             {
               text: 'maytapriya@gmail.com',
               value: 'maytapriya@gmail.com'
             },
             {
-              text: 'Jarern@gmail.com',
-              value: 'Jarern@gmail.com'
+              text: 'jarern@gmail.com',
+              value: 'jarern@gmail.com'
             }
           ],
           text: MAJOR('marketing'),
