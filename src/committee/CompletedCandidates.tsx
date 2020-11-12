@@ -94,7 +94,7 @@ const CompletedCandidates = () => {
           )
         )
       },
-      title: 'สถานะการตรวจ'
+      title: 'ผลการตรวจ'
     },
     {
       key: 'action',
