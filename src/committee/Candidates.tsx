@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
-import CommitteeCandidate from '../interfaces/CommitteeCandidate'
+import CommitteeCandidate, {
+  CommitteeVote
+} from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
@@ -67,6 +69,47 @@ const Candidates = () => {
           )}
         </span>
       ),
+      title: 'สถานะการตรวจ'
+    },
+    {
+      filterMultiple: false,
+      filters: [
+        {
+          text: 'ผ่าน',
+          value: '1'
+        },
+        {
+          text: 'ไม่ผ่าน',
+          value: '0'
+        }
+      ],
+      key: 'result',
+      onFilter: (value: string, user: CommitteeCandidate) => {
+        const vote = user.committeeVote.find(
+          (v: CommitteeVote) => v.committee === userStore.profile.username
+        )
+        return !!vote && value === `${vote.score}`
+      },
+      render: (user: CommitteeCandidate) => {
+        const vote = user.committeeVote.find(
+          (v: CommitteeVote) => v.committee === userStore.profile.username
+        )
+        return (
+          vote && (
+            <span>
+              {vote.score === 1 ? (
+                <Tag color="green" key={user._id}>
+                  ผ่าน
+                </Tag>
+              ) : vote.score === 0 ? (
+                <Tag color="red" key={user._id}>
+                  ไม่ผ่าน
+                </Tag>
+              ) : null}
+            </span>
+          )
+        )
+      },
       title: 'สถานะการตรวจ'
     },
     {
