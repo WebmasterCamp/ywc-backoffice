@@ -15,6 +15,13 @@ import {
 } from '../utils/const'
 import DesignAnswerModal from './DesignAnswerModal'
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 25px;
+`
+
 const SubHeader = styled.h2`
   margin: 0;
   color: #333;
@@ -68,6 +75,23 @@ const CandidateModal = ({
     setPortfolioUrl('')
   }
 
+  const printDocument = () => {
+    const elem = document.getElementById('printable') as HTMLElement
+    const domClone = elem.cloneNode(true) as Node
+
+    let printSection = document.getElementById('print-section') as HTMLElement
+
+    if (!printSection) {
+      printSection = document.createElement('div')
+      printSection.id = 'print-section'
+      document.body.appendChild(printSection)
+    }
+
+    printSection.innerHTML = ''
+    printSection.appendChild(domClone)
+    window.print()
+  }
+
   return (
     <>
       <DesignAnswerModal
@@ -79,14 +103,21 @@ const CandidateModal = ({
         visible={visible}
         onClose={onClose}
         maskClosable={false}
-        title="รายละเอียดใบสมัคร"
+        title={
+          <Header>
+            <span>รายละเอียดใบสมัคร</span>
+            {!candidateStore.loading ? (
+              <Button onClick={printDocument}>พิมพ์</Button>
+            ) : null}
+          </Header>
+        }
         width="50%"
       >
         {candidateStore.loading ? (
           <h1>Loading...</h1>
         ) : (
-          <>
-            <Row>
+          <div id="printable">
+            <Row className="print-flex">
               <Col md={4}>
                 <a
                   href={candidate.picture}
@@ -98,6 +129,7 @@ const CandidateModal = ({
                     size={96}
                     icon="user"
                     src={candidate.picture}
+                    style={{ marginRight: 30 }}
                   />
                 </a>
               </Col>
@@ -134,7 +166,7 @@ const CandidateModal = ({
                           : 'ยังไม่ได้กรอก'}
                       </td>
                     </tr>
-                    <tr>
+                    <tr className="print-hide">
                       <td style={{ paddingRight: '20px' }}>
                         <b>เบอร์โทรศัพท์</b>
                       </td>
@@ -142,7 +174,7 @@ const CandidateModal = ({
                         {candidate.phone ? candidate.phone : 'ยังไม่ได้กรอก'}
                       </td>
                     </tr>
-                    <tr>
+                    <tr className="print-hide">
                       <td style={{ paddingRight: '20px' }}>
                         <b>อีเมล์</b>
                       </td>
@@ -245,8 +277,8 @@ const CandidateModal = ({
               </Col>
             </Row>
             <Divider />
-            <SubHeader>ข้อมูลติดต่อฉุกเฉิน</SubHeader>
-            <table>
+            <SubHeader className="print-hide">ข้อมูลติดต่อฉุกเฉิน</SubHeader>
+            <table className="print-hide">
               <tbody>
                 <tr>
                   <td style={{ paddingRight: '20px' }}>
@@ -280,98 +312,109 @@ const CandidateModal = ({
                 </tr>
               </tbody>
             </table>
-            <Divider />
+            <Divider className="print-hide" />
             <SubHeader>คำตอบกลาง และ คำตอบสาขา</SubHeader>
-            {viewQuestion ? (
-              <Row>
-                <Col md={24}>
-                  {candidate.questions.generalQuestions.length > 0 && (
-                    <>
-                      <QuestionHeader>คำตอบกลาง</QuestionHeader>
-                      {GENERAL_QUESTION.map((question: IQuestion, i) => (
-                        <Row key={i}>
-                          <Col
-                            md={24}
-                            dangerouslySetInnerHTML={{
-                              __html: question.title
-                            }}
-                          />
-                          <Col md={24}>
-                            {candidate.questions.generalQuestions[i] && (
-                              <AnswerBox
-                                disabled={true}
-                                autosize={true}
-                                value={
-                                  candidate.questions.generalQuestions[i].answer
-                                }
-                              />
-                            )}
-                          </Col>
-                        </Row>
-                      ))}
-                    </>
-                  )}
-                  {candidate.questions.majorQuestions.length > 0 && (
-                    <>
-                      <QuestionHeader>คำตอบสาขา</QuestionHeader>
-                      {MAJOR_QUESTION(candidate.major).map(
-                        (question: IQuestion, i) => {
-                          const answer = candidate.questions.majorQuestions[i]
-                            ? candidate.questions.majorQuestions[i].answer
-                            : ``
+            <Row className={`${viewQuestion ? 'screen-show' : 'screen-hide'}`}>
+              <Col md={24}>
+                {candidate.questions.generalQuestions.length > 0 && (
+                  <>
+                    <QuestionHeader>คำตอบกลาง</QuestionHeader>
+                    {GENERAL_QUESTION.map((question: IQuestion, i) => (
+                      <Row key={i}>
+                        <Col
+                          md={24}
+                          dangerouslySetInnerHTML={{
+                            __html: question.title
+                          }}
+                        />
+                        <Col md={24}>
+                          {candidate.questions.generalQuestions[i] && (
+                            <AnswerBox
+                              disabled={true}
+                              autosize={true}
+                              value={
+                                candidate.questions.generalQuestions[i].answer
+                              }
+                            />
+                          )}
+                        </Col>
+                      </Row>
+                    ))}
+                  </>
+                )}
+                {candidate.questions.majorQuestions.length > 0 && (
+                  <>
+                    <QuestionHeader>คำตอบสาขา</QuestionHeader>
+                    {MAJOR_QUESTION(candidate.major).map(
+                      (question: IQuestion, i) => {
+                        const answer = candidate.questions.majorQuestions[i]
+                          ? candidate.questions.majorQuestions[i].answer
+                          : ``
 
-                          return (
-                            answer && (
-                              <Row key={i}>
-                                <Col
-                                  md={24}
-                                  dangerouslySetInnerHTML={{
-                                    __html: question.title
-                                  }}
-                                />
-                                {question.type === QUESTION_TYPES.FILE ? (
-                                  <Col md={24}>
-                                    <Button
-                                      icon="download"
-                                      onClick={() => openDrawer(answer)}
-                                    >
-                                      ดูคำตอบ
-                                    </Button>
-                                    <br />
-                                    <br />
-                                  </Col>
-                                ) : (
-                                  <Col md={24}>
-                                    <AnswerBox
-                                      disabled={true}
-                                      autosize={true}
-                                      value={answer}
-                                    />
-                                  </Col>
-                                )}
-                              </Row>
-                            )
+                        return (
+                          answer && (
+                            <Row key={i}>
+                              <Col
+                                md={24}
+                                dangerouslySetInnerHTML={{
+                                  __html: question.title
+                                }}
+                              />
+                              {question.type === QUESTION_TYPES.FILE ? (
+                                <Col md={24}>
+                                  <Button
+                                    icon="download"
+                                    className="print-hide"
+                                    onClick={() => openDrawer(answer)}
+                                  >
+                                    ดูคำตอบ
+                                  </Button>
+                                  <AnswerBox
+                                    className="screen-hide"
+                                    disabled={true}
+                                    autosize={true}
+                                    value={answer}
+                                  />
+                                  <br />
+                                  <br />
+                                </Col>
+                              ) : (
+                                <Col md={24}>
+                                  <AnswerBox
+                                    disabled={true}
+                                    autosize={true}
+                                    value={answer}
+                                  />
+                                </Col>
+                              )}
+                            </Row>
                           )
-                        }
-                      )}
-                    </>
-                  )}
-                </Col>
-                <Col md={24}>
-                  <Button onClick={() => setViewQuestion(false)}>
-                    ปิดคำตอบ
-                  </Button>
-                </Col>
-              </Row>
-            ) : (
-              <Row>
-                <Col md={24}>
-                  <Button onClick={() => setViewQuestion(true)}>ดูคำตอบ</Button>
-                </Col>
-              </Row>
-            )}
+                        )
+                      }
+                    )}
+                  </>
+                )}
+              </Col>
+              <Col md={24}>
+                <Button
+                  className="print-hide"
+                  onClick={() => setViewQuestion(false)}
+                >
+                  ปิดคำตอบ
+                </Button>
+              </Col>
+            </Row>
+            <Row
+              className={`${
+                !viewQuestion ? 'screen-show' : 'screen-hide'
+              } print-hide`}
+            >
+              <Col md={24}>
+                <Button onClick={() => setViewQuestion(true)}>ดูคำตอบ</Button>
+              </Col>
+            </Row>
             <Divider />
-            <Row>
+            <Row className="print-hide">
               <Col md={12}>
                 <table>
                   <tbody>
@@ -490,7 +533,7 @@ const CandidateModal = ({
                 </table>
               </Col>
             </Row>
-          </>
+          </div>
         )}
       </Drawer>
     </>

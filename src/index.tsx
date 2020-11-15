@@ -35,6 +35,47 @@ const GlobalStyle = createGlobalStyle`
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
     }
   }
+
+  @media screen {
+    #print-section {
+      display: none;
+    }
+
+    .screen-show {
+      display: block;
+    }
+
+    .screen-hide {
+      display: none;
+    }
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    #print-section,
+    #print-section * {
+      font-family: 'Sarabun';
+      visibility: visible;
+    }
+
+    #print-section {
+      position: absolute;
+      left: 0;
+      top: 0;
+      zoom: 1.2;
+    }
+
+    .print-hide {
+      display: none;
+    }
+
+    .print-flex {
+      display: flex;
+    }
+  }
 `
 
 ReactDOM.render(
