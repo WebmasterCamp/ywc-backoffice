@@ -110,7 +110,7 @@ const Candidates = () => {
           )
         )
       },
-      title: 'สถานะการตรวจ'
+      title: 'ผลการตรวจ'
     },
     {
       key: 'action',
