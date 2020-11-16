@@ -203,7 +203,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
 
   return (
     <>
-      <PageTitle>เลือกผู้สมัครเข้าสัมภาษณ์สาขา{MAJOR(major)}</PageTitle>
+      <PageTitle>เลือกผู้สมัครเข้าค่ายสาขา{MAJOR(major)}</PageTitle>
 
       <Table
         className="candidates-table"
