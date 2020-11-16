@@ -2,7 +2,7 @@ import { Button, Col, Icon, Popconfirm, Row, Tag } from 'antd'
 import Table, { ColumnProps, PaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
-
+import CandidateModal from '../dashboard/CandidateModal'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR } from '../utils/const'
@@ -31,6 +31,8 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
 
   const [pagination, setPagination] = useState({})
   const [selected, setSelected] = useState<string[]>([])
+  const [visible, setVisible] = useState(false)
+  const [drawerId, setDrawerId] = useState('')
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
@@ -225,8 +227,27 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
         </span>
       ),
       title: 'กรรมการสาขาที่ให้ผ่าน'
+    },
+    {
+      key: 'action',
+      render: (user: Candidate) => (
+        <span>
+          <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
+        </span>
+      ),
+      title: 'ดำเนินการ'
     }
   ]
+
+  const openDrawer = (id: string) => {
+    setVisible(true)
+    setDrawerId(id)
+  }
+
+  const closeDrawer = () => {
+    setVisible(false)
+    setDrawerId('')
+  }
 
   const onPageChange = (p: PaginationConfig) => {
     setPagination(p)
@@ -244,6 +265,11 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
         rowSelection={rowSelection}
         onChange={onPageChange}
         pagination={pagination}
+      />
+      <CandidateModal
+        visible={visible}
+        onClose={closeDrawer}
+        candidateId={drawerId}
       />
 
       <Row>
