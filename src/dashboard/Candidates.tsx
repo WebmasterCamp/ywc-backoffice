@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from 'antd'
+import { Button, Icon, Input, Table, Tag } from 'antd'
 // import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 // import styled from 'styled-components'
@@ -9,6 +9,7 @@ import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR, STEP } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
+import useSearchCandidates from '../utils/useSearchCandidates'
 import CandidateModal from './CandidateModal'
 
 // const CustomSearch = styled.div`
@@ -24,6 +25,9 @@ import CandidateModal from './CandidateModal'
 
 const Candidates = () => {
   const candidatesStore = useObservable(CandidateStore)
+  const { candidates, onSearch } = useSearchCandidates(
+    candidatesStore.candidates
+  )
 
   useEffect(() => {
     candidatesStore.getCandidates()
@@ -216,7 +220,14 @@ const Candidates = () => {
 
   return (
     <>
-      <PageTitle>ผู้เข้าสมัครทั้งหมด</PageTitle>
+      <PageTitle>
+        ผู้เข้าสมัครทั้งหมด
+        <Input
+          placeholder="ค้นหาผู้เข้าสมัคร"
+          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          onChange={onSearch}
+        />
+      </PageTitle>
       {/* <Padding>
         <pre>{scoreCounter}</pre>
       </Padding> */}
@@ -238,7 +249,7 @@ const Candidates = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(candidate: Candidate, index: number) => candidate._id}
-        dataSource={candidatesStore.candidates}
+        dataSource={candidates}
         onChange={onPageChange}
         pagination={pagination}
       />

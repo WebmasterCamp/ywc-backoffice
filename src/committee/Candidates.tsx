@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from 'antd'
+import { Button, Icon, Input, Table, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 
 import { ColumnProps, PaginationConfig } from 'antd/lib/table'
@@ -11,10 +11,14 @@ import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
+import useSearchApplications from '../utils/useSearchApplications'
 
 const Candidates = () => {
   const committeeStore = useObservable(CommitteeStore)
   const userStore = useObservable(UserStore)
+  const { applications, onSearch } = useSearchApplications(
+    committeeStore.applications
+  )
 
   useEffect(() => {
     committeeStore.getApplications()
@@ -139,13 +143,18 @@ const Candidates = () => {
     <>
       <PageTitle>
         ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
+        <Input
+          placeholder="ค้นหาใบสมัคร"
+          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          onChange={onSearch}
+        />
       </PageTitle>
 
       <Table
         className="candidates-table"
         columns={columns}
         rowKey={(candidate: CommitteeCandidate, index: number) => candidate._id}
-        dataSource={committeeStore.applications}
+        dataSource={applications}
         onChange={onPageChange}
         pagination={pagination}
       />
