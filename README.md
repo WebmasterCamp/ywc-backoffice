@@ -1,3 +1,4 @@
+<center><img src="docs/dashboard.png" /></center>
 <h1>Young Webmaster Camp Backoffice System</h1>
 <p>YWC Back Office คือระบบจัดการข้อมูลใบสมัครข้อมูลใบสมัครของผู้เข้าสมัครค่าย Young Webmaster Camp</p>
 
