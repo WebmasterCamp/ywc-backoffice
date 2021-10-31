@@ -1,5 +1,5 @@
 <h1>Young Webmaster Camp Backoffice System</h1>
-<p align="center">YWC Back Office คือระบบจัดการข้อมูลใบสมัครข้อมูลใบสมัครของผู้เข้าสมัครค่าย Young Webmaster Camp</p>
+<p>YWC Back Office คือระบบจัดการข้อมูลใบสมัครข้อมูลใบสมัครของผู้เข้าสมัครค่าย Young Webmaster Camp</p>
 
 ## Feature
 
