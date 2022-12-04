@@ -1,6 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { HashRouter } from 'react-router-dom'
+import React, { StrictMode } from 'react'
+import ReactDOM from 'react-dom/client'
 import { Global, css } from '@emotion/react'
 import App from './App'
 
@@ -83,10 +82,9 @@ function GlobalStyle() {
   )
 }
 
-ReactDOM.render(
-  <HashRouter>
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <StrictMode>
     <GlobalStyle />
     <App />
-  </HashRouter>,
-  document.getElementById('root')
+  </StrictMode>
 )
