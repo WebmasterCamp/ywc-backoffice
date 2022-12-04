@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "BROWSER=none REACT_APP_API_DEV=true react-scripts start",
-    "build": "react-scripts build",
-    "build-dev": "REACT_APP_API_DEV=true react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "format": "yarn run lint --fix",
     "lint": "tslint './src/**/*.{ts,tsx}'",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"
@@ -46,6 +44,7 @@
     "@types/ramda": "^0.26.25",
     "@types/react-copy-to-clipboard": "^4.2.6",
     "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^2.2.0",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
@@ -53,7 +52,8 @@
     "tslint-loader": "^3.5.4",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
-    "tslint-react-hooks": "^2.2.1"
+    "tslint-react-hooks": "^2.2.1",
+    "vite": "^3.2.4"
   },
   "eslintConfig": {
     "extends": "react-app"

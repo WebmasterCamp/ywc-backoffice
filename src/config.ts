@@ -1,1 +1,1 @@
-export const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT as string
+export const API_ENDPOINT = import.meta.env.VITE_APP_API_ENDPOINT
