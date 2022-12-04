@@ -2,7 +2,6 @@ import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
 import { Route } from 'react-router'
-import history from '../utils/history'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
 
@@ -13,9 +12,11 @@ import CompletedCandidates from './CompletedCandidates'
 import Dashboard from './Dashboard'
 import IncompleteCandidates from './IncompleteCandidates'
 import VoteCandidate from './VoteCandidate'
+import { useHistory } from 'react-router-dom'
 
 const Committee = () => {
   const userStore = UserStore
+  const history = useHistory()
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')

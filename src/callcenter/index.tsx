@@ -2,7 +2,6 @@ import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
 import { Route } from 'react-router'
-import history from '../utils/history'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
 
@@ -10,9 +9,11 @@ import MenuBar from '../common/MenuBar'
 import UserStore from '../stores/user'
 import Dashboard from './Dashboard'
 import Trackings from './Trackings'
+import { useHistory } from 'react-router-dom'
 
 const CallCenter = () => {
   const userStore = UserStore
+  const history = useHistory()
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')

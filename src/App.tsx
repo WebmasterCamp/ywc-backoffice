@@ -4,6 +4,7 @@ import { Route, BrowserRouter } from 'react-router-dom'
 
 import { Global, css } from '@emotion/react'
 import store from './stores'
+import { GetHistoryObject } from './utils/history'
 
 const Admin = lazy(() => import('./admin'))
 const Committee = lazy(() => import('./committee'))
@@ -36,6 +37,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <GetHistoryObject />
         <GlobalStyle />
         <Suspense fallback={<></>}>
           <Route exact={true} path="/" component={Login} />

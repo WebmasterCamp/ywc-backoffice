@@ -2,7 +2,7 @@ import { action, makeObservable, observable } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
-import history from '../utils/history'
+import { getHistory } from '../utils/history'
 import notification from '../utils/notification'
 import { removeToken, saveToken } from '../utils/token-helper'
 
@@ -43,7 +43,7 @@ class User {
           'Login Success',
           `Welcome ${this.profile.username}`
         )
-        return history.push(`${this.profile.role}`)
+        return getHistory().push(`${this.profile.role}`)
       }
     } else {
       notification('error', 'Login Error', 'Username or Password incorrect')
@@ -62,7 +62,7 @@ class User {
     removeToken()
     this.isAuthentication = false
     notification('success', 'Logout success!', 'Goodbye~')
-    history.push('/')
+    getHistory().push('/')
   }
 
   @action
@@ -82,7 +82,7 @@ class User {
     if (profile.status === 'success') {
       await this.setProfile(profile.payload.profile)
       await this.setIsAuthentication(true)
-      return history.push(`/${this.profile.role}`)
+      return getHistory().push(`/${this.profile.role}`)
     }
   }
 

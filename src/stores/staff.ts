@@ -4,7 +4,7 @@ import StaffApplication from '../interfaces/StaffApplication'
 import StaffCandidate from '../interfaces/StaffCandidate'
 import StaffStatus from '../interfaces/StaffStatus'
 import { fetchWithToken } from '../utils/fetch'
-import history from '../utils/history'
+import { getHistory } from '../utils/history'
 
 class Staff {
   @persist @observable public loading: boolean = false
@@ -119,15 +119,15 @@ class Staff {
       await this.getApplications()
       let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
-        return history.push('/staff/all')
+        return getHistory().push('/staff/all')
       }
       while (this.applications[nextApplicationIndex + 1].completed) {
         nextApplicationIndex += 1
         if (nextApplicationIndex === this.applications.length - 1) {
-          return history.push('/staff/all')
+          return getHistory().push('/staff/all')
         }
       }
-      return history.push(
+      return getHistory().push(
         `/staff/candidate/${this.applications[nextApplicationIndex + 1]._id}`
       )
     } else {
@@ -148,15 +148,15 @@ class Staff {
       await this.getApplications()
       let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
-        return history.push('/staff/all')
+        return getHistory().push('/staff/all')
       }
       while (this.applications[nextApplicationIndex + 1].completed) {
         nextApplicationIndex += 1
         if (nextApplicationIndex === this.applications.length - 1) {
-          return history.push('/staff/all')
+          return getHistory().push('/staff/all')
         }
       }
-      return history.push(
+      return getHistory().push(
         `/staff/candidate/${this.applications[nextApplicationIndex + 1]._id}`
       )
     } else {

@@ -4,7 +4,7 @@ import CommitteeApplication from '../interfaces/CommitteeApplication'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStatus from '../interfaces/CommitteeStatus'
 import { fetchWithToken } from '../utils/fetch'
-import history from '../utils/history'
+import { getHistory } from '../utils/history'
 
 class Committee {
   @observable public loading: boolean = false
@@ -142,16 +142,16 @@ class Committee {
       await this.getApplications()
       let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
-        return history.push('/committee/all')
+        return getHistory().push('/committee/all')
       }
       while (this.applications[nextApplicationIndex + 1].completed) {
         nextApplicationIndex += 1
         if (nextApplicationIndex === this.applications.length - 1) {
-          return history.push('/committee/all')
+          return getHistory().push('/committee/all')
         }
       }
       window.scrollTo(0, 0)
-      return history.push(
+      return getHistory().push(
         `/committee/candidate/${
           this.applications[nextApplicationIndex + 1]._id
         }`
