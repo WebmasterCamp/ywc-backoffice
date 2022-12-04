@@ -2,7 +2,7 @@ import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { UserOutlined, DownloadOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled'
 
 import AnswerBox from '../common/AnswerBox'

@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table/interface'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'

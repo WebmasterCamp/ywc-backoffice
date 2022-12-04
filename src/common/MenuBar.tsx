@@ -1,5 +1,5 @@
 import { Layout, Menu, MenuProps } from 'antd'
-import React, { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import styled from '@emotion/styled'
 

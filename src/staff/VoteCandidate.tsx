@@ -8,7 +8,7 @@ import {
   CheckOutlined
 } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react';
 import styled from '@emotion/styled'
 
 import moment from 'moment'

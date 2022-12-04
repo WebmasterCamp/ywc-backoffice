@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react';
 import Chart from 'react-apexcharts'
 import CountUserStep from '../interfaces/CountUserStep'
 

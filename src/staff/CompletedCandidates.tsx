@@ -1,7 +1,7 @@
 import { Button, Table, Tag } from 'antd'
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 
 import StaffCandidate from '../interfaces/StaffCandidate'

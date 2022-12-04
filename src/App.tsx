@@ -1,5 +1,5 @@
 import { Provider } from 'mobx-react'
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { Route, BrowserRouter } from 'react-router-dom'
 
 import { Global, css } from '@emotion/react'

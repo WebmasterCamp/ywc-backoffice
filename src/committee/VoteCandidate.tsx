@@ -9,7 +9,7 @@ import {
   CheckOutlined
 } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 

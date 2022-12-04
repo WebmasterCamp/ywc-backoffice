@@ -1,7 +1,6 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-// import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 // import styled from '@emotion/styled'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'

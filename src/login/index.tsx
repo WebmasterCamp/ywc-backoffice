@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import styled from '@emotion/styled'
 
 import UserStore from '../stores/user'

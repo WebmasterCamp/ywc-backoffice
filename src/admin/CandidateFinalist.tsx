@@ -1,7 +1,7 @@
 import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'

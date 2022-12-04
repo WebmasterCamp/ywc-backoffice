@@ -1,5 +1,4 @@
 import TextArea, { TextAreaProps } from 'antd/lib/input/TextArea'
-import React from 'react'
 import styled from '@emotion/styled'
 
 const TextAreaBox = styled(TextArea)`

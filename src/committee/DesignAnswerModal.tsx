@@ -1,5 +1,4 @@
 import { Drawer } from 'antd'
-import React from 'react'
 
 interface DesignAnswerModalProps {
   url: string

@@ -2,7 +2,7 @@ import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
 import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import Candidate from '../interfaces/Candidate'
 import { TrackingForm } from '../interfaces/Tracking'
 import TrackingStore from '../stores/tracking'
