@@ -3,7 +3,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import AnswerBox from '../common/AnswerBox'
 import CandidateStore from '../stores/candidates'

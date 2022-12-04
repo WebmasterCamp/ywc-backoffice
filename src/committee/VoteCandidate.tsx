@@ -3,7 +3,7 @@ import { InfoCircleFilled, UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import AnswerBox from '../common/AnswerBox'
 import QuestionBox from '../common/QuestionBox'

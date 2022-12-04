@@ -2,10 +2,9 @@ import { Provider } from 'mobx-react'
 import React, { lazy, Suspense } from 'react'
 import { Route, Router } from 'react-router'
 
-import { createGlobalStyle } from 'styled-components'
+import { Global, css } from '@emotion/react'
 import store from './stores'
 import history from './utils/history'
-
 
 const Admin = lazy(() => import('./admin'))
 const Committee = lazy(() => import('./committee'))
@@ -14,19 +13,25 @@ const Manager = lazy(() => import('./manager'))
 const Staff = lazy(() => import('./staff'))
 const CallCenter = lazy(() => import('./callcenter'))
 
-const GlobalStyle = createGlobalStyle`
-  .ant-form-item-children > textarea {
-    font-family: 'Sarabun';
-    line-height: 1.8;
-    font-size: 16px;
-  }
-  .ant-form-item-control {
-    font-family: 'Sarabun';
-  }
-  .ant-avatar > img {
-    height: auto;
-  }
-`
+function GlobalStyle() {
+  return (
+    <Global
+      styles={css`
+        .ant-form-item-children > textarea {
+          font-family: 'Sarabun';
+          line-height: 1.8;
+          font-size: 16px;
+        }
+        .ant-form-item-control {
+          font-family: 'Sarabun';
+        }
+        .ant-avatar > img {
+          height: auto;
+        }
+      `}
+    />
+  )
+}
 
 const App: React.FC = () => {
   return (

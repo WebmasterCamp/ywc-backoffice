@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import Panel from '../ui/Panel'
 

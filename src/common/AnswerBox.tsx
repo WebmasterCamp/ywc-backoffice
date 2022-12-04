@@ -1,6 +1,6 @@
 import TextArea, { TextAreaProps } from 'antd/lib/input/TextArea'
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 const TextAreaBox = styled(TextArea)`
   margin: 5px auto 25px auto;
