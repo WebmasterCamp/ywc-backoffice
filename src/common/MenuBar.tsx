@@ -1,6 +1,6 @@
-import { Layout, Menu } from 'antd'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Layout, Menu, MenuProps } from 'antd'
+import React, { Fragment, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import Panel from '../ui/Panel'
@@ -8,7 +8,6 @@ import Panel from '../ui/Panel'
 import LogoSVG from '../assets/logo.white.svg'
 
 import { SelectInfo } from 'rc-menu/lib/interface'
-import SubMenu from 'antd/lib/menu/SubMenu'
 import isWindows from '../utils/isWindows'
 import { Padding } from '../utils/styled-helper'
 
@@ -51,22 +50,11 @@ const Footer = styled.div`
   text-align: center;
 `
 
-interface MenuItem {
-  icon: ReactNode
-  name: string
-  to: string
-}
-
-interface MenuItems {
-  icon: ReactNode
-  name: string
-  to: string
-  submenu?: MenuItem[]
-}
+type MenuItem = Required<MenuProps>['items'][number]
 
 interface MenuBarProps {
   children: React.ReactChildren | any
-  menus: MenuItems[]
+  menus: MenuItem[]
   header?: string
 }
 
@@ -77,25 +65,11 @@ const MenuBar = (props: MenuBarProps) => {
   const [selected, setSelected] = useState(['1'])
 
   const location = useLocation()
+  const { push } = useHistory()
 
   const handleChange = (param: SelectInfo) => {
     setSelected([param.key])
   }
-
-  useEffect(() => {
-    menus.forEach((menu, i) => {
-      if (menu.submenu) {
-        menu.submenu.forEach((submenu, j) => {
-          if (submenu.to === location.pathname) {
-            setSelected([`${i + 1}${j + 1}`])
-          }
-        })
-      }
-      if (menu.to === location.pathname) {
-        setSelected([`${i + 1}`])
-      }
-    })
-  }, [menus, location.pathname])
 
   return (
     <Fragment>
@@ -110,46 +84,11 @@ const MenuBar = (props: MenuBarProps) => {
           <Menu
             theme="dark"
             mode="inline"
-            selectedKeys={selected}
+            selectedKeys={[location.pathname]}
             onSelect={handleChange}
-          >
-            {menus.map((menu, i) => {
-              if (menu.submenu) {
-                const subMenus = menu.submenu.map((submenu, j) => {
-                  return (
-                    <Menu.Item key={`${i + 1}${j + 1}`}>
-                      <Link to={submenu.to}>
-                        {submenu.icon}
-                        <span className="nav-text">{submenu.name}</span>
-                      </Link>
-                    </Menu.Item>
-                  )
-                })
-                return (
-                  <SubMenu
-                    key={i + 1}
-                    title={
-                      <>
-                        {menu.icon}
-                        <span className="nav-text">{menu.name}</span>
-                      </>
-                    }
-                  >
-                    {subMenus}
-                  </SubMenu>
-                )
-              }
-
-              return (
-                <Menu.Item key={i + 1}>
-                  <Link to={menu.to}>
-                    {menu.icon}
-                    <span className="nav-text">{menu.name}</span>
-                  </Link>
-                </Menu.Item>
-              )
-            })}
-          </Menu>
+            items={menus}
+            onClick={({ key }) => push(key)}
+          />
         </SideSlider>
 
         <ContentLayout collapsed={collapsed}>

@@ -32,24 +32,24 @@ const Staff = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: <PieChartOutlined />, name: 'แดชบอร์ด', to: '/staff' },
+          { icon: <PieChartOutlined />, label: 'แดชบอร์ด', key: '/staff' },
           {
             icon: <PieChartOutlined />,
-            name: 'ตรวจคำตอบ',
-            submenu: [
-              { icon: null, to: '/staff/all', name: 'ใบสมัครทั้งหมด' },
+            label: 'ตรวจคำตอบ',
+            children: [
+              { icon: null, key: '/staff/all', label: 'ใบสมัครทั้งหมด' },
               {
                 icon: null,
-                name: 'ใบสมัครที่ตรวจไม่เสร็จ',
-                to: '/staff/incomplete'
+                label: 'ใบสมัครที่ตรวจไม่เสร็จ',
+                key: '/staff/incomplete'
               },
               {
                 icon: null,
-                name: 'ใบสมัครที่ตรวจเสร็จ',
-                to: '/staff/completed'
+                label: 'ใบสมัครที่ตรวจเสร็จ',
+                key: '/staff/completed'
               }
             ],
-            to: ''
+            key: ''
           }
         ]}
       >

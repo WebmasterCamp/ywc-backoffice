@@ -33,82 +33,82 @@ const Admin = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: <PieChartOutlined />, name: 'แดชบอร์ด', to: '/admin' },
+          { icon: <PieChartOutlined />, label: 'แดชบอร์ด', key: '/admin' },
           {
             icon: <PieChartOutlined />,
-            name: 'ผู้เข้าสมัครทั้งหมด',
-            to: '/admin/candidates'
+            label: 'ผู้เข้าสมัครทั้งหมด',
+            key: '/admin/candidates'
           },
           {
             icon: <PieChartOutlined />,
-            name: 'สถานะการตรวจใบสมัคร',
-            to: '/admin/status'
+            label: 'สถานะการตรวจใบสมัคร',
+            key: '/admin/status'
           },
           {
             icon: <PieChartOutlined />,
-            name: 'คัดเลือกเข้าสัมภาษณ์',
-            submenu: [
+            label: 'คัดเลือกเข้าสัมภาษณ์',
+            children: [
               {
                 icon: null,
-                name: 'สาขาคอนเทนท์',
-                to: '/admin/candidates/content'
+                label: 'สาขาคอนเทนท์',
+                key: '/admin/candidates/content'
               },
               {
                 icon: null,
-                name: 'สาขาดีไซน์',
-                to: '/admin/candidates/design'
+                label: 'สาขาดีไซน์',
+                key: '/admin/candidates/design'
               },
               {
                 icon: null,
-                name: 'สาขามาร์เก็ตติ้ง',
-                to: '/admin/candidates/marketing'
+                label: 'สาขามาร์เก็ตติ้ง',
+                key: '/admin/candidates/marketing'
               },
               {
                 icon: null,
-                name: 'สาขาโปรแกรมมิ่ง',
-                to: '/admin/candidates/programming'
+                label: 'สาขาโปรแกรมมิ่ง',
+                key: '/admin/candidates/programming'
               }
             ],
-            to: ''
+            key: 'a'
           },
           {
             icon: <PieChartOutlined />,
-            name: 'คัดเลือกเข้าค่าย',
-            submenu: [
+            label: 'คัดเลือกเข้าค่าย',
+            children: [
               {
                 icon: null,
-                name: 'สาขาคอนเทนท์',
-                to: '/admin/finalist/content'
+                label: 'สาขาคอนเทนท์',
+                key: '/admin/finalist/content'
               },
               {
                 icon: null,
-                name: 'สาขาดีไซน์',
-                to: '/admin/finalist/design'
+                label: 'สาขาดีไซน์',
+                key: '/admin/finalist/design'
               },
               {
                 icon: null,
-                name: 'สาขามาร์เก็ตติ้ง',
-                to: '/admin/finalist/marketing'
+                label: 'สาขามาร์เก็ตติ้ง',
+                key: '/admin/finalist/marketing'
               },
               {
                 icon: null,
-                name: 'สาขาโปรแกรมมิ่ง',
-                to: '/admin/finalist/programming'
+                label: 'สาขาโปรแกรมมิ่ง',
+                key: '/admin/finalist/programming'
               }
             ],
-            to: ''
+            key: 'b'
           },
           {
             icon: <PieChartOutlined />,
-            name: 'ระบบติดตาม',
-            submenu: [
+            label: 'ระบบติดตาม',
+            children: [
               {
                 icon: null,
-                name: 'สร้างการติดตาม',
-                to: '/admin/tracking/candidates'
+                label: 'สร้างการติดตาม',
+                key: '/admin/tracking/candidates'
               }
             ],
-            to: ''
+            key: ''
           }
         ]}
       >

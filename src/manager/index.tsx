@@ -29,11 +29,11 @@ const Manager = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: <UserOutlined />, name: 'Dashboard', to: '/manager' },
+          { icon: <UserOutlined />, label: 'Dashboard', key: '/manager' },
           {
             icon: <UserOutlined />,
-            name: 'All Candidates',
-            to: '/manager/candidates'
+            label: 'All Candidates',
+            key: '/manager/candidates'
           }
         ]}
       >

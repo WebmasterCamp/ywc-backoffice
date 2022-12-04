@@ -32,24 +32,24 @@ const Committee = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: <PieChartOutlined />, name: 'แดชบอร์ด', to: '/committee' },
+          { icon: <PieChartOutlined />, label: 'แดชบอร์ด', key: '/committee' },
           {
             icon: <PieChartOutlined />,
-            name: 'ตรวจคำตอบ',
-            submenu: [
-              { icon: null, to: '/committee/all', name: 'ใบสมัครทั้งหมด' },
+            label: 'ตรวจคำตอบ',
+            children: [
+              { icon: null, key: '/committee/all', label: 'ใบสมัครทั้งหมด' },
               {
                 icon: null,
-                name: 'ใบสมัครที่ตรวจไม่เสร็จ',
-                to: '/committee/incomplete'
+                label: 'ใบสมัครที่ตรวจไม่เสร็จ',
+                key: '/committee/incomplete'
               },
               {
                 icon: null,
-                name: 'ใบสมัครที่ตรวจเสร็จ',
-                to: '/committee/completed'
+                label: 'ใบสมัครที่ตรวจเสร็จ',
+                key: '/committee/completed'
               }
             ],
-            to: ''
+            key: ''
           }
         ]}
       >
