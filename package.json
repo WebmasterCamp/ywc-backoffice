@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "REACT_APP_API_DEV=true react-scripts start",
+    "start": "BROWSER=none REACT_APP_API_DEV=true react-scripts start",
     "build": "react-scripts build",
     "build-dev": "REACT_APP_API_DEV=true react-scripts build",
     "test": "react-scripts test",
