@@ -1,5 +1,6 @@
 import { notification } from 'antd'
-import { IconType } from 'antd/lib/notification'
+
+type IconType = 'success' | 'info' | 'warning' | 'error'
 
 export default (type: IconType, message: string, description: string) => {
   notification[type]({
