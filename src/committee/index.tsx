@@ -1,7 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { Fragment } from 'react'
-import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
 
@@ -12,20 +11,20 @@ import CompletedCandidates from './CompletedCandidates'
 import Dashboard from './Dashboard'
 import IncompleteCandidates from './IncompleteCandidates'
 import VoteCandidate from './VoteCandidate'
-import { useHistory } from 'react-router-dom'
+import { Outlet, Route, useNavigate } from 'react-router-dom'
 
 const Committee = () => {
   const userStore = UserStore
-  const history = useHistory()
+  const navigate = useNavigate()
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')
-    history.push(`/`)
+    navigate(`/`)
     return <p>Unauthorized</p>
   }
 
   if (userStore.profile.role !== 'committee') {
-    history.push(`/${userStore.profile.role}`)
+    navigate(`/${userStore.profile.role}`)
     return <p>Unauthorized</p>
   }
 
@@ -54,14 +53,20 @@ const Committee = () => {
           },
         ]}
       >
-        <Route path="/committee" exact={true} component={Dashboard} />
-        <Route path="/committee/all" component={Candidates} />
-        <Route path="/committee/completed" component={CompletedCandidates} />
-        <Route path="/committee/incomplete" component={IncompleteCandidates} />
-        <Route path="/committee/candidate/:id" component={VoteCandidate} />
+        <Outlet />
       </MenuBar>
     </Fragment>
   )
 }
 
 export default observer(Committee)
+
+export const route = (
+  <Route path="/committee" element={<Committee />}>
+    <Route path="" element={<Dashboard />} />
+    <Route path="all" element={<Candidates />} />
+    <Route path="completed" element={<CompletedCandidates />} />
+    <Route path="incomplete" element={<IncompleteCandidates />} />
+    <Route path="candidate/:id" element={<VoteCandidate />} />
+  </Route>
+)

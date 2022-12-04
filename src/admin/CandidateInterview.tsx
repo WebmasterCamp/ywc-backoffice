@@ -12,21 +12,10 @@ import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
+import { useParams } from 'react-router-dom'
 
-interface CandidateInterviewProps {
-  match: {
-    params: {
-      major: string
-    }
-  }
-}
-
-const CandidateInterview = (props: CandidateInterviewProps) => {
-  const {
-    match: {
-      params: { major },
-    },
-  } = props
+const CandidateInterview = () => {
+  const major = useParams().major as string
 
   const candidatesStore = CandidateStore
 
@@ -41,7 +30,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map((c) => c._id))
+      setSelected(selectedRows.map(c => c._id))
     },
   }
 
@@ -214,7 +203,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       ],
       key: 'committeeVote',
       onFilter: (value, record: Candidate) => {
-        const committeeList = record.committeeVote.map((c) => c.committee)
+        const committeeList = record.committeeVote.map(c => c.committee)
         /// TODO: refine type
         if (committeeList.indexOf(value as string) !== -1) {
           return (
@@ -227,8 +216,8 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       render: (user: Candidate) => (
         <span>
           {user.committeeVote
-            .filter((c) => c.score === 1)
-            .map((c) => (
+            .filter(c => c.score === 1)
+            .map(c => (
               <p style={{ marginBlockEnd: 0 }} key={c._id}>
                 {c.committee}
               </p>

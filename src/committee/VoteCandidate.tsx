@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
 import { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import AnswerBox from '../common/AnswerBox'
@@ -38,24 +38,12 @@ const VoteBox = styled(Box)`
   padding: 10px 20px;
 `
 
-interface VoteCandidateProps {
-  match: {
-    params: {
-      id: string
-    }
-  }
-}
-
-const VoteCandidate = (props: VoteCandidateProps) => {
+const VoteCandidate = () => {
   const committeeStore = CommitteeStore
   const userStore = UserStore
   const questionsStore = QuestionsStore
 
-  const {
-    match: {
-      params: { id },
-    },
-  } = props
+  const id = useParams().id as string
 
   useEffect(() => {
     committeeStore.getApplicationById(id)
@@ -74,7 +62,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   const [comment, setComment] = useState('')
 
   const currentApplication =
-    committeeStore.applications.map((a) => a._id).indexOf(id) + 1
+    committeeStore.applications.map(a => a._id).indexOf(id) + 1
   const totalApplication = committeeStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -272,7 +260,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <AnswerBox
           rows={6}
           value={comment}
-          onChange={(e) => {
+          onChange={e => {
             setComment(e.target.value)
           }}
         />

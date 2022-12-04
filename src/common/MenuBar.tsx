@@ -1,6 +1,6 @@
 import { Layout, Menu, MenuProps } from 'antd'
 import { Fragment, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import Panel from '../ui/Panel'
@@ -63,7 +63,7 @@ const MenuBar = (props: MenuBarProps) => {
   const [collapsed, setCollapsed] = useState(false)
 
   const location = useLocation()
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   return (
     <Fragment>
@@ -80,7 +80,7 @@ const MenuBar = (props: MenuBarProps) => {
             mode="inline"
             selectedKeys={[location.pathname]}
             items={menus}
-            onClick={({ key }) => push(key)}
+            onClick={({ key }) => navigate(key)}
           />
         </SideSlider>
 

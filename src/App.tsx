@@ -1,17 +1,10 @@
 import { Provider } from 'mobx-react'
-import { lazy, Suspense } from 'react'
-import { Route, BrowserRouter } from 'react-router-dom'
+import { Suspense } from 'react'
+import { RouterProvider } from 'react-router-dom'
 
 import { Global, css } from '@emotion/react'
 import store from './stores'
-import { GetHistoryObject } from './utils/history'
-
-const Admin = lazy(() => import('./admin'))
-const Committee = lazy(() => import('./committee'))
-const Login = lazy(() => import('./login'))
-const Manager = lazy(() => import('./manager'))
-const Staff = lazy(() => import('./staff'))
-const CallCenter = lazy(() => import('./callcenter'))
+import { router } from './router'
 
 function GlobalStyle() {
   return (
@@ -36,18 +29,10 @@ function GlobalStyle() {
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <GetHistoryObject />
-        <GlobalStyle />
-        <Suspense fallback={<></>}>
-          <Route exact={true} path="/" component={Login} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/committee" component={Committee} />
-          <Route path="/staff" component={Staff} />
-          <Route path="/manager" component={Manager} />
-          <Route path="/callcenter" component={CallCenter} />
-        </Suspense>
-      </BrowserRouter>
+      <GlobalStyle />
+      <Suspense fallback={<></>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </Provider>
   )
 }

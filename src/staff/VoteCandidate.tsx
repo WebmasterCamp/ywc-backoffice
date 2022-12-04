@@ -12,7 +12,7 @@ import { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
 import moment from 'moment'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import AnswerBox from '../common/AnswerBox'
 import QuestionBox from '../common/QuestionBox'
 import QuestionsStore from '../stores/questions'
@@ -31,26 +31,14 @@ const VoteBox = styled(Box)`
   padding: 10px 20px;
 `
 
-interface VoteCandidateProps {
-  match: {
-    params: {
-      id: string
-    }
-  }
-}
-
-const VoteCandidate = (props: VoteCandidateProps) => {
+const VoteCandidate = () => {
   const staffStore = StaffStore
   const userStore = UserStore
   const questionsStore = QuestionsStore
 
   const [staffComment, setStaffComment] = useState('')
 
-  const {
-    match: {
-      params: { id },
-    },
-  } = props
+  const id = useParams().id as string
 
   useEffect(() => {
     setStaffComment('')
@@ -70,7 +58,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   }
 
   const currentApplication =
-    staffStore.applications.map((a) => a._id).indexOf(id) + 1
+    staffStore.applications.map(a => a._id).indexOf(id) + 1
   const totalApplication = staffStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -156,7 +144,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         ) : (
           <AnswerBox
             key="comment-edit"
-            onChange={(e) => {
+            onChange={e => {
               setStaffComment(e.target.value)
             }}
             value={staffComment}

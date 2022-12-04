@@ -2,26 +2,15 @@ import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 
-interface CandidateFinalistProps {
-  match: {
-    params: {
-      major: string
-    }
-  }
-}
-
-const CandidateFinalist = (props: CandidateFinalistProps) => {
-  const {
-    match: {
-      params: { major },
-    },
-  } = props
+const CandidateFinalist = () => {
+  const major = useParams().major as string
 
   const candidatesStore = CandidateStore
 
@@ -34,7 +23,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map((c) => c._id))
+      setSelected(selectedRows.map(c => c._id))
     },
   }
 

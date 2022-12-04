@@ -1,7 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { Fragment } from 'react'
-import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
 
@@ -9,20 +8,20 @@ import MenuBar from '../common/MenuBar'
 import UserStore from '../stores/user'
 import Dashboard from './Dashboard'
 import Trackings from './Trackings'
-import { useHistory } from 'react-router-dom'
+import { Outlet, Route, useNavigate } from 'react-router-dom'
 
 const CallCenter = () => {
   const userStore = UserStore
-  const history = useHistory()
+  const navigate = useNavigate()
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')
-    history.push(`/`)
+    navigate(`/`)
     return <p>Unauthorized</p>
   }
 
   if (userStore.profile.role !== 'callcenter') {
-    history.push(`/${userStore.profile.role}`)
+    navigate(`/${userStore.profile.role}`)
     return <p>Unauthorized</p>
   }
 
@@ -45,11 +44,17 @@ const CallCenter = () => {
           },
         ]}
       >
-        <Route path="/callcenter" exact={true} component={Dashboard} />
-        <Route path="/callcenter/tracking" component={Trackings} />
+        <Outlet />
       </MenuBar>
     </Fragment>
   )
 }
 
 export default observer(CallCenter)
+
+export const route = (
+  <Route path="/callcenter" element={<CallCenter />}>
+    <Route path="" element={<Dashboard />} />
+    <Route path="tracking" element={<Trackings />} />
+  </Route>
+)

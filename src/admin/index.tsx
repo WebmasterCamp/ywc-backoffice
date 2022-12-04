@@ -1,7 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { Fragment } from 'react'
-import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
 
@@ -13,20 +12,20 @@ import UserStore from '../stores/user'
 import CandidateFinalist from './CandidateFinalist'
 import CandidateInterview from './CandidateInterview'
 import CommitteeStatus from './CommitteeStatus'
-import { useHistory } from 'react-router-dom'
+import { Outlet, Route, useNavigate } from 'react-router-dom'
 
 const Admin = () => {
   const userStore = UserStore
-  const history = useHistory()
+  const navigate = useNavigate()
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')
-    history.push(`/`)
+    navigate(`/`)
     return <p>Unauthorized</p>
   }
 
   if (userStore.profile.role !== 'admin') {
-    history.push(`/${userStore.profile.role}`)
+    navigate(`/${userStore.profile.role}`)
     return <p>Unauthorized</p>
   }
 
@@ -113,27 +112,21 @@ const Admin = () => {
           },
         ]}
       >
-        <Route path="/admin/" exact={true} component={Dashboard} />
-        <Route path="/admin/candidates" exact={true} component={Candidates} />
-        <Route
-          path="/admin/candidates/:major"
-          exact={true}
-          component={CandidateInterview}
-        />
-        <Route
-          path="/admin/finalist/:major"
-          exact={true}
-          component={CandidateFinalist}
-        />
-        <Route path="/admin/status" exact={true} component={CommitteeStatus} />
-        <Route
-          path="/admin/tracking/candidates"
-          exact={true}
-          component={Trackings}
-        />
+        <Outlet />
       </MenuBar>
     </Fragment>
   )
 }
 
 export default observer(Admin)
+
+export const route = (
+  <Route path="/admin" element={<Admin />}>
+    <Route path="" element={<Dashboard />} />
+    <Route path="candidates" element={<Candidates />} />
+    <Route path="candidates/:major" element={<CandidateInterview />} />
+    <Route path="finalist/:major" element={<CandidateFinalist />} />
+    <Route path="status" element={<CommitteeStatus />} />
+    <Route path="tracking/candidates" element={<Trackings />} />
+  </Route>
+)
