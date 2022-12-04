@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import Candidate from '../interfaces/Candidate'
 import Tracking, { TrackingForm } from '../interfaces/Tracking'
@@ -23,6 +23,10 @@ class TrackingStore {
     user: {} as Candidate
   }
   @persist @observable public loading: boolean = true
+
+  constructor() {
+    makeObservable(this)
+  }
 
   @action
   public async getTrackings() {

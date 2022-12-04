@@ -3,7 +3,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate, {
   CommitteeVote
@@ -15,8 +15,8 @@ import { PageTitle } from '../utils/styled-helper'
 import useSearchApplications from '../utils/useSearchApplications'
 
 const CompletedCandidates = () => {
-  const committeeStore = useObservable(CommitteeStore)
-  const userStore = useObservable(UserStore)
+  const committeeStore = CommitteeStore
+  const userStore = UserStore
   const { applications, onSearch } = useSearchApplications(
     committeeStore.completedApplication
   )

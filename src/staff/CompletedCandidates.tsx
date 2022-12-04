@@ -1,6 +1,6 @@
 import { Button, Table, Tag } from 'antd'
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -11,8 +11,8 @@ import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 
 const CompletedCandidates = () => {
-  const staffStore = useObservable(StaffStore)
-  const userStore = useObservable(UserStore)
+  const staffStore = StaffStore
+  const userStore = UserStore
 
   useEffect(() => {
     staffStore.getCompletedApplication()

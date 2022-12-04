@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import Question from '../interfaces/Question'
 import { fetch } from '../utils/fetch'
 
@@ -9,6 +9,10 @@ class Questions {
     general: [''],
     marketing: [''],
     programming: ['']
+  }
+
+  constructor() {
+    makeObservable(this)
   }
 
   @action

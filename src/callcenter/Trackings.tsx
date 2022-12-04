@@ -19,7 +19,7 @@ import { observer } from 'mobx-react-lite'
 
 const Tracking = () => {
   // TODO: fix this
-  // const trackingStore = useObservable(TrackingStore)
+  // const trackingStore = TrackingStore
   // const { selectedTracking } = trackingStore
   // useEffect(() => {
   //   trackingStore.getTrackingCallCenter()

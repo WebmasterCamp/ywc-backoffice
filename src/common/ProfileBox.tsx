@@ -1,6 +1,6 @@
 import { Avatar, Button, Col, Row } from 'antd'
 import { PoweroffOutlined, UserOutlined } from '@ant-design/icons'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import UserStore from '../stores/user'
 import Box from '../ui/Box'
@@ -8,7 +8,7 @@ import { MAJOR } from '../utils/const'
 import { Padding } from '../utils/styled-helper'
 
 const ProfileBox = () => {
-  const userStore = useObservable(UserStore)
+  const userStore = UserStore
 
   useEffect(() => {
     userStore.getProfile()

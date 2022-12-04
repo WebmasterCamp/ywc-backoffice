@@ -1,7 +1,7 @@
 import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
 import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import Candidate from '../interfaces/Candidate'
 import { TrackingForm } from '../interfaces/Tracking'
@@ -13,8 +13,8 @@ import CandidateModal from './CandidateModal'
 const { Option } = Select
 
 const Tracking = () => {
-  const trackingStore = useObservable(TrackingStore)
-  const userStore = useObservable(UserStore)
+  const trackingStore = TrackingStore
+  const userStore = UserStore
 
   useEffect(() => {
     trackingStore.getTrackings()

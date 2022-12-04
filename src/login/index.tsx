@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useCallback, useEffect } from 'react'
 import styled from '@emotion/styled'
 
@@ -46,7 +46,7 @@ interface ILoginForm {
 }
 
 const LoginPage: React.FC = () => {
-  const userStore = useObservable(UserStore)
+  const userStore = UserStore
 
   useEffect(() => {
     userStore.checkAuthentication()

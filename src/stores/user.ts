@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
@@ -14,6 +14,10 @@ class User {
     major: '',
     role: '',
     username: ''
+  }
+
+  constructor() {
+    makeObservable(this)
   }
 
   @action

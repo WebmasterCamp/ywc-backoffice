@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 // import styled from '@emotion/styled'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
 import { MAJOR, STEP } from '../utils/const'
@@ -25,7 +25,7 @@ import CandidateModal from './CandidateModal'
 // `
 
 const Candidates = () => {
-  const candidatesStore = useObservable(CandidateStore)
+  const candidatesStore = CandidateStore
   const { candidates, onSearch } = useSearchCandidates(
     candidatesStore.candidates
   )

@@ -1,6 +1,6 @@
 import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 
 import Candidate from '../interfaces/Candidate'
@@ -23,7 +23,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
     }
   } = props
 
-  const candidatesStore = useObservable(CandidateStore)
+  const candidatesStore = CandidateStore
 
   useEffect(() => {
     candidatesStore.getPassCandidatesByMajor(major)

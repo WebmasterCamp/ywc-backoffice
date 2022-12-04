@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
 import { Route } from 'react-router'
 import history from '../utils/history'
@@ -12,7 +12,7 @@ import Candidates from '../dashboard/Candidates'
 import UserStore from '../stores/user'
 
 const Manager = () => {
-  const userStore = useObservable(UserStore)
+  const userStore = UserStore
 
   if (!userStore.isAuthentication || !getToken()) {
     message.error('Unauthorized')

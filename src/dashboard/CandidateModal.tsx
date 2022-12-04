@@ -1,6 +1,6 @@
 import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { UserOutlined, DownloadOutlined } from '@ant-design/icons'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
@@ -51,7 +51,7 @@ const CandidateModal = ({
   onClose,
   candidateId
 }: CandidateModalProps) => {
-  const candidateStore = useObservable(CandidateStore)
+  const candidateStore = CandidateStore
 
   const [viewQuestion, setViewQuestion] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)

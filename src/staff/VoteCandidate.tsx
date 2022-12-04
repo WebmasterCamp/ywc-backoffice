@@ -7,7 +7,7 @@ import {
   CloseOutlined,
   CheckOutlined
 } from '@ant-design/icons'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
@@ -40,9 +40,9 @@ interface VoteCandidateProps {
 }
 
 const VoteCandidate = (props: VoteCandidateProps) => {
-  const staffStore = useObservable(StaffStore)
-  const userStore = useObservable(UserStore)
-  const questionsStore = useObservable(QuestionsStore)
+  const staffStore = StaffStore
+  const userStore = UserStore
+  const questionsStore = QuestionsStore
 
   const [staffComment, setStaffComment] = useState('')
 

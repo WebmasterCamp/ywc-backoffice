@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import * as R from 'ramda'
 import Candidate from '../interfaces/Candidate'
 import CompletedTimeline from '../interfaces/CompletedTimeline'
@@ -24,6 +24,10 @@ class Dashboard {
     info: 0,
     major: 0,
     summary: 0
+  }
+
+  constructor() {
+    makeObservable(this)
   }
 
   @action.bound

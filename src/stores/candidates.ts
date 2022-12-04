@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import AdminCandidate from '../interfaces/AdminCandidate'
 import Candidate from '../interfaces/Candidate'
@@ -10,6 +10,10 @@ class Candidates {
   @observable public filteredCandidates: Candidate[] = []
   @observable public candidate = {} as AdminCandidate
   @persist @observable public loading: boolean = true
+
+  constructor() {
+    makeObservable(this)
+  }
 
   @action
   public async getCandidates() {

@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import CommitteeApplication from '../interfaces/CommitteeApplication'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
@@ -47,6 +47,10 @@ class Committee {
     staffComment: '',
     staffUsername: '',
     university: ''
+  }
+
+  constructor() {
+    makeObservable(this)
   }
 
   @action

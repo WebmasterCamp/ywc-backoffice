@@ -5,7 +5,7 @@ import {
   CloseOutlined
 } from '@ant-design/icons'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import CandidateModal from '../dashboard/CandidateModal'
 import Candidate from '../interfaces/Candidate'
@@ -28,7 +28,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
     }
   } = props
 
-  const candidatesStore = useObservable(CandidateStore)
+  const candidatesStore = CandidateStore
 
   useEffect(() => {
     candidatesStore.getCandidatesByMajor(major)

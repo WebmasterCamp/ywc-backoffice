@@ -8,7 +8,7 @@ import {
   CloseOutlined,
   CheckOutlined
 } from '@ant-design/icons'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
@@ -47,9 +47,9 @@ interface VoteCandidateProps {
 }
 
 const VoteCandidate = (props: VoteCandidateProps) => {
-  const committeeStore = useObservable(CommitteeStore)
-  const userStore = useObservable(UserStore)
-  const questionsStore = useObservable(QuestionsStore)
+  const committeeStore = CommitteeStore
+  const userStore = UserStore
+  const questionsStore = QuestionsStore
 
   const {
     match: {
@@ -334,7 +334,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1} style={{ textAlign: 'right' }}>
             {nextApplicationId && (
               <Link to={`/committee/candidate/${nextApplicationId}`}>
-                <Button type="primary" shape="circle" icon={<RightOutlined />} />
+                <Button
+                  type="primary"
+                  shape="circle"
+                  icon={<RightOutlined />}
+                />
               </Link>
             )}
           </Col>

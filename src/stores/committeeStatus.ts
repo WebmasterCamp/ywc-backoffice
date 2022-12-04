@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import ApplicationStatus from '../interfaces/ApplicationStatus'
 import { fetchWithToken } from '../utils/fetch'
 
@@ -8,6 +8,10 @@ class CommitteeStatus {
   @observable public marketingCommittee: ApplicationStatus[] = []
   @observable public designCommittee: ApplicationStatus[] = []
   @observable public programmingCommittee: ApplicationStatus[] = []
+
+  constructor() {
+    makeObservable(this)
+  }
 
   @action
   public async getApplicationStatus() {

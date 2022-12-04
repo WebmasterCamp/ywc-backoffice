@@ -1,6 +1,6 @@
 import { Table } from 'antd'
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table/interface'
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 
 import MainStatContainer from '../common/MainStatContainer'
@@ -11,7 +11,7 @@ import Box from '../ui/Box'
 import { DashboardTitle } from '../utils/styled-helper'
 
 const Dashboard = () => {
-  const dashboardStore = useObservable(DashboardStore)
+  const dashboardStore = DashboardStore
 
   const [pagination, setPagination] = useState({})
 

@@ -1,4 +1,4 @@
-import { observer, useObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 
 import MainStatContainer from '../common/MainStatContainer'
@@ -8,7 +8,7 @@ import Box from '../ui/Box'
 import { DashboardTitle } from '../utils/styled-helper'
 
 const Dashboard = () => {
-  const staffStore = useObservable(StaffStore)
+  const staffStore = StaffStore
 
   useEffect(() => {
     staffStore.getCommitteeStatus()
