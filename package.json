@@ -7,8 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "format": "yarn run lint --fix",
-    "lint": "tslint './src/**/*.{ts,tsx}'",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+    "lint": "eslint './src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
@@ -22,6 +21,8 @@
     "antd": "^5.0.3",
     "apexcharts": "^3.8.3",
     "axios": "^0.19.0",
+    "eslint": "^8.29.0",
+    "eslint-config-react-app": "^7.0.1",
     "mobx": "^6.7.0",
     "mobx-persist": "^0.4.1",
     "mobx-react": "^7.6.0",
@@ -46,13 +47,6 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^2.2.0",
     "prettier": "^1.18.2",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "tslint-loader": "^3.5.4",
-    "tslint-plugin-prettier": "^2.0.1",
-    "tslint-react": "^4.0.0",
-    "tslint-react-hooks": "^2.2.1",
     "vite": "^3.2.4"
   },
   "eslintConfig": {
