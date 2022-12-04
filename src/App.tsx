@@ -1,43 +1,18 @@
 import { Provider } from 'mobx-react'
-import React from 'react'
-import Loadable from 'react-loadable'
+import React, { lazy, Suspense } from 'react'
 import { Route, Router } from 'react-router'
 
 import { createGlobalStyle } from 'styled-components'
 import store from './stores'
 import history from './utils/history'
 
-const Loading = () => <></>
 
-const Admin = Loadable({
-  loader: () => import('./admin'),
-  loading: Loading
-})
-
-const Committee = Loadable({
-  loader: () => import('./committee'),
-  loading: Loading
-})
-
-const Login = Loadable({
-  loader: () => import('./login'),
-  loading: Loading
-})
-
-const Manager = Loadable({
-  loader: () => import('./manager'),
-  loading: Loading
-})
-
-const Staff = Loadable({
-  loader: () => import('./staff'),
-  loading: Loading
-})
-
-const CallCenter = Loadable({
-  loader: () => import('./callcenter'),
-  loading: Loading
-})
+const Admin = lazy(() => import('./admin'))
+const Committee = lazy(() => import('./committee'))
+const Login = lazy(() => import('./login'))
+const Manager = lazy(() => import('./manager'))
+const Staff = lazy(() => import('./staff'))
+const CallCenter = lazy(() => import('./callcenter'))
 
 const GlobalStyle = createGlobalStyle`
   .ant-form-item-children > textarea {
@@ -58,12 +33,14 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Router history={history}>
         <GlobalStyle />
-        <Route exact={true} path="/" component={Login} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/committee" component={Committee} />
-        <Route path="/staff" component={Staff} />
-        <Route path="/manager" component={Manager} />
-        <Route path="/callcenter" component={CallCenter} />
+        <Suspense fallback={<></>}>
+          <Route exact={true} path="/" component={Login} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/committee" component={Committee} />
+          <Route path="/staff" component={Staff} />
+          <Route path="/manager" component={Manager} />
+          <Route path="/callcenter" component={CallCenter} />
+        </Suspense>
       </Router>
     </Provider>
   )
