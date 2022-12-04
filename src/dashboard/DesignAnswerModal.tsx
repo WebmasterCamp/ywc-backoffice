@@ -15,7 +15,7 @@ const DesignAnswerModal = ({
   return (
     <>
       <Drawer
-        visible={visible}
+        open={visible}
         onClose={onClose}
         maskClosable={false}
         title="ไฟล์ที่แนบมากับใบสมัคร"

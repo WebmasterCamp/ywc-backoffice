@@ -101,7 +101,7 @@ const CandidateModal = ({
         url={portfolioUrl}
       />
       <Drawer
-        visible={visible}
+        open={visible}
         onClose={onClose}
         maskClosable={false}
         title={
