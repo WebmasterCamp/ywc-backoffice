@@ -1,5 +1,9 @@
 import { Button, Col, Popconfirm, Row, Tag } from 'antd'
-import { InfoCircleFilled } from '@ant-design/icons'
+import {
+  InfoCircleFilled,
+  CheckOutlined,
+  CloseOutlined
+} from '@ant-design/icons'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
@@ -287,7 +291,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
             cancelText="ยกเลิก"
             icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
           >
-            <Button type="primary" icon="check">
+            <Button type="primary" icon={<CheckOutlined />}>
               เลือกเข้าสัมภาษณ์
             </Button>
           </Popconfirm>{' '}
@@ -299,7 +303,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
             cancelText="ยกเลิก"
             icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
           >
-            <Button danger icon="close">
+            <Button danger icon={<CloseOutlined />}>
               ไม่เลือกเข้าสัมภาษณ์
             </Button>
           </Popconfirm>

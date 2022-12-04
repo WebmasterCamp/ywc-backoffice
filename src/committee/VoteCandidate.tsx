@@ -1,5 +1,13 @@
 import { Avatar, Button, Col, Divider, Popconfirm, Row, Tag } from 'antd'
-import { InfoCircleFilled, UserOutlined } from '@ant-design/icons'
+import {
+  InfoCircleFilled,
+  UserOutlined,
+  DownloadOutlined,
+  LeftOutlined,
+  RightOutlined,
+  CloseOutlined,
+  CheckOutlined
+} from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -227,7 +235,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                       />
                       {question.type === QUESTION_TYPES.FILE ? (
                         <Button
-                          icon="download"
+                          icon={<DownloadOutlined />}
                           onClick={() => openDrawer(answer)}
                           style={{ margin: '5px auto 25px auto' }}
                         >
@@ -274,7 +282,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1}>
             {prevApplicationId && (
               <Link to={`/committee/candidate/${prevApplicationId}`}>
-                <Button type="primary" shape="circle" icon="left" />
+                <Button type="primary" shape="circle" icon={<LeftOutlined />} />
               </Link>
             )}
           </Col>
@@ -302,7 +310,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               cancelText="ยกเลิก"
               icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
             >
-              <Button danger icon="close">
+              <Button danger icon={<CloseOutlined />}>
                 ไม่ผ่าน
               </Button>
             </Popconfirm>{' '}
@@ -316,7 +324,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             >
               <Button
                 type="primary"
-                icon="check"
+                icon={<CheckOutlined />}
                 style={{ backgroundColor: '#56C41A', borderColor: '#56C41A' }}
               >
                 ผ่าน
@@ -326,7 +334,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1} style={{ textAlign: 'right' }}>
             {nextApplicationId && (
               <Link to={`/committee/candidate/${nextApplicationId}`}>
-                <Button type="primary" shape="circle" icon="right" />
+                <Button type="primary" shape="circle" icon={<RightOutlined />} />
               </Link>
             )}
           </Col>

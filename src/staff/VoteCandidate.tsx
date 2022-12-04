@@ -1,5 +1,12 @@
 import { Avatar, Button, Col, Divider, Popconfirm, Row } from 'antd'
-import { InfoCircleFilled, UserOutlined } from '@ant-design/icons'
+import {
+  InfoCircleFilled,
+  UserOutlined,
+  LeftOutlined,
+  RightOutlined,
+  CloseOutlined,
+  CheckOutlined
+} from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
@@ -162,7 +169,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1}>
             {prevApplicationId && (
               <Link to={`/staff/candidate/${prevApplicationId}`}>
-                <Button type="primary" shape="circle" icon="left" />
+                <Button type="primary" shape="circle" icon={<LeftOutlined />} />
               </Link>
             )}
           </Col>
@@ -204,7 +211,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 cancelText="ยกเลิก"
                 icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
               >
-                <Button danger icon="close">
+                <Button danger icon={<CloseOutlined />}>
                   ไม่ผ่าน
                 </Button>
               </Popconfirm>{' '}
@@ -218,7 +225,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               >
                 <Button
                   type="primary"
-                  icon="check"
+                  icon={<CheckOutlined />}
                   style={{ backgroundColor: '#56C41A', borderColor: '#56C41A' }}
                 >
                   ผ่าน
@@ -229,7 +236,11 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <Col md={1} style={{ textAlign: 'right' }}>
             {nextApplicationId && (
               <Link to={`/staff/candidate/${nextApplicationId}`}>
-                <Button type="primary" shape="circle" icon="right" />
+                <Button
+                  type="primary"
+                  shape="circle"
+                  icon={<RightOutlined />}
+                />
               </Link>
             )}
           </Col>

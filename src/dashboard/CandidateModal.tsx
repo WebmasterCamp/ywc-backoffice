@@ -1,5 +1,5 @@
 import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, DownloadOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -364,7 +364,7 @@ const CandidateModal = ({
                               {question.type === QUESTION_TYPES.FILE ? (
                                 <Col md={24}>
                                   <Button
-                                    icon="download"
+                                    icon={<DownloadOutlined />}
                                     className="print-hide"
                                     onClick={() => openDrawer(answer)}
                                   >
