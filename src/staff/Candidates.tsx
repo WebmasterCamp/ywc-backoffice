@@ -1,7 +1,7 @@
 import { Button, Table, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-import { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import StaffCandidate from '../interfaces/StaffCandidate'
@@ -40,7 +40,7 @@ const Candidates = () => {
         }
       ],
       key: 'status',
-      onFilter: (value: string, record: StaffCandidate) => {
+      onFilter: (value, record) => {
         return value === 'completed'
           ? record.completed === true
           : record.completed === false
@@ -100,7 +100,7 @@ const Candidates = () => {
     }
   ]
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
@@ -113,7 +113,7 @@ const Candidates = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: StaffCandidate, index: number) => candidate._id}
+        rowKey={(candidate: StaffCandidate, index?: number) => candidate._id}
         dataSource={staffStore.applications}
         onChange={onPageChange}
         pagination={pagination}

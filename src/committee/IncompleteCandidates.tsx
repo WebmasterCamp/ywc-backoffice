@@ -1,7 +1,8 @@
-import { Button, Icon, Input, Table, Tag } from 'antd'
+import { Button, Input, Table, Tag } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 
-import { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
@@ -76,7 +77,7 @@ const IncompleteCandidates = () => {
     }
   ]
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
@@ -86,7 +87,7 @@ const IncompleteCandidates = () => {
         ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(userStore.profile.major)})
         <Input
           placeholder="ค้นหาใบสมัคร"
-          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
           onChange={onSearch}
         />
       </PageTitle>
@@ -94,7 +95,9 @@ const IncompleteCandidates = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: CommitteeCandidate, index: number) => candidate._id}
+        rowKey={(candidate: CommitteeCandidate, index?: number) =>
+          candidate._id
+        }
         dataSource={applications}
         onChange={onPageChange}
         pagination={pagination}

@@ -1,4 +1,5 @@
 import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -127,7 +128,7 @@ const CandidateModal = ({
                   <Avatar
                     shape="square"
                     size={96}
-                    icon="user"
+                    icon={<UserOutlined />}
                     src={candidate.picture}
                     style={{ marginRight: 30 }}
                   />
@@ -331,7 +332,7 @@ const CandidateModal = ({
                           {candidate.questions.generalQuestions[i] && (
                             <AnswerBox
                               disabled={true}
-                              autosize={true}
+                              autoSize={true}
                               value={
                                 candidate.questions.generalQuestions[i].answer
                               }
@@ -372,7 +373,7 @@ const CandidateModal = ({
                                   <AnswerBox
                                     className="screen-hide"
                                     disabled={true}
-                                    autosize={true}
+                                    autoSize={true}
                                     value={answer}
                                   />
                                   <br />
@@ -382,7 +383,7 @@ const CandidateModal = ({
                                 <Col md={24}>
                                   <AnswerBox
                                     disabled={true}
-                                    autosize={true}
+                                    autoSize={true}
                                     value={answer}
                                   />
                                 </Col>

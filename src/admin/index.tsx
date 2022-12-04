@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import { Route } from 'react-router'
 import history from '../utils/history'
 import { getToken } from '../utils/token-helper'
+import { PieChartOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
@@ -32,38 +33,38 @@ const Admin = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: 'pie-chart', name: 'แดชบอร์ด', to: '/admin' },
+          { icon: <PieChartOutlined />, name: 'แดชบอร์ด', to: '/admin' },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'ผู้เข้าสมัครทั้งหมด',
             to: '/admin/candidates'
           },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'สถานะการตรวจใบสมัคร',
             to: '/admin/status'
           },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'คัดเลือกเข้าสัมภาษณ์',
             submenu: [
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาคอนเทนท์',
                 to: '/admin/candidates/content'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาดีไซน์',
                 to: '/admin/candidates/design'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขามาร์เก็ตติ้ง',
                 to: '/admin/candidates/marketing'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาโปรแกรมมิ่ง',
                 to: '/admin/candidates/programming'
               }
@@ -71,26 +72,26 @@ const Admin = () => {
             to: ''
           },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'คัดเลือกเข้าค่าย',
             submenu: [
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาคอนเทนท์',
                 to: '/admin/finalist/content'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาดีไซน์',
                 to: '/admin/finalist/design'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขามาร์เก็ตติ้ง',
                 to: '/admin/finalist/marketing'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'สาขาโปรแกรมมิ่ง',
                 to: '/admin/finalist/programming'
               }
@@ -98,11 +99,11 @@ const Admin = () => {
             to: ''
           },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'ระบบติดตาม',
             submenu: [
               {
-                icon: '',
+                icon: null,
                 name: 'สร้างการติดตาม',
                 to: '/admin/tracking/candidates'
               }

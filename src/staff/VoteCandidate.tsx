@@ -1,4 +1,5 @@
-import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row } from 'antd'
+import { Avatar, Button, Col, Divider, Popconfirm, Row } from 'antd'
+import { InfoCircleFilled, UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -82,7 +83,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
       <CandidateBox>
         <Row gutter={16}>
           <Col md={5} lg={4} xl={3} xxl={2}>
-            <Avatar shape="square" size={96} icon="user" />
+            <Avatar shape="square" size={96} icon={<UserOutlined />} />
           </Col>
           <Col md={19} lg={20} xl={21} xxl={22}>
             <table>
@@ -124,7 +125,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}
-                    autosize={true}
+                    autoSize={true}
                     value={application.questions.generalQuestions[i].answer}
                   />
                 )}
@@ -138,7 +139,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <AnswerBox
             key="comment-disable"
             disabled={true}
-            autosize={true}
+            autoSize={true}
             value={
               application.staffComment
                 ? application.staffComment
@@ -201,15 +202,9 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 okText="ยืนยัน"
                 onConfirm={onConfirmFailed}
                 cancelText="ยกเลิก"
-                icon={
-                  <Icon
-                    type="info-circle"
-                    theme="filled"
-                    style={{ color: '#1890FF' }}
-                  />
-                }
+                icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
               >
-                <Button type="danger" icon="close">
+                <Button danger icon="close">
                   ไม่ผ่าน
                 </Button>
               </Popconfirm>{' '}
@@ -219,13 +214,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 okText="ยืนยัน"
                 onConfirm={onConfirmPass}
                 cancelText="ยกเลิก"
-                icon={
-                  <Icon
-                    type="info-circle"
-                    theme="filled"
-                    style={{ color: '#1890FF' }}
-                  />
-                }
+                icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
               >
                 <Button
                   type="primary"

@@ -1,9 +1,10 @@
-import { Button, Icon, Input, Table, Tag } from 'antd'
+import { Button, Input, Table, Tag } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 // import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 // import styled from 'styled-components'
 
-import { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
@@ -83,7 +84,7 @@ const Candidates = () => {
         }
       ],
       key: 'major',
-      onFilter: (value: string, record: Candidate) => record.major === value,
+      onFilter: (value, record) => record.major === value,
       render: (candidate: Candidate) => {
         return <span>{MAJOR(candidate.major)}</span>
       },
@@ -145,7 +146,7 @@ const Candidates = () => {
         }
       ],
       key: 'step',
-      onFilter: (value: string, record: Candidate) =>
+      onFilter: (value, record) =>
         record.step === value && record.status !== 'completed',
       render: (candidate: Candidate) => {
         if (candidate.status === 'completed') {
@@ -214,7 +215,7 @@ const Candidates = () => {
   //   // this.setState({ searchText: '' })
   // }
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
@@ -224,7 +225,7 @@ const Candidates = () => {
         ผู้เข้าสมัครทั้งหมด
         <Input
           placeholder="ค้นหาผู้เข้าสมัคร"
-          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
           onChange={onSearch}
         />
       </PageTitle>
@@ -248,7 +249,7 @@ const Candidates = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate, index: number) => candidate._id}
+        rowKey={(candidate: Candidate, index?: number) => candidate._id}
         dataSource={candidates}
         onChange={onPageChange}
         pagination={pagination}

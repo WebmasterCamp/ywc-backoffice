@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import { Route } from 'react-router'
 import history from '../utils/history'
 import { getToken } from '../utils/token-helper'
+import { PieChartOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
 import UserStore from '../stores/user'
@@ -31,19 +32,19 @@ const Staff = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: 'pie-chart', name: 'แดชบอร์ด', to: '/staff' },
+          { icon: <PieChartOutlined />, name: 'แดชบอร์ด', to: '/staff' },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             name: 'ตรวจคำตอบ',
             submenu: [
-              { icon: '', to: '/staff/all', name: 'ใบสมัครทั้งหมด' },
+              { icon: null, to: '/staff/all', name: 'ใบสมัครทั้งหมด' },
               {
-                icon: '',
+                icon: null,
                 name: 'ใบสมัครที่ตรวจไม่เสร็จ',
                 to: '/staff/incomplete'
               },
               {
-                icon: '',
+                icon: null,
                 name: 'ใบสมัครที่ตรวจเสร็จ',
                 to: '/staff/completed'
               }

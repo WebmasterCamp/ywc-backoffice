@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import { ColumnProps, PaginationConfig } from 'antd/lib/table/interface'
+import { ColumnType, TablePaginationConfig } from 'antd/lib/table/interface'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 
@@ -15,11 +15,11 @@ const Dashboard = () => {
 
   const [pagination, setPagination] = useState({})
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
-  const columns: ColumnProps<GroupByUniversity>[] = [
+  const columns: ColumnType<GroupByUniversity>[] = [
     {
       key: 'name',
       render: (user: GroupByUniversity) => <span>{user.name}</span>,
@@ -104,7 +104,7 @@ const Dashboard = () => {
         <Table
           className="candidates-table"
           columns={columns}
-          rowKey={(university: GroupByUniversity, index: number) =>
+          rowKey={(university: GroupByUniversity, index?: number) =>
             university.name
           }
           dataSource={dashboardStore.universityStat}

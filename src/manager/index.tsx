@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import { Route } from 'react-router'
 import history from '../utils/history'
 import { getToken } from '../utils/token-helper'
+import { UserOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
@@ -28,8 +29,12 @@ const Manager = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: 'user', name: 'Dashboard', to: '/manager' },
-          { icon: 'user', name: 'All Candidates', to: '/manager/candidates' }
+          { icon: <UserOutlined />, name: 'Dashboard', to: '/manager' },
+          {
+            icon: <UserOutlined />,
+            name: 'All Candidates',
+            to: '/manager/candidates'
+          }
         ]}
       >
         <Route path="/manager" exact={true} component={Dashboard} />

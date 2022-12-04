@@ -1,5 +1,6 @@
-import { Button, Col, Icon, Popconfirm, Row, Tag } from 'antd'
-import Table, { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { Button, Col, Popconfirm, Row, Tag } from 'antd'
+import { InfoCircleFilled } from '@ant-design/icons'
+import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import CandidateModal from '../dashboard/CandidateModal'
@@ -210,8 +211,12 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       key: 'committeeVote',
       onFilter: (value, record: Candidate) => {
         const committeeList = record.committeeVote.map(c => c.committee)
-        if (committeeList.indexOf(value) !== -1) {
-          return record.committeeVote[committeeList.indexOf(value)].score === 1
+        /// TODO: refine type
+        if (committeeList.indexOf(value as string) !== -1) {
+          return (
+            record.committeeVote[committeeList.indexOf(value as string)]
+              .score === 1
+          )
         }
         return false
       },
@@ -249,7 +254,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
     setDrawerId('')
   }
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
@@ -260,7 +265,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate, index: number) => candidate._id}
+        rowKey={(candidate: Candidate, index?: number) => candidate._id}
         dataSource={candidatesStore.filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}
@@ -280,13 +285,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
             okText="ยืนยัน"
             onConfirm={onConfirmPass}
             cancelText="ยกเลิก"
-            icon={
-              <Icon
-                type="info-circle"
-                theme="filled"
-                style={{ color: '#1890FF' }}
-              />
-            }
+            icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
           >
             <Button type="primary" icon="check">
               เลือกเข้าสัมภาษณ์
@@ -298,15 +297,9 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
             okText="ยืนยัน"
             onConfirm={onConfirmFailed}
             cancelText="ยกเลิก"
-            icon={
-              <Icon
-                type="info-circle"
-                theme="filled"
-                style={{ color: '#1890FF' }}
-              />
-            }
+            icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
           >
-            <Button type="danger" icon="close">
+            <Button danger icon="close">
               ไม่เลือกเข้าสัมภาษณ์
             </Button>
           </Popconfirm>

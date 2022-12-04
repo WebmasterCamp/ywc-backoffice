@@ -1,5 +1,5 @@
-import { Icon, Layout, Menu } from 'antd'
-import React, { Fragment, useEffect, useState } from 'react'
+import { Layout, Menu } from 'antd'
+import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -7,7 +7,7 @@ import Panel from '../ui/Panel'
 
 import LogoSVG from '../assets/logo.white.svg'
 
-import { SelectParam } from 'antd/lib/menu'
+import { SelectInfo } from 'rc-menu/lib/interface'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import isWindows from '../utils/isWindows'
 import { Padding } from '../utils/styled-helper'
@@ -52,13 +52,13 @@ const Footer = styled.div`
 `
 
 interface MenuItem {
-  icon: string
+  icon: ReactNode
   name: string
   to: string
 }
 
 interface MenuItems {
-  icon: string
+  icon: ReactNode
   name: string
   to: string
   submenu?: MenuItem[]
@@ -78,7 +78,7 @@ const MenuBar = (props: MenuBarProps) => {
 
   const location = useLocation()
 
-  const handleChange = (param: SelectParam) => {
+  const handleChange = (param: SelectInfo) => {
     setSelected([param.key])
   }
 
@@ -119,7 +119,7 @@ const MenuBar = (props: MenuBarProps) => {
                   return (
                     <Menu.Item key={`${i + 1}${j + 1}`}>
                       <Link to={submenu.to}>
-                        {submenu.icon && <Icon type={submenu.icon} />}
+                        {submenu.icon}
                         <span className="nav-text">{submenu.name}</span>
                       </Link>
                     </Menu.Item>
@@ -130,7 +130,7 @@ const MenuBar = (props: MenuBarProps) => {
                     key={i + 1}
                     title={
                       <>
-                        <Icon type={menu.icon} />
+                        {menu.icon}
                         <span className="nav-text">{menu.name}</span>
                       </>
                     }
@@ -143,7 +143,7 @@ const MenuBar = (props: MenuBarProps) => {
               return (
                 <Menu.Item key={i + 1}>
                   <Link to={menu.to}>
-                    <Icon type={menu.icon} />
+                    {menu.icon}
                     <span className="nav-text">{menu.name}</span>
                   </Link>
                 </Menu.Item>

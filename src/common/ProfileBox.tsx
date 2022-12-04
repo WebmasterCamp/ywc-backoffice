@@ -1,4 +1,5 @@
 import { Avatar, Button, Col, Row } from 'antd'
+import { PoweroffOutlined, UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import UserStore from '../stores/user'
@@ -35,7 +36,7 @@ const ProfileBox = () => {
       <Padding>
         <Row justify="space-between" gutter={8}>
           <Col md={4} xl={2}>
-            <Avatar size={64} icon="user" />
+            <Avatar size={64} icon={<UserOutlined />} />
           </Col>
           <Col md={14} xl={18}>
             <b>ยินดีต้อนรับ</b>
@@ -43,7 +44,7 @@ const ProfileBox = () => {
             คุณ {userStore.profile.username} ({getRole(userStore.profile.role)})
           </Col>
           <Col md={6} xl={4} style={{ textAlign: 'right' }}>
-            <Button icon="poweroff" onClick={handleLogout}>
+            <Button icon={<PoweroffOutlined />} onClick={handleLogout}>
               ออกจากระบบ
             </Button>
           </Col>

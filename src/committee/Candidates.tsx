@@ -1,7 +1,8 @@
-import { Button, Icon, Input, Table, Tag } from 'antd'
+import { Button, Input, Table, Tag } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 
-import { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate, {
@@ -55,7 +56,7 @@ const Candidates = () => {
         }
       ],
       key: 'status',
-      onFilter: (value: string, record: CommitteeCandidate) => {
+      onFilter: (value, record) => {
         return value === 'completed'
           ? record.completed === true
           : record.completed === false
@@ -88,7 +89,7 @@ const Candidates = () => {
         }
       ],
       key: 'result',
-      onFilter: (value: string, user: CommitteeCandidate) => {
+      onFilter: (value, user) => {
         const vote = user.committeeVote.find(
           (v: CommitteeVote) => v.committee === userStore.profile.username
         )
@@ -135,7 +136,7 @@ const Candidates = () => {
     }
   ]
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 
@@ -145,7 +146,7 @@ const Candidates = () => {
         ใบสมัครทั้งหมด (สาขา{MAJOR(userStore.profile.major)})
         <Input
           placeholder="ค้นหาใบสมัคร"
-          prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
           onChange={onSearch}
         />
       </PageTitle>
@@ -153,7 +154,9 @@ const Candidates = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: CommitteeCandidate, index: number) => candidate._id}
+        rowKey={(candidate: CommitteeCandidate, index?: number) =>
+          candidate._id
+        }
         dataSource={applications}
         onChange={onPageChange}
         pagination={pagination}

@@ -1,5 +1,5 @@
-import { Button, Col, Form, Icon, Modal, Row, Select, Table, Tag } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
+import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
@@ -43,59 +43,6 @@ const Tracking = () => {
   const formItemLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 18 }
-  }
-
-  // FORM
-  const TrackingFormImpl = (props: FormComponentProps) => {
-    const { getFieldDecorator, validateFields } = props.form
-
-    const onSubmit = (event: React.FormEvent) => {
-      event.preventDefault()
-      validateFields((err, values) => {
-        if (!err) {
-          handleSubmit(values)
-        }
-      })
-    }
-    return (
-      <Form {...formItemLayout} onSubmit={onSubmit}>
-        <Form.Item label="Purpose">
-          {getFieldDecorator('purpose', {
-            rules: [
-              { required: true, message: `Please select tracking's purpose` }
-            ]
-          })(
-            <Select
-              placeholder="Select a option and change input text above"
-              allowClear={true}
-            >
-              <Option value="remind_registration">
-                แจ้งเตือนการปิดรับสมัคร
-              </Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label="Assignee">
-          {getFieldDecorator('assignee', {
-            rules: [{ required: true, message: `Please select assignee` }]
-          })(
-            <Select placeholder="Select a option" allowClear={true}>
-              {userStore.admins.map(admin => (
-                <Option value={admin._id} key={admin._id}>
-                  {admin.username}
-                </Option>
-              ))}
-            </Select>
-          )}
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            <Icon type="login" style={{ color: 'white' }} /> สร้างรายการ
-          </Button>
-        </Form.Item>
-      </Form>
-    )
   }
 
   const openDrawer = (id: string) => {
@@ -144,7 +91,7 @@ const Tracking = () => {
         }
       ],
       key: 'major',
-      onFilter: (value: string, record: Candidate) => record.major === value,
+      onFilter: (value, record) => record.major === value,
       render: (tracking: Candidate) => {
         return <span>{MAJOR(tracking.major)}</span>
       },
@@ -175,7 +122,7 @@ const Tracking = () => {
         }
       ],
       key: 'step',
-      onFilter: (value: string, record: Candidate) =>
+      onFilter: (value, record) =>
         record.step === value && record.status !== 'completed',
       render: (candidate: Candidate) => {
         if (candidate.status === 'completed') {
@@ -248,7 +195,6 @@ const Tracking = () => {
     }
   ]
 
-  const TrackingFormComp = Form.create()(TrackingFormImpl)
   return (
     <>
       <PageTitle>ระบบติดตาม</PageTitle>
@@ -261,7 +207,7 @@ const Tracking = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(tracking: Candidate, index: number) => tracking._id}
+        rowKey={(tracking: Candidate, index?: number) => tracking._id}
         dataSource={trackingStore.trackings}
         pagination={{ pageSize: 20 }}
         rowSelection={{
@@ -276,7 +222,7 @@ const Tracking = () => {
         <Col>
           <Button
             type="primary"
-            icon="check"
+            icon={<CheckOutlined />}
             onClick={() => {
               setShowModal(true)
             }}
@@ -295,7 +241,43 @@ const Tracking = () => {
           setShowModal(false)
         }}
       >
-        <TrackingFormComp />
+        <Form {...formItemLayout} onFinish={handleSubmit}>
+          <Form.Item
+            label="Purpose"
+            name="purpose"
+            rules={[
+              { required: true, message: `Please select tracking's purpose` }
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              allowClear={true}
+            >
+              <Option value="remind_registration">
+                แจ้งเตือนการปิดรับสมัคร
+              </Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Assignee"
+            name="assignee"
+            rules={[{ required: true, message: `Please select assignee` }]}
+          >
+            <Select placeholder="Select a option" allowClear={true}>
+              {userStore.admins.map(admin => (
+                <Option value={admin._id} key={admin._id}>
+                  {admin.username}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              <LoginOutlined style={{ color: 'white' }} /> สร้างรายการ
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   )

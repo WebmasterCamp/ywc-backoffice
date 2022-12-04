@@ -1,4 +1,5 @@
-import { Avatar, Button, Col, Divider, Icon, Popconfirm, Row, Tag } from 'antd'
+import { Avatar, Button, Col, Divider, Popconfirm, Row, Tag } from 'antd'
+import { InfoCircleFilled, UserOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -111,7 +112,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
             <Avatar
               shape="square"
               size={96}
-              icon="user"
+              icon={<UserOutlined />}
               src={application.picture}
             />
           </Col>
@@ -186,7 +187,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
           <SubHeading>กิจกรรมที่ทำผ่านมา</SubHeading>
           <AnswerBox
             disabled={true}
-            autosize={true}
+            autoSize={true}
             value={application.activities}
           />
         </Row>
@@ -202,7 +203,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 {!!application.questions.generalQuestions[i] && (
                   <AnswerBox
                     disabled={true}
-                    autosize={true}
+                    autoSize={true}
                     value={application.questions.generalQuestions[i].answer}
                   />
                 )}
@@ -235,7 +236,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                       ) : (
                         <AnswerBox
                           disabled={true}
-                          autosize={true}
+                          autoSize={true}
                           value={application.questions.majorQuestions[i].answer}
                         />
                       )}
@@ -250,7 +251,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <SubHeading>คอมเมนท์จากคณะดำเนินงาน</SubHeading>
         <AnswerBox
           disabled={true}
-          autosize={true}
+          autoSize={true}
           value={
             application.staffComment
               ? application.staffComment
@@ -299,15 +300,9 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               okText="ยืนยัน"
               onConfirm={onConfirmFailed}
               cancelText="ยกเลิก"
-              icon={
-                <Icon
-                  type="info-circle"
-                  theme="filled"
-                  style={{ color: '#1890FF' }}
-                />
-              }
+              icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
             >
-              <Button type="danger" icon="close">
+              <Button danger icon="close">
                 ไม่ผ่าน
               </Button>
             </Popconfirm>{' '}
@@ -317,13 +312,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               okText="ยืนยัน"
               onConfirm={onConfirmPass}
               cancelText="ยกเลิก"
-              icon={
-                <Icon
-                  type="info-circle"
-                  theme="filled"
-                  style={{ color: '#1890FF' }}
-                />
-              }
+              icon={<InfoCircleFilled style={{ color: '#1890FF' }} />}
             >
               <Button
                 type="primary"

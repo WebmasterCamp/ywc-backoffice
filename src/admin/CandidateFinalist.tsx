@@ -1,5 +1,5 @@
 import { Button, message, Popconfirm, Tag } from 'antd'
-import Table, { ColumnProps, PaginationConfig } from 'antd/lib/table'
+import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 
@@ -180,7 +180,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
             onConfirm={() => onReservePass(user._id)}
             cancelText="ยกเลิก"
           >
-            <Button type="danger">ตัวสำรอง</Button>
+            <Button danger>ตัวสำรอง</Button>
           </Popconfirm>
           <Popconfirm
             placement="top"
@@ -197,7 +197,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
     }
   ]
 
-  const onPageChange = (p: PaginationConfig) => {
+  const onPageChange = (p: TablePaginationConfig) => {
     setPagination(p)
   }
 

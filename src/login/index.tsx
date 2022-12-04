@@ -1,5 +1,5 @@
-import { Button, Form, Icon, Input } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Button, Form, Input } from 'antd'
+import { LockOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons'
 import { observer, useObservable } from 'mobx-react-lite'
 import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
@@ -59,64 +59,39 @@ const LoginPage: React.FC = () => {
     [userStore]
   )
 
-  // Login Form Template
-  type LoginFormProps = FormComponentProps
-  function LoginFormImpl(props: LoginFormProps): JSX.Element {
-    const { form } = props
-    const { getFieldDecorator, validateFields } = form
-
-    const onSubmit = (event: React.FormEvent) => {
-      event.preventDefault()
-
-      validateFields((err, values) => {
-        if (!err) {
-          handleSubmit(values)
-        }
-      })
-    }
-
-    return (
-      <Form onSubmit={onSubmit}>
-        <FormItem>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
-          })(
-            <Input
-              placeholder="ชื่อผู้ใช้งาน"
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            />
-          )}
-        </FormItem>
-
-        <FormItem>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your password!' }]
-          })(
-            <Input
-              placeholder="รหัสผ่าน"
-              type="password"
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            />
-          )}
-        </FormItem>
-
-        <FormItem>
-          <LoginButton type="primary" htmlType="submit">
-            <Icon type="login" style={{ color: 'white' }} /> เข้าสู่ระบบ
-          </LoginButton>
-        </FormItem>
-      </Form>
-    )
-  }
-
-  const LoginForm = Form.create()(LoginFormImpl)
-
   return (
     <>
       <Container>
         <Logo src={LogoSVG} />
         <Title>Back Office System</Title>
-        <LoginForm />
+        <Form onFinish={handleSubmit}>
+          <FormItem
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input
+              placeholder="ชื่อผู้ใช้งาน"
+              prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+          </FormItem>
+
+          <FormItem
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input
+              placeholder="รหัสผ่าน"
+              type="password"
+              prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+          </FormItem>
+
+          <FormItem>
+            <LoginButton type="primary" htmlType="submit">
+              <LoginOutlined style={{ color: 'white' }} /> เข้าสู่ระบบ
+            </LoginButton>
+          </FormItem>
+        </Form>
       </Container>
     </>
   )
