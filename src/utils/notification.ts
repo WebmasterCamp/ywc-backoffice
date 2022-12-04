@@ -5,7 +5,7 @@ type IconType = 'success' | 'info' | 'warning' | 'error'
 const notification = (type: IconType, message: string, description: string) => {
   antdNotification[type]({
     description,
-    message
+    message,
   })
 }
 export default notification

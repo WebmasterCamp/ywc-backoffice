@@ -9,6 +9,6 @@ const stores = {
   CommitteeStore: Committee,
   DashboardStore: Dashboard,
   TrackingStore: Tracking,
-  UserStore: User
+  UserStore: User,
 }
 export default stores
