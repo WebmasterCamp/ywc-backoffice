@@ -7,7 +7,6 @@ import Panel from '../ui/Panel'
 
 import LogoSVG from '../assets/logo.white.svg'
 
-import { SelectInfo } from 'rc-menu/lib/interface'
 import isWindows from '../utils/isWindows'
 import { Padding } from '../utils/styled-helper'
 
@@ -62,14 +61,9 @@ const MenuBar = (props: MenuBarProps) => {
   const { menus, children } = props
 
   const [collapsed, setCollapsed] = useState(false)
-  const [selected, setSelected] = useState(['1'])
 
   const location = useLocation()
   const { push } = useHistory()
-
-  const handleChange = (param: SelectInfo) => {
-    setSelected([param.key])
-  }
 
   return (
     <Fragment>
@@ -85,7 +79,6 @@ const MenuBar = (props: MenuBarProps) => {
             theme="dark"
             mode="inline"
             selectedKeys={[location.pathname]}
-            onSelect={handleChange}
             items={menus}
             onClick={({ key }) => push(key)}
           />

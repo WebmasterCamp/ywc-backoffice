@@ -4,10 +4,11 @@ import Dashboard from './dashboard'
 import Tracking from './tracking'
 import User from './user'
 
-export default {
+const stores = {
   CandidatesStore: Candidates,
   CommitteeStore: Committee,
   DashboardStore: Dashboard,
   TrackingStore: Tracking,
-  UserStore: User,
+  UserStore: User
 }
+export default stores

@@ -1,10 +1,11 @@
-import { notification } from 'antd'
+import { notification as antdNotification } from 'antd'
 
 type IconType = 'success' | 'info' | 'warning' | 'error'
 
-export default (type: IconType, message: string, description: string) => {
-  notification[type]({
+const notification = (type: IconType, message: string, description: string) => {
+  antdNotification[type]({
     description,
-    message,
+    message
   })
 }
+export default notification
