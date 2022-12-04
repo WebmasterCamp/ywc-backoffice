@@ -34,19 +34,18 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-loadable": "^5.5.0",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "3.0.1",
     "serializr": "^1.5.1",
     "styled-components": "^4.3.2",
-    "typescript": "3.5.3",
-    "use-react-router": "^1.0.7"
+    "typescript": "3.5.3"
   },
   "devDependencies": {
     "@types/qs": "^6.5.3",
     "@types/ramda": "^0.26.25",
     "@types/react-copy-to-clipboard": "^4.2.6",
     "@types/react-loadable": "^5.5.1",
-    "@types/react-router-dom": "^4.3.4",
+    "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^4.1.18",
     "husky": "^3.0.1",
     "prettier": "^1.18.2",

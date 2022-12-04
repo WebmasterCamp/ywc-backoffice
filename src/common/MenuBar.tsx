@@ -1,8 +1,7 @@
 import { Icon, Layout, Menu } from 'antd'
 import React, { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import useReactRouter from 'use-react-router'
 
 import Panel from '../ui/Panel'
 
@@ -77,7 +76,7 @@ const MenuBar = (props: MenuBarProps) => {
   const [collapsed, setCollapsed] = useState(false)
   const [selected, setSelected] = useState(['1'])
 
-  const { location } = useReactRouter()
+  const location = useLocation()
 
   const handleChange = (param: SelectParam) => {
     setSelected([param.key])
