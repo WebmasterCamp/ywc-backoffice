@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component } from 'react'
 import Chart from 'react-apexcharts'
 import CountUserStep from '../interfaces/CountUserStep'
 
@@ -14,7 +14,7 @@ class CountUserStepChart extends Component<CountUserStepChartProps> {
       ': ' +
       [stepContact, stepInfo, stepInsight, stepMajor]
         .map((x, i) => (x ? i + 1 : -1))
-        .filter(x => x !== -1)
+        .filter((x) => x !== -1)
         .join(', ')
 
     return label
@@ -24,44 +24,44 @@ class CountUserStepChart extends Component<CountUserStepChartProps> {
     return [
       {
         data: users
-          .filter(user => user._id.major !== undefined)
-          .map(user => ({
+          .filter((user) => user._id.major !== undefined)
+          .map((user) => ({
             x: this.stepCountLabel(user),
-            y: user.userCount
-          }))
-      }
+            y: user.userCount,
+          })),
+      },
     ]
   }
 
   public renderStepCount = (users: any[]) => {
     const categories = users
       .map(this.stepCountLabel)
-      .filter(x => x.indexOf('undefined') === -1)
+      .filter((x) => x.indexOf('undefined') === -1)
 
     return {
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       plotOptions: {
         bar: {
           columnWidth: '55%',
           endingShape: 'rounded',
-          horizontal: false
-        }
+          horizontal: false,
+        },
       },
       stroke: {
         colors: ['transparent'],
         show: true,
-        width: 2
+        width: 2,
       },
       xaxis: {
-        categories
+        categories,
       },
       yaxis: {
         title: {
-          text: 'Total Candidate'
-        }
-      }
+          text: 'Total Candidate',
+        },
+      },
     }
   }
 

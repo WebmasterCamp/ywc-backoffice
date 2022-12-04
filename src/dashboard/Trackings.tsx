@@ -2,7 +2,7 @@ import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
 import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import Candidate from '../interfaces/Candidate'
 import { TrackingForm } from '../interfaces/Tracking'
 import TrackingStore from '../stores/tracking'
@@ -34,7 +34,7 @@ const Tracking = () => {
   const handleSubmit = async (form: TrackingForm) => {
     await trackingStore.createBulkTrackings({
       ...form,
-      userIDs: selectedRowKeys
+      userIDs: selectedRowKeys,
     })
     setSelectedRowKeys([])
     setShowModal(false)
@@ -42,7 +42,7 @@ const Tracking = () => {
 
   const formItemLayout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 18 }
+    wrapperCol: { span: 18 },
   }
 
   const openDrawer = (id: string) => {
@@ -59,7 +59,7 @@ const Tracking = () => {
     {
       key: '_id',
       render: (user: Candidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'name',
@@ -68,58 +68,58 @@ const Tracking = () => {
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'โปรแกรมมิ่ง',
-          value: 'programming'
+          value: 'programming',
         },
         {
           text: 'คอนเทนท์',
-          value: 'content'
+          value: 'content',
         },
         {
           text: 'มาร์เก็ตติ้ง',
-          value: 'marketing'
+          value: 'marketing',
         },
         {
           text: 'ดีไซน์',
-          value: 'design'
-        }
+          value: 'design',
+        },
       ],
       key: 'major',
       onFilter: (value, record) => record.major === value,
       render: (tracking: Candidate) => {
         return <span>{MAJOR(tracking.major)}</span>
       },
-      title: 'สาขา'
+      title: 'สาขา',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ข้อมูลส่วนตัว',
-          value: 'info'
+          value: 'info',
         },
         {
           text: 'ข้อมูลการติดต่อ',
-          value: 'contact'
+          value: 'contact',
         },
         {
           text: 'คำถามกลาง',
-          value: 'general'
+          value: 'general',
         },
         {
           text: 'คำถามสาขา',
-          value: 'major'
+          value: 'major',
         },
         {
           text: 'สรุปข้อมูล',
-          value: 'summary'
-        }
+          value: 'summary',
+        },
       ],
       key: 'step',
       onFilter: (value, record) =>
@@ -134,13 +134,13 @@ const Tracking = () => {
         }
         return <span>{STEP(candidate.step)}</span>
       },
-      title: 'ขั้นตอน'
+      title: 'ขั้นตอน',
     },
     {
       filterMultiple: false,
       filters: TRACKING_STATUS.map((status: any) => ({
         text: status.description,
-        value: status.value
+        value: status.value,
       })),
       key: 'status',
       onFilter: (value, record: Candidate) => {
@@ -159,30 +159,30 @@ const Tracking = () => {
           )}
         </span>
       ),
-      title: 'สถานะการดำเนินการ'
+      title: 'สถานะการดำเนินการ',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: '0',
-          value: 0
+          value: 0,
         },
         {
           text: '1',
-          value: 1
+          value: 1,
         },
         {
           text: '2',
-          value: 2
-        }
+          value: 2,
+        },
       ],
       key: 'totalTrackings',
       onFilter: (value, user: Candidate) => {
         return user.trackings.length === value
       },
       render: (user: Candidate) => <span>{user.trackings.length}</span>,
-      title: 'จำนวนการติดตาม'
+      title: 'จำนวนการติดตาม',
     },
     {
       key: 'action',
@@ -191,8 +191,8 @@ const Tracking = () => {
           <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   return (
@@ -212,9 +212,9 @@ const Tracking = () => {
         pagination={{ pageSize: 20 }}
         rowSelection={{
           onChange: (_: any, selectedRows: Candidate[]) => {
-            setSelectedRowKeys(selectedRows.map(c => c._id))
+            setSelectedRowKeys(selectedRows.map((c) => c._id))
           },
-          selectedRowKeys
+          selectedRowKeys,
         }}
       />
 
@@ -246,7 +246,7 @@ const Tracking = () => {
             label="Purpose"
             name="purpose"
             rules={[
-              { required: true, message: `Please select tracking's purpose` }
+              { required: true, message: `Please select tracking's purpose` },
             ]}
           >
             <Select
@@ -264,7 +264,7 @@ const Tracking = () => {
             rules={[{ required: true, message: `Please select assignee` }]}
           >
             <Select placeholder="Select a option" allowClear={true}>
-              {userStore.admins.map(admin => (
+              {userStore.admins.map((admin) => (
                 <Option value={admin._id} key={admin._id}>
                   {admin.username}
                 </Option>

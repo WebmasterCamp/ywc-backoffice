@@ -11,18 +11,18 @@ const useSearchApplications = (applications: CommitteeCandidate[] = []) => {
   }
 
   return {
-    applications: applications.filter(application =>
+    applications: applications.filter((application) =>
       keywords
         .split(/\s/g)
-        .every(keyword =>
-          SEARCHABLE_KEYS.some(key =>
+        .every((keyword) =>
+          SEARCHABLE_KEYS.some((key) =>
             ((application[key as keyof CommitteeCandidate] || '') as string)
               .toLocaleLowerCase()
               .includes(keyword.toLocaleLowerCase())
           )
         )
     ),
-    onSearch
+    onSearch,
   }
 }
 

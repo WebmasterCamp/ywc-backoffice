@@ -1,5 +1,5 @@
 import { Button, Table, Tag } from 'antd'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
@@ -26,7 +26,7 @@ const IncompleteCandidates = () => {
     {
       key: '_id',
       render: (user: StaffCandidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'status',
@@ -43,7 +43,7 @@ const IncompleteCandidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจ'
+      title: 'สถานะการตรวจ',
     },
     {
       key: 'action',
@@ -60,8 +60,8 @@ const IncompleteCandidates = () => {
           )}
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

@@ -6,10 +6,10 @@ import {
   LeftOutlined,
   RightOutlined,
   CloseOutlined,
-  CheckOutlined
+  CheckOutlined,
 } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 
@@ -25,7 +25,7 @@ import {
   IQuestion,
   MAJOR,
   MAJOR_QUESTION,
-  QUESTION_TYPES
+  QUESTION_TYPES,
 } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
 import DesignAnswerModal from './DesignAnswerModal'
@@ -53,8 +53,8 @@ const VoteCandidate = (props: VoteCandidateProps) => {
 
   const {
     match: {
-      params: { id }
-    }
+      params: { id },
+    },
   } = props
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   const [comment, setComment] = useState('')
 
   const currentApplication =
-    committeeStore.applications.map(a => a._id).indexOf(id) + 1
+    committeeStore.applications.map((a) => a._id).indexOf(id) + 1
   const totalApplication = committeeStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -230,7 +230,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                     <Fragment key={i}>
                       <QuestionBox
                         dangerouslySetInnerHTML={{
-                          __html: question.title
+                          __html: question.title,
                         }}
                       />
                       {question.type === QUESTION_TYPES.FILE ? (
@@ -272,7 +272,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         <AnswerBox
           rows={6}
           value={comment}
-          onChange={e => {
+          onChange={(e) => {
             setComment(e.target.value)
           }}
         />
@@ -292,7 +292,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               alignItems: 'center',
               display: 'flex',
               height: '32px',
-              paddingLeft: '20px'
+              paddingLeft: '20px',
             }}
           >
             <div>

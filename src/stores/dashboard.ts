@@ -23,7 +23,7 @@ class Dashboard {
     general: 0,
     info: 0,
     major: 0,
-    summary: 0
+    summary: 0,
   }
 
   constructor() {
@@ -59,9 +59,8 @@ class Dashboard {
         payload.completedTimeline
       )
       this.userCompleted = this.countUserCompleted(payload.completedTimeline)
-      this.universityStat = this.calculateGroupByUniversity(
-        completedUserPayload
-      )
+      this.universityStat =
+        this.calculateGroupByUniversity(completedUserPayload)
       this.calculateGroupByStep(allUserPayload)
     }
   }
@@ -97,10 +96,10 @@ class Dashboard {
     })
 
     return R.filter(
-      v => v.name !== 'undefined',
+      (v) => v.name !== 'undefined',
       R.map(
-        v => ({ name: v[0], value: v[1] }),
-        R.toPairs(R.map(v => v.length, byUniversity(candidates)))
+        (v) => ({ name: v[0], value: v[1] }),
+        R.toPairs(R.map((v) => v.length, byUniversity(candidates)))
       )
     )
   }

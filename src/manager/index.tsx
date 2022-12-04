@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { UserOutlined } from '@ant-design/icons'
@@ -34,8 +34,8 @@ const Manager = () => {
           {
             icon: <UserOutlined />,
             label: 'All Candidates',
-            key: '/manager/candidates'
-          }
+            key: '/manager/candidates',
+          },
         ]}
       >
         <Route path="/manager" exact={true} component={Dashboard} />

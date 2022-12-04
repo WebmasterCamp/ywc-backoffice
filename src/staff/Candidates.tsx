@@ -1,5 +1,5 @@
 import { Button, Table, Tag } from 'antd'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
@@ -25,19 +25,19 @@ const Candidates = () => {
     {
       key: '_id',
       render: (user: StaffCandidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ตรวจแล้ว',
-          value: 'completed'
+          value: 'completed',
         },
         {
           text: 'ยังไม่ตรวจคำตอบ',
-          value: 'incomplete'
-        }
+          value: 'incomplete',
+        },
       ],
       key: 'status',
       onFilter: (value, record) => {
@@ -58,7 +58,7 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจ'
+      title: 'สถานะการตรวจ',
     },
     {
       key: 'isPassStaff',
@@ -79,7 +79,7 @@ const Candidates = () => {
           ``
         )
       },
-      title: 'ผลการตรวจ'
+      title: 'ผลการตรวจ',
     },
     {
       key: 'action',
@@ -96,8 +96,8 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

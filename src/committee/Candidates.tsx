@@ -1,12 +1,12 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate, {
-  CommitteeVote
+  CommitteeVote,
 } from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
 import UserStore from '../stores/user'
@@ -32,7 +32,7 @@ const Candidates = () => {
     {
       key: '_id',
       render: (user: CommitteeCandidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'fullName',
@@ -41,19 +41,19 @@ const Candidates = () => {
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ตรวจแล้ว',
-          value: 'completed'
+          value: 'completed',
         },
         {
           text: 'ยังไม่ตรวจคำตอบ',
-          value: 'incomplete'
-        }
+          value: 'incomplete',
+        },
       ],
       key: 'status',
       onFilter: (value, record) => {
@@ -74,19 +74,19 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจ'
+      title: 'สถานะการตรวจ',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ผ่าน',
-          value: '1'
+          value: '1',
         },
         {
           text: 'ไม่ผ่าน',
-          value: '0'
-        }
+          value: '0',
+        },
       ],
       key: 'result',
       onFilter: (value, user) => {
@@ -115,7 +115,7 @@ const Candidates = () => {
           )
         )
       },
-      title: 'ผลการตรวจ'
+      title: 'ผลการตรวจ',
     },
     {
       key: 'action',
@@ -132,8 +132,8 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

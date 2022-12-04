@@ -1,6 +1,6 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 // import styled from '@emotion/styled'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
@@ -51,7 +51,7 @@ const Candidates = () => {
     {
       key: '_id',
       render: (user: Candidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'name',
@@ -60,46 +60,46 @@ const Candidates = () => {
           {user.firstNameEN} {user.lastNameEN} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'โปรแกรมมิ่ง',
-          value: 'programming'
+          value: 'programming',
         },
         {
           text: 'คอนเทนท์',
-          value: 'content'
+          value: 'content',
         },
         {
           text: 'มาร์เก็ตติ้ง',
-          value: 'marketing'
+          value: 'marketing',
         },
         {
           text: 'ดีไซน์',
-          value: 'design'
-        }
+          value: 'design',
+        },
       ],
       key: 'major',
       onFilter: (value, record) => record.major === value,
       render: (candidate: Candidate) => {
         return <span>{MAJOR(candidate.major)}</span>
       },
-      title: 'สาขา'
+      title: 'สาขา',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'กำลังดำเนินการ',
-          value: 'in progress'
+          value: 'in progress',
         },
         {
           text: 'เรียบร้อย',
-          value: 'completed'
-        }
+          value: 'completed',
+        },
       ],
       key: 'status',
       onFilter: (value, record: Candidate) => {
@@ -118,31 +118,31 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการส่งใบสมัคร'
+      title: 'สถานะการส่งใบสมัคร',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ข้อมูลส่วนตัว',
-          value: 'info'
+          value: 'info',
         },
         {
           text: 'ข้อมูลการติดต่อ',
-          value: 'contact'
+          value: 'contact',
         },
         {
           text: 'คำถามกลาง',
-          value: 'general'
+          value: 'general',
         },
         {
           text: 'คำถามสาขา',
-          value: 'major'
+          value: 'major',
         },
         {
           text: 'สรุปข้อมูล',
-          value: 'summary'
-        }
+          value: 'summary',
+        },
       ],
       key: 'step',
       onFilter: (value, record) =>
@@ -157,7 +157,7 @@ const Candidates = () => {
         }
         return <span>{STEP(candidate.step)}</span>
       },
-      title: 'ขั้นตอน'
+      title: 'ขั้นตอน',
     },
     {
       key: 'staffPass',
@@ -174,7 +174,7 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'สตาฟค่ายตรวจ'
+      title: 'สตาฟค่ายตรวจ',
     },
     {
       key: 'committeePass',
@@ -191,7 +191,7 @@ const Candidates = () => {
           )}
         </span>
       ),
-      title: 'ส่งให้กรรมการสาขา'
+      title: 'ส่งให้กรรมการสาขา',
     },
     {
       key: 'action',
@@ -200,8 +200,8 @@ const Candidates = () => {
           <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   // const handleSearch = (selectedKeys: any, confirm: any) => () => {

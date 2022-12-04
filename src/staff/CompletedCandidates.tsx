@@ -1,7 +1,7 @@
 import { Button, Table, Tag } from 'antd'
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import StaffCandidate from '../interfaces/StaffCandidate'
@@ -25,7 +25,7 @@ const CompletedCandidates = () => {
     {
       key: '_id',
       render: (user: StaffCandidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'status',
@@ -42,7 +42,7 @@ const CompletedCandidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจ'
+      title: 'สถานะการตรวจ',
     },
     {
       key: 'isPassStaff',
@@ -59,7 +59,7 @@ const CompletedCandidates = () => {
           )}
         </span>
       ),
-      title: 'ผลการตรวจ'
+      title: 'ผลการตรวจ',
     },
     {
       key: 'action',
@@ -76,8 +76,8 @@ const CompletedCandidates = () => {
           )}
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

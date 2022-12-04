@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
@@ -42,16 +42,16 @@ const Staff = () => {
               {
                 icon: null,
                 label: 'ใบสมัครที่ตรวจไม่เสร็จ',
-                key: '/staff/incomplete'
+                key: '/staff/incomplete',
               },
               {
                 icon: null,
                 label: 'ใบสมัครที่ตรวจเสร็จ',
-                key: '/staff/completed'
-              }
+                key: '/staff/completed',
+              },
             ],
-            key: ''
-          }
+            key: '',
+          },
         ]}
       >
         <Route path="/staff" exact={true} component={Dashboard} />

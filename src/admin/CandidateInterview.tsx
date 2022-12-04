@@ -2,11 +2,11 @@ import { Button, Col, Popconfirm, Row, Tag } from 'antd'
 import {
   InfoCircleFilled,
   CheckOutlined,
-  CloseOutlined
+  CloseOutlined,
 } from '@ant-design/icons'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import CandidateModal from '../dashboard/CandidateModal'
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
@@ -24,8 +24,8 @@ interface CandidateInterviewProps {
 const CandidateInterview = (props: CandidateInterviewProps) => {
   const {
     match: {
-      params: { major }
-    }
+      params: { major },
+    },
   } = props
 
   const candidatesStore = CandidateStore
@@ -41,8 +41,8 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map(c => c._id))
-    }
+      setSelected(selectedRows.map((c) => c._id))
+    },
   }
 
   const onConfirmPass = () => {
@@ -57,7 +57,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
     {
       key: '_id',
       render: (user: Candidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'name',
@@ -66,19 +66,19 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'เลือก',
-          value: 'true'
+          value: 'true',
         },
         {
           text: 'ไม่เลือก',
-          value: 'false'
-        }
+          value: 'false',
+        },
       ],
       key: 'passInterview',
       onFilter: (value, record: Candidate) => {
@@ -97,7 +97,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
           )}
         </span>
       ),
-      title: 'เลือกเข้าสัมภาษณ์'
+      title: 'เลือกเข้าสัมภาษณ์',
     },
     {
       defaultSortOrder: 'descend',
@@ -105,24 +105,24 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       filters: [
         {
           text: '0',
-          value: '0'
+          value: '0',
         },
         {
           text: '1',
-          value: '1'
+          value: '1',
         },
         {
           text: '2',
-          value: '2'
+          value: '2',
         },
         {
           text: '3',
-          value: '3'
+          value: '3',
         },
         {
           text: '4',
-          value: '4'
-        }
+          value: '4',
+        },
       ],
       key: 'committeeScore',
       onFilter: (value, record: Candidate) =>
@@ -130,7 +130,7 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       render: (user: Candidate) => <span>{user.committeeScore}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.committeeScore - b.committeeScore,
-      title: 'คะแนน'
+      title: 'คะแนน',
     },
     {
       filterMultiple: true,
@@ -139,82 +139,82 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
           children: [
             {
               text: 'pong.jakrapong@moonshot.co.th',
-              value: 'pong.jakrapong@moonshot.co.th'
+              value: 'pong.jakrapong@moonshot.co.th',
             },
             {
               text: 'apisilp@gmail.com',
-              value: 'apisilp@gmail.com'
+              value: 'apisilp@gmail.com',
             },
             {
               text: 'khajochi@gmail.com',
-              value: 'khajochi@gmail.com'
+              value: 'khajochi@gmail.com',
             },
             {
               text: 'supadej@vronline.in.th',
-              value: 'supadej@vronline.in.th'
-            }
+              value: 'supadej@vronline.in.th',
+            },
           ],
           text: MAJOR('content'),
-          value: 'content'
+          value: 'content',
         },
         {
           children: [
             {
               text: 'paul@dek-d.com',
-              value: 'paul@dek-d.com'
+              value: 'paul@dek-d.com',
             },
             {
               text: 'khonteeneung@gmail.com',
-              value: 'khonteeneung@gmail.com'
+              value: 'khonteeneung@gmail.com',
             },
             {
               text: 'inthanon@grappik.com',
-              value: 'inthanon@grappik.com'
-            }
+              value: 'inthanon@grappik.com',
+            },
           ],
           text: MAJOR('design'),
-          value: 'design'
+          value: 'design',
         },
         {
           children: [
             {
               text: 'oweera@gmail.com',
-              value: 'oweera@gmail.com'
+              value: 'oweera@gmail.com',
             },
             {
               text: 'maytapriya@gmail.com',
-              value: 'maytapriya@gmail.com'
+              value: 'maytapriya@gmail.com',
             },
             {
               text: 'jarern@gmail.com',
-              value: 'jarern@gmail.com'
-            }
+              value: 'jarern@gmail.com',
+            },
           ],
           text: MAJOR('marketing'),
-          value: 'marketing'
+          value: 'marketing',
         },
         {
           children: [
             {
               text: 'panjmp@gmail.com',
-              value: 'panjmp@gmail.com'
+              value: 'panjmp@gmail.com',
             },
             {
               text: 'warat.w@wisesight.com',
-              value: 'warat.w@wisesight.com'
+              value: 'warat.w@wisesight.com',
             },
             {
               text: 'chaiyapong@3dsinteractive.com',
-              value: 'chaiyapong@3dsinteractive.com'
-            }
+              value: 'chaiyapong@3dsinteractive.com',
+            },
           ],
           text: MAJOR('programming'),
-          value: 'programming'
-        }
+          value: 'programming',
+        },
       ],
       key: 'committeeVote',
       onFilter: (value, record: Candidate) => {
-        const committeeList = record.committeeVote.map(c => c.committee)
+        const committeeList = record.committeeVote.map((c) => c.committee)
         /// TODO: refine type
         if (committeeList.indexOf(value as string) !== -1) {
           return (
@@ -227,15 +227,15 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
       render: (user: Candidate) => (
         <span>
           {user.committeeVote
-            .filter(c => c.score === 1)
-            .map(c => (
+            .filter((c) => c.score === 1)
+            .map((c) => (
               <p style={{ marginBlockEnd: 0 }} key={c._id}>
                 {c.committee}
               </p>
             ))}
         </span>
       ),
-      title: 'กรรมการสาขาที่ให้ผ่าน'
+      title: 'กรรมการสาขาที่ให้ผ่าน',
     },
     {
       key: 'action',
@@ -244,8 +244,8 @@ const CandidateInterview = (props: CandidateInterviewProps) => {
           <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const openDrawer = (id: string) => {

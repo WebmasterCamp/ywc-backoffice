@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table/interface'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
@@ -24,15 +24,15 @@ const Dashboard = () => {
       key: 'name',
       render: (user: GroupByUniversity) => <span>{user.name}</span>,
 
-      title: 'มหาวิทยาลัย'
+      title: 'มหาวิทยาลัย',
     },
     {
       key: 'value',
       render: (user: GroupByUniversity) => <span>{user.value}</span>,
       sortOrder: 'descend',
       sorter: (a, b) => a.value - b.value,
-      title: 'จำนวน'
-    }
+      title: 'จำนวน',
+    },
   ]
 
   useEffect(() => {

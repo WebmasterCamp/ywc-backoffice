@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
@@ -42,16 +42,16 @@ const Committee = () => {
               {
                 icon: null,
                 label: 'ใบสมัครที่ตรวจไม่เสร็จ',
-                key: '/committee/incomplete'
+                key: '/committee/incomplete',
               },
               {
                 icon: null,
                 label: 'ใบสมัครที่ตรวจเสร็จ',
-                key: '/committee/completed'
-              }
+                key: '/committee/completed',
+              },
             ],
-            key: ''
-          }
+            key: '',
+          },
         ]}
       >
         <Route path="/committee" exact={true} component={Dashboard} />

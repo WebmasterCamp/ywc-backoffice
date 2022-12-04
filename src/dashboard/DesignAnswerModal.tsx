@@ -9,7 +9,7 @@ interface DesignAnswerModalProps {
 const DesignAnswerModal = ({
   visible,
   onClose,
-  url
+  url,
 }: DesignAnswerModalProps) => {
   return (
     <>

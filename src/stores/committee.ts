@@ -21,7 +21,7 @@ class Committee {
     notChecked: 0,
     notPass: 0,
     pass: 0,
-    percent: 0
+    percent: 0,
   }
   @observable public application: CommitteeApplication = {
     academicYear: '',
@@ -41,12 +41,12 @@ class Committee {
       _id: '',
       confirmedMajor: '',
       generalQuestions: [],
-      majorQuestions: []
+      majorQuestions: [],
     },
     score: 0,
     staffComment: '',
     staffUsername: '',
-    university: ''
+    university: '',
   }
 
   constructor() {
@@ -68,7 +68,7 @@ class Committee {
             firstName: application.firstName,
             lastName: application.lastName,
             major: application.major,
-            nickname: application.nickname
+            nickname: application.nickname,
           }
         }
       )
@@ -105,7 +105,7 @@ class Committee {
           (committeeStatus.payload.checkedApplications /
             committeeStatus.payload.allApplications) *
             100
-        )
+        ),
       }
     }
   }
@@ -115,7 +115,7 @@ class Committee {
     await this.getApplications()
 
     this.completedApplication = this.applications.filter(
-      application => application.completed
+      (application) => application.completed
     )
   }
 
@@ -124,7 +124,7 @@ class Committee {
     await this.getApplications()
 
     this.incompleteApplication = this.applications.filter(
-      application => !application.completed
+      (application) => !application.completed
     )
   }
 
@@ -140,7 +140,7 @@ class Committee {
     if (voteStatus.status === 'success') {
       this.loading = true
       await this.getApplications()
-      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      let nextApplicationIndex = this.applications.map((a) => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
         return getHistory().push('/committee/all')
       }

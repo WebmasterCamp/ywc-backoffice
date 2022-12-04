@@ -9,5 +9,5 @@ export default {
   CommitteeStore: Committee,
   DashboardStore: Dashboard,
   TrackingStore: Tracking,
-  UserStore: User
+  UserStore: User,
 }

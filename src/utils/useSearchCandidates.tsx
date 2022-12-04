@@ -7,7 +7,7 @@ const SEARCHABLE_KEYS = [
   'firstNameEN',
   'lastName',
   'lastNameEN',
-  'nickname'
+  'nickname',
 ]
 
 const useSearchCandidates = (candidates: Candidate[] = []) => {
@@ -18,18 +18,18 @@ const useSearchCandidates = (candidates: Candidate[] = []) => {
   }
 
   return {
-    candidates: candidates.filter(candidate =>
+    candidates: candidates.filter((candidate) =>
       keywords
         .split(/\s/g)
-        .every(keyword =>
-          SEARCHABLE_KEYS.some(key =>
+        .every((keyword) =>
+          SEARCHABLE_KEYS.some((key) =>
             ((candidate[key as keyof Candidate] || '') as string)
               .toLocaleLowerCase()
               .includes(keyword.toLocaleLowerCase())
           )
         )
     ),
-    onSearch
+    onSearch,
   }
 }
 

@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
@@ -38,11 +38,11 @@ const CallCenter = () => {
               {
                 icon: null,
                 key: '/callcenter/tracking',
-                label: 'การติดตามทั้งหมด'
-              }
+                label: 'การติดตามทั้งหมด',
+              },
             ],
-            key: ''
-          }
+            key: '',
+          },
         ]}
       >
         <Route path="/callcenter" exact={true} component={Dashboard} />

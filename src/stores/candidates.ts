@@ -40,7 +40,7 @@ class Candidates {
           phone: candidate.phone,
           sex: candidate.sex,
           status: candidate.status,
-          step: candidate.step
+          step: candidate.step,
         }
       })
 
@@ -62,7 +62,7 @@ class Candidates {
       this.candidates = candidatesList
     }
 
-    this.filteredCandidates = this.candidates.filter(a => a.major === major)
+    this.filteredCandidates = this.candidates.filter((a) => a.major === major)
   }
 
   @action
@@ -118,7 +118,7 @@ class Candidates {
       this.candidates = candidatesList
     }
 
-    this.filteredCandidates = this.candidates.filter(a => a.major === major)
+    this.filteredCandidates = this.candidates.filter((a) => a.major === major)
   }
 
   @action

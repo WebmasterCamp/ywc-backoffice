@@ -20,7 +20,7 @@ class TrackingStore {
     result: '',
     status: '',
     step: '',
-    user: {} as Candidate
+    user: {} as Candidate,
   }
   @persist @observable public loading: boolean = true
 
@@ -42,7 +42,7 @@ class TrackingStore {
           phone: candidate.phone,
           status: candidate.status,
           step: candidate.step,
-          trackings: candidate.trackings
+          trackings: candidate.trackings,
         }
       })
 
@@ -95,7 +95,7 @@ class TrackingStore {
       result: '',
       status: '',
       step: '',
-      user: {} as Candidate
+      user: {} as Candidate,
     }
   }
 }

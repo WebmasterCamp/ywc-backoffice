@@ -13,7 +13,7 @@ export const fetch = async (
   const authOptions: AxiosRequestConfig = {
     data: qs.stringify(data),
     method,
-    url: `${API_ENDPOINT}/${route}`
+    url: `${API_ENDPOINT}/${route}`,
   }
   // do http request
   return axios(authOptions).then((res: AxiosResponse) => res.data)
@@ -30,10 +30,10 @@ export const fetchWithToken = async (
     data: qs.stringify(data),
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'x-access-token': token || getToken()
+      'x-access-token': token || getToken(),
     },
     method,
-    url: `${API_ENDPOINT}/${route}`
+    url: `${API_ENDPOINT}/${route}`,
   }
   // do http request
   try {

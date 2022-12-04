@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component } from 'react'
 import Chart from 'react-apexcharts'
 
 interface CompletedTimelineChartProps {
@@ -15,42 +15,42 @@ class CompletedTimelineChart extends Component<CompletedTimelineChartProps> {
     return [
       {
         data: users
-          .filter(x => x._id.month !== null)
-          .map(user => ({
+          .filter((x) => x._id.month !== null)
+          .map((user) => ({
             x: this.label(user),
-            y: user.count
-          }))
-      }
+            y: user.count,
+          })),
+      },
     ]
   }
 
   public renderCompletedTimeline = (users: any[]) => {
-    const labels = users.map(this.label).filter(x => x !== 'null/null/null')
+    const labels = users.map(this.label).filter((x) => x !== 'null/null/null')
 
     return {
       chart: {
         type: 'line',
         zoom: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       grid: {
         row: {
           colors: ['#f3f3f3', 'transparent'],
-          opacity: 0.5
-        }
+          opacity: 0.5,
+        },
       },
       labels,
       series: this.series(users),
       stroke: {
-        curve: 'straight'
+        curve: 'straight',
       },
       xaxis: {
-        categories: labels
-      }
+        categories: labels,
+      },
     }
   }
 

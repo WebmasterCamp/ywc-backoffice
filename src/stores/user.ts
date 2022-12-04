@@ -13,7 +13,7 @@ class User {
     _id: '',
     major: '',
     role: '',
-    username: ''
+    username: '',
   }
 
   constructor() {

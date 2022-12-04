@@ -19,7 +19,7 @@ class Staff {
     all: 0,
     checked: 0,
     notChecked: 0,
-    percent: 0
+    percent: 0,
   }
   @observable public application: StaffApplication = {
     birthdate: '',
@@ -30,10 +30,10 @@ class Staff {
       _id: '',
       confirmedMajor: '',
       generalQuestions: [],
-      majorQuestions: []
+      majorQuestions: [],
     },
     sex: '',
-    staffComment: ''
+    staffComment: '',
   }
 
   constructor() {
@@ -51,7 +51,7 @@ class Staff {
             _id: application._id,
             completed: application.completed,
             isPassStaff: application.isPassStaff,
-            major: application.major
+            major: application.major,
           }
         }
       )
@@ -82,7 +82,7 @@ class Staff {
           (staffStatus.payload.checkedApplications /
             staffStatus.payload.allApplications) *
             100
-        )
+        ),
       }
     }
   }
@@ -92,7 +92,7 @@ class Staff {
     await this.getApplications()
 
     this.completedApplication = this.applications.filter(
-      application => application.completed
+      (application) => application.completed
     )
   }
 
@@ -101,7 +101,7 @@ class Staff {
     await this.getApplications()
 
     this.incompleteApplication = this.applications.filter(
-      application => !application.completed
+      (application) => !application.completed
     )
   }
 
@@ -117,7 +117,7 @@ class Staff {
     if (voteStatus.status === 'success') {
       this.loading = true
       await this.getApplications()
-      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      let nextApplicationIndex = this.applications.map((a) => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
         return getHistory().push('/staff/all')
       }
@@ -146,7 +146,7 @@ class Staff {
     if (voteStatus.status === 'success') {
       this.loading = true
       await this.getApplications()
-      let nextApplicationIndex = this.applications.map(a => a._id).indexOf(id)
+      let nextApplicationIndex = this.applications.map((a) => a._id).indexOf(id)
       if (nextApplicationIndex + 1 >= this.applications.length) {
         return getHistory().push('/staff/all')
       }

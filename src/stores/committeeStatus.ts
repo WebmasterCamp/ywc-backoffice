@@ -20,18 +20,18 @@ class CommitteeStatus {
     if (applicationStatus.status === 'success') {
       const applicationsStatus: ApplicationStatus[] = applicationStatus.payload
 
-      this.staffStatus = applicationsStatus.filter(a => a.role === 'staff')
+      this.staffStatus = applicationsStatus.filter((a) => a.role === 'staff')
       this.contentCommittee = applicationsStatus.filter(
-        a => a.role === 'committee' && a.major === 'content'
+        (a) => a.role === 'committee' && a.major === 'content'
       )
       this.designCommittee = applicationsStatus.filter(
-        a => a.role === 'committee' && a.major === 'design'
+        (a) => a.role === 'committee' && a.major === 'design'
       )
       this.marketingCommittee = applicationsStatus.filter(
-        a => a.role === 'committee' && a.major === 'marketing'
+        (a) => a.role === 'committee' && a.major === 'marketing'
       )
       this.programmingCommittee = applicationsStatus.filter(
-        a => a.role === 'committee' && a.major === 'programming'
+        (a) => a.role === 'committee' && a.major === 'programming'
       )
     }
   }

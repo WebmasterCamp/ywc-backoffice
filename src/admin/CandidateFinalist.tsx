@@ -1,7 +1,7 @@
 import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import Candidate from '../interfaces/Candidate'
 import CandidateStore from '../stores/candidates'
@@ -19,8 +19,8 @@ interface CandidateFinalistProps {
 const CandidateFinalist = (props: CandidateFinalistProps) => {
   const {
     match: {
-      params: { major }
-    }
+      params: { major },
+    },
   } = props
 
   const candidatesStore = CandidateStore
@@ -34,8 +34,8 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map(c => c._id))
-    }
+      setSelected(selectedRows.map((c) => c._id))
+    },
   }
 
   const onFinalistPass = (id: string) => {
@@ -84,19 +84,19 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       filterMultiple: false,
       filters: [
         {
           text: 'ตัวสำรอง',
-          value: 'true'
+          value: 'true',
         },
         {
           text: 'ตัวจริง',
-          value: 'false'
-        }
+          value: 'false',
+        },
       ],
       key: 'isReserve',
       onFilter: (value, record: Candidate) => {
@@ -126,7 +126,7 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
           </span>
         )
       },
-      title: 'สถานะการคัดเลือก'
+      title: 'สถานะการคัดเลือก',
     },
     {
       key: 'reserveNo',
@@ -144,21 +144,21 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
       ),
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.reserveNo - b.reserveNo,
-      title: 'ลำดับตัวสำรอง'
+      title: 'ลำดับตัวสำรอง',
     },
     {
       key: 'verificationAmount',
       render: (user: Candidate) => <span>{user.verificationAmount}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.verificationAmount - b.verificationAmount,
-      title: 'จำนวนเงิน'
+      title: 'จำนวนเงิน',
     },
     {
       key: 'committeeScore',
       render: (user: Candidate) => <span>{user.committeeScore}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.committeeScore - b.committeeScore,
-      title: 'คะแนน'
+      title: 'คะแนน',
     },
     {
       key: 'action',
@@ -193,8 +193,8 @@ const CandidateFinalist = (props: CandidateFinalistProps) => {
           </Popconfirm>
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

@@ -2,7 +2,7 @@ import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { UserOutlined, DownloadOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
 import moment from 'moment'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
 import AnswerBox from '../common/AnswerBox'
@@ -12,7 +12,7 @@ import {
   IQuestion,
   MAJOR,
   MAJOR_QUESTION,
-  QUESTION_TYPES
+  QUESTION_TYPES,
 } from '../utils/const'
 import DesignAnswerModal from './DesignAnswerModal'
 
@@ -49,7 +49,7 @@ interface CandidateModalProps {
 const CandidateModal = ({
   visible,
   onClose,
-  candidateId
+  candidateId,
 }: CandidateModalProps) => {
   const candidateStore = CandidateStore
 
@@ -325,7 +325,7 @@ const CandidateModal = ({
                         <Col
                           md={24}
                           dangerouslySetInnerHTML={{
-                            __html: question.title
+                            __html: question.title,
                           }}
                         />
                         <Col md={24}>
@@ -358,7 +358,7 @@ const CandidateModal = ({
                               <Col
                                 md={24}
                                 dangerouslySetInnerHTML={{
-                                  __html: question.title
+                                  __html: question.title,
                                 }}
                               />
                               {question.type === QUESTION_TYPES.FILE ? (
@@ -502,7 +502,9 @@ const CandidateModal = ({
                       </td>
                       <td>
                         {candidate.committeeVote.length
-                          ? candidate.committeeVote.map(c => `${c.committee} `)
+                          ? candidate.committeeVote.map(
+                              (c) => `${c.committee} `
+                            )
                           : 'ยังไม่มีตรวจ'}
                       </td>
                     </tr>

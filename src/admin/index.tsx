@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 import { Route } from 'react-router'
 import { getToken } from '../utils/token-helper'
 import { PieChartOutlined } from '@ant-design/icons'
@@ -38,12 +38,12 @@ const Admin = () => {
           {
             icon: <PieChartOutlined />,
             label: 'ผู้เข้าสมัครทั้งหมด',
-            key: '/admin/candidates'
+            key: '/admin/candidates',
           },
           {
             icon: <PieChartOutlined />,
             label: 'สถานะการตรวจใบสมัคร',
-            key: '/admin/status'
+            key: '/admin/status',
           },
           {
             icon: <PieChartOutlined />,
@@ -52,25 +52,25 @@ const Admin = () => {
               {
                 icon: null,
                 label: 'สาขาคอนเทนท์',
-                key: '/admin/candidates/content'
+                key: '/admin/candidates/content',
               },
               {
                 icon: null,
                 label: 'สาขาดีไซน์',
-                key: '/admin/candidates/design'
+                key: '/admin/candidates/design',
               },
               {
                 icon: null,
                 label: 'สาขามาร์เก็ตติ้ง',
-                key: '/admin/candidates/marketing'
+                key: '/admin/candidates/marketing',
               },
               {
                 icon: null,
                 label: 'สาขาโปรแกรมมิ่ง',
-                key: '/admin/candidates/programming'
-              }
+                key: '/admin/candidates/programming',
+              },
             ],
-            key: 'a'
+            key: 'a',
           },
           {
             icon: <PieChartOutlined />,
@@ -79,25 +79,25 @@ const Admin = () => {
               {
                 icon: null,
                 label: 'สาขาคอนเทนท์',
-                key: '/admin/finalist/content'
+                key: '/admin/finalist/content',
               },
               {
                 icon: null,
                 label: 'สาขาดีไซน์',
-                key: '/admin/finalist/design'
+                key: '/admin/finalist/design',
               },
               {
                 icon: null,
                 label: 'สาขามาร์เก็ตติ้ง',
-                key: '/admin/finalist/marketing'
+                key: '/admin/finalist/marketing',
               },
               {
                 icon: null,
                 label: 'สาขาโปรแกรมมิ่ง',
-                key: '/admin/finalist/programming'
-              }
+                key: '/admin/finalist/programming',
+              },
             ],
-            key: 'b'
+            key: 'b',
           },
           {
             icon: <PieChartOutlined />,
@@ -106,11 +106,11 @@ const Admin = () => {
               {
                 icon: null,
                 label: 'สร้างการติดตาม',
-                key: '/admin/tracking/candidates'
-              }
+                key: '/admin/tracking/candidates',
+              },
             ],
-            key: ''
-          }
+            key: '',
+          },
         ]}
       >
         <Route path="/admin/" exact={true} component={Dashboard} />

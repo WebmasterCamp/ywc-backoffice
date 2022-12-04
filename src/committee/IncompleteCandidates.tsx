@@ -1,6 +1,6 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { observer } from 'mobx-react-lite'
@@ -30,7 +30,7 @@ const IncompleteCandidates = () => {
     {
       key: '_id',
       render: (user: CommitteeCandidate) => <span>{user._id}</span>,
-      title: 'ID'
+      title: 'ID',
     },
     {
       key: 'fullName',
@@ -39,7 +39,7 @@ const IncompleteCandidates = () => {
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
       ),
-      title: 'ชื่อ นามสกุล (ชื่อเล่น)'
+      title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
       key: 'status',
@@ -56,7 +56,7 @@ const IncompleteCandidates = () => {
           )}
         </span>
       ),
-      title: 'สถานะการตรวจ'
+      title: 'สถานะการตรวจ',
     },
     {
       key: 'action',
@@ -73,8 +73,8 @@ const IncompleteCandidates = () => {
           )}
         </span>
       ),
-      title: 'ดำเนินการ'
-    }
+      title: 'ดำเนินการ',
+    },
   ]
 
   const onPageChange = (p: TablePaginationConfig) => {

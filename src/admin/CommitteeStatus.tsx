@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
@@ -20,7 +20,7 @@ const CommitteeStatus = () => {
       <ProfileBox />
       <DashboardTitle>สถานะการตรวจใบสมัคร</DashboardTitle>
       <MainStatContainer size={4}>
-        {committeeStatusStore.staffStatus.map(user => (
+        {committeeStatusStore.staffStatus.map((user) => (
           <Box key={user.username}>
             <h1>
               {Math.floor(
@@ -36,7 +36,7 @@ const CommitteeStatus = () => {
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('content')}</DashboardTitle>
       <MainStatContainer size={4}>
-        {committeeStatusStore.contentCommittee.map(user => (
+        {committeeStatusStore.contentCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
               {Math.floor(
@@ -52,7 +52,7 @@ const CommitteeStatus = () => {
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('design')}</DashboardTitle>
       <MainStatContainer size={4}>
-        {committeeStatusStore.designCommittee.map(user => (
+        {committeeStatusStore.designCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
               {Math.floor(
@@ -68,7 +68,7 @@ const CommitteeStatus = () => {
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('marketing')}</DashboardTitle>
       <MainStatContainer size={4}>
-        {committeeStatusStore.marketingCommittee.map(user => (
+        {committeeStatusStore.marketingCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
               {Math.floor(
@@ -84,7 +84,7 @@ const CommitteeStatus = () => {
       </MainStatContainer>
       <DashboardTitle>กรรมการสาขา{MAJOR('programming')}</DashboardTitle>
       <MainStatContainer size={4}>
-        {committeeStatusStore.programmingCommittee.map(user => (
+        {committeeStatusStore.programmingCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
               {Math.floor(

@@ -8,7 +8,7 @@ class Questions {
     design: [''],
     general: [''],
     marketing: [''],
-    programming: ['']
+    programming: [''],
   }
 
   constructor() {

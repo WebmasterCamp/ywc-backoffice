@@ -5,10 +5,10 @@ import {
   LeftOutlined,
   RightOutlined,
   CloseOutlined,
-  CheckOutlined
+  CheckOutlined,
 } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
 import moment from 'moment'
@@ -48,8 +48,8 @@ const VoteCandidate = (props: VoteCandidateProps) => {
 
   const {
     match: {
-      params: { id }
-    }
+      params: { id },
+    },
   } = props
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
   }
 
   const currentApplication =
-    staffStore.applications.map(a => a._id).indexOf(id) + 1
+    staffStore.applications.map((a) => a._id).indexOf(id) + 1
   const totalApplication = staffStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -156,7 +156,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
         ) : (
           <AnswerBox
             key="comment-edit"
-            onChange={e => {
+            onChange={(e) => {
               setStaffComment(e.target.value)
             }}
             value={staffComment}
@@ -179,7 +179,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
               alignItems: 'center',
               display: 'flex',
               height: '32px',
-              paddingLeft: '20px'
+              paddingLeft: '20px',
             }}
           >
             <div>
@@ -196,7 +196,7 @@ const VoteCandidate = (props: VoteCandidateProps) => {
                 display: 'flex',
                 height: '32px',
                 justifyContent: 'flex-end',
-                paddingRight: '30px'
+                paddingRight: '30px',
               }}
             >
               <div>ใบสมัครนี้ได้ถูกตรวจแล้ว</div>
