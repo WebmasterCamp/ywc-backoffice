@@ -1,9 +1,7 @@
-import { Provider } from 'mobx-react'
 import { Suspense } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
 import { Global, css } from '@emotion/react'
-import store from './stores'
 import { router } from './router'
 
 function GlobalStyle() {
@@ -28,12 +26,12 @@ function GlobalStyle() {
 
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
+    <>
       <GlobalStyle />
       <Suspense fallback={<></>}>
         <RouterProvider router={router} />
       </Suspense>
-    </Provider>
+    </>
   )
 }
 
