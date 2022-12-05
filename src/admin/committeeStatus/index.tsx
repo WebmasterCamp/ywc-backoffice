@@ -1,19 +1,14 @@
-import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
+import { useLoaderData } from 'react-router-dom'
 
-import MainStatContainer from '../common/MainStatContainer'
-import ProfileBox from '../common/ProfileBox'
-import CommitteeStatusStore from '../stores/committeeStatus'
-import Box from '../ui/Box'
-import { MAJOR } from '../utils/const'
-import { DashboardTitle } from '../utils/styled-helper'
+import MainStatContainer from '../../common/MainStatContainer'
+import ProfileBox from '../../common/ProfileBox'
+import Box from '../../ui/Box'
+import { MAJOR } from '../../utils/const'
+import { DashboardTitle } from '../../utils/styled-helper'
+import { loader, LoaderData } from './loader'
 
 const CommitteeStatus = () => {
-  const committeeStatusStore = CommitteeStatusStore
-
-  useEffect(() => {
-    committeeStatusStore.getApplicationStatus()
-  }, [committeeStatusStore])
+  const committeeStatusStore = useLoaderData() as LoaderData
 
   return (
     <>
@@ -102,4 +97,8 @@ const CommitteeStatus = () => {
   )
 }
 
-export default observer(CommitteeStatus)
+export const committeeStatusRoute = {
+  path: '',
+  loader,
+  element: <CommitteeStatus />,
+}
