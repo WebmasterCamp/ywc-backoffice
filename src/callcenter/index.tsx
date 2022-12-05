@@ -11,9 +11,9 @@ const CallCenter = () => {
     <Fragment>
       <MenuBar
         menus={[
-          { icon: <PieChartOutlined />, label: 'แดชบอร์ด', key: '/staff' },
+          { icon: <PieChartOutlined />, label: 'แดชบอร์ด', key: '/callcenter' },
           {
-            icon: 'pie-chart',
+            icon: <PieChartOutlined />,
             label: 'ระบบติดตาม',
             children: [
               {
