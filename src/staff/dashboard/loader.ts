@@ -1,11 +1,11 @@
 import StaffStatus from '../../interfaces/StaffStatus'
-import { waitForAuthStore } from '../../stores/auth'
+import { requireRole } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireRole('staff')
 
   const staffStatus = await fetchWithToken('grading/staff/status', '', 'GET')
 

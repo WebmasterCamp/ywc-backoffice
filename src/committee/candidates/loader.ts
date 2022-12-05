@@ -1,9 +1,12 @@
 import CommitteeCandidate from '../../interfaces/CommitteeCandidate'
+import { requireRole } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
+  await requireRole('committee')
+
   const applications = await fetchWithToken('users/committee', '', 'get')
 
   if (applications.status !== 'success') {

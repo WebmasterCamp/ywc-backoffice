@@ -1,12 +1,12 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom'
 import Tracking from '../../interfaces/Tracking'
-import { waitForAuthStore } from '../../stores/auth'
+import { requireRole } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireRole('callcenter')
 
   const result = await fetchWithToken('tracking/me', '', 'GET')
   if (result.status !== 'success') {
@@ -24,7 +24,7 @@ export type TrackingByIdLoaderData = Awaited<
 >
 
 export const trackingByIdLoader = async ({ params }: LoaderFunctionArgs) => {
-  await waitForAuthStore
+  await requireRole('callcenter')
 
   const { trackingId } = params
   const result = await fetchWithToken(`tracking/${trackingId}`, '', 'GET')

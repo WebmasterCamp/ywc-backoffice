@@ -1,4 +1,4 @@
-import { waitForAuthStore } from '../stores/auth'
+import { requireUser } from '../stores/auth'
 import { fetchWithToken } from '../utils/fetch'
 import * as R from 'ramda'
 
@@ -11,7 +11,8 @@ import DashboardGroupByStep from '../interfaces/DashboardGroupByStep'
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireUser()
+
   const dashboardPromise = fetchWithToken('users/stat/all', '', 'get')
   const getCompletedUserPromise = fetchWithToken(
     'users/dashboard/stat',

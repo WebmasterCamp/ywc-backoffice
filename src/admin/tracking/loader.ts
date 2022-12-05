@@ -1,12 +1,12 @@
 import Candidate from '../../interfaces/Candidate'
 import Profile from '../../interfaces/Profile'
-import { waitForAuthStore } from '../../stores/auth'
+import { requireRole } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireRole('admin')
 
   const trackingsPromise = fetchWithToken('tracking', '', 'get')
   const usersPromise = fetchWithToken(`admin/role/callcenter`, '', 'GET')

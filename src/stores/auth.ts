@@ -1,3 +1,4 @@
+import { redirect } from 'react-router-dom'
 import create from 'zustand'
 
 import Profile from '../interfaces/Profile'
@@ -59,3 +60,17 @@ export const authStore = create<AuthState>((set) => ({
 }))
 
 export const waitForAuthStore = authStore.getState().initializeStore()
+
+export async function requireUser() {
+  await waitForAuthStore
+  const user = authStore.getState().user
+  if (!user) throw redirect('/login')
+  return user
+}
+
+export async function requireRole(requiredRole: string) {
+  const {
+    profile: { role },
+  } = await requireUser()
+  if (role !== requiredRole) throw redirect(`/${role}`)
+}

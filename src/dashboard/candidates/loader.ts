@@ -1,11 +1,11 @@
 import Candidate from '../../interfaces/Candidate'
-import { waitForAuthStore } from '../../stores/auth'
+import { requireUser } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireUser()
 
   const candidates = await fetchWithToken('users/all', '', 'get')
   if (candidates.status !== 'success')

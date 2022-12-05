@@ -1,11 +1,11 @@
 import StaffCandidate from '../../interfaces/StaffCandidate'
-import { waitForAuthStore } from '../../stores/auth'
+import { requireRole } from '../../stores/auth'
 import { fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await waitForAuthStore
+  await requireRole('staff')
 
   const applications = await fetchWithToken('users/staff', '', 'get')
 
