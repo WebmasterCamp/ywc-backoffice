@@ -12,13 +12,18 @@ export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await waitForAuthStore
-  const dashboard = await fetchWithToken('users/stat/all', '', 'get')
-  const getCompletedUser = await fetchWithToken(
+  const dashboardPromise = fetchWithToken('users/stat/all', '', 'get')
+  const getCompletedUserPromise = fetchWithToken(
     'users/dashboard/stat',
     '',
     'get'
   )
-  const getAllUser = await fetchWithToken('users/all', '', 'get')
+  const getAllUserPromise = fetchWithToken('users/all', '', 'get')
+  const [dashboard, getCompletedUser, getAllUser] = await Promise.all([
+    dashboardPromise,
+    getCompletedUserPromise,
+    getAllUserPromise,
+  ])
 
   if (dashboard.status !== 'success')
     throw new Error(`Fetch users/stat/all failed: ${dashboard}`)
