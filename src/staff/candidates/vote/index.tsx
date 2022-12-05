@@ -7,21 +7,27 @@ import {
   CloseOutlined,
   CheckOutlined,
 } from '@ant-design/icons'
-import { observer } from 'mobx-react-lite'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import styled from '@emotion/styled'
 
 import moment from 'moment'
-import { Link, useParams } from 'react-router-dom'
-import AnswerBox from '../common/AnswerBox'
-import QuestionBox from '../common/QuestionBox'
-import QuestionsStore from '../stores/questions'
-import StaffStore from '../stores/staff'
-import Box from '../ui/Box'
-import CommentBox from '../ui/CommentBox'
-import { GENERAL_QUESTION, IQuestion, MAJOR } from '../utils/const'
-import { PageTitle, SubHeading } from '../utils/styled-helper'
-import { useProfile } from '../utils/useProfile'
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+  useSubmit,
+} from 'react-router-dom'
+import AnswerBox from '../../../common/AnswerBox'
+import QuestionBox from '../../../common/QuestionBox'
+import Box from '../../../ui/Box'
+import CommentBox from '../../../ui/CommentBox'
+import { GENERAL_QUESTION, IQuestion, MAJOR } from '../../../utils/const'
+import { PageTitle, SubHeading } from '../../../utils/styled-helper'
+import { useProfile } from '../../../utils/useProfile'
+import { loader, LoaderData } from './loader'
+import { LoaderData as ParentLoaderData } from '../loader'
+import { action } from './action'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -32,44 +38,46 @@ const VoteBox = styled(Box)`
 `
 
 const VoteCandidate = () => {
-  const staffStore = StaffStore
-  const questionsStore = QuestionsStore
   const { major } = useProfile()
 
   const [staffComment, setStaffComment] = useState('')
 
-  const id = useParams().id as string
+  const id = useParams().candidateId as string
 
-  useEffect(() => {
-    setStaffComment('')
-    staffStore.getApplications()
-    staffStore.getApplicationById(id)
-  }, [staffStore, questionsStore, id])
+  const { application } = useLoaderData() as LoaderData
+  const { applications } = useOutletContext() as ParentLoaderData
 
-  const { application } = staffStore
+  const submit = useSubmit()
 
-  const onConfirmPass = () => {
-    staffStore.doVotePass(id, staffComment)
-  }
-
-  const onConfirmFailed = () => {
-    staffStore.doVoteFailed(id, staffComment)
-  }
-
-  const currentApplication =
-    staffStore.applications.map((a) => a._id).indexOf(id) + 1
-  const totalApplication = staffStore.applications.length
+  const currentApplication = applications.findIndex((a) => a._id === id) + 1
+  const totalApplication = applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
   )
   const prevApplicationId =
-    currentApplication - 2 < 0
-      ? ''
-      : staffStore.applications[currentApplication - 2]._id
+    currentApplication - 2 < 0 ? '' : applications[currentApplication - 2]._id
   const nextApplicationId =
-    currentApplication >= staffStore.applications.length
+    currentApplication >= applications.length
       ? ''
-      : staffStore.applications[currentApplication]._id
+      : applications[currentApplication]._id
+
+  const onConfirmPass = () => {
+    submit(
+      { action: 'votePass', id, comment: staffComment, nextApplicationId },
+      {
+        method: 'post',
+      }
+    )
+  }
+
+  const onConfirmFailed = () => {
+    submit(
+      { action: 'voteFail', id, comment: staffComment, nextApplicationId },
+      {
+        method: 'post',
+      }
+    )
+  }
 
   return (
     <>
@@ -237,4 +245,9 @@ const VoteCandidate = () => {
   )
 }
 
-export default observer(VoteCandidate)
+export const voteCandidateRoute = {
+  path: 'candidate/:candidateId',
+  action,
+  loader,
+  element: <VoteCandidate />,
+}

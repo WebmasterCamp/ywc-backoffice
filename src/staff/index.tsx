@@ -2,12 +2,10 @@ import { Fragment } from 'react'
 import { PieChartOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
-import Candidates from './Candidates'
-import CompletedCandidates from './CompletedCandidates'
-import Dashboard from './Dashboard'
-import IncompleteCandidates from './IncompleteCandidates'
-import VoteCandidate from './VoteCandidate'
+import { dashboardRoute } from './dashboard'
+import { candidatesRoute } from './candidates'
 import { Outlet, RouteObject } from 'react-router-dom'
+import { subRoute } from '../utils/subRoute'
 
 const Staff = () => {
   return (
@@ -44,11 +42,5 @@ const Staff = () => {
 export const route: RouteObject = {
   path: '',
   element: <Staff />,
-  children: [
-    { path: '', element: <Dashboard /> },
-    { path: 'all', element: <Candidates /> },
-    { path: 'completed', element: <CompletedCandidates /> },
-    { path: 'incomplete', element: <IncompleteCandidates /> },
-    { path: 'candidate/:id', element: <VoteCandidate /> },
-  ],
+  children: [subRoute('', dashboardRoute), subRoute('', candidatesRoute)],
 }
