@@ -9,6 +9,7 @@ import { route as callCenterRoute } from './callcenter'
 import { Root } from './utils/history'
 import { authGuard } from './guards/authGuard'
 import { authStore } from './stores/auth'
+import { subRoute } from './utils/subRoute'
 
 export const router = createBrowserRouter([
   {
@@ -27,10 +28,6 @@ export const router = createBrowserRouter([
     ],
   },
 ])
-
-function subRoute(path: string, route: RouteObject) {
-  return { path, children: [route] }
-}
 
 function homeRedirect(): RouteObject {
   return {

@@ -2,13 +2,14 @@ import { Fragment } from 'react'
 import { PieChartOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
-import Dashboard from '../dashboard'
+import { dashboardRoute } from '../dashboard'
 import Candidates from '../dashboard/Candidates'
 import Trackings from '../dashboard/Trackings'
 import CandidateFinalist from './CandidateFinalist'
 import CandidateInterview from './CandidateInterview'
 import CommitteeStatus from './CommitteeStatus'
 import { Outlet, RouteObject } from 'react-router-dom'
+import { subRoute } from '../utils/subRoute'
 
 const Admin = () => {
   return (
@@ -104,7 +105,7 @@ export const route: RouteObject = {
   path: '',
   element: <Admin />,
   children: [
-    { path: '', element: <Dashboard /> },
+    subRoute('', dashboardRoute),
     { path: 'candidates', element: <Candidates /> },
     { path: 'candidates/:major', element: <CandidateInterview /> },
     { path: 'finalist/:major', element: <CandidateFinalist /> },

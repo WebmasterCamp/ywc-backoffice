@@ -1,17 +1,17 @@
 import { Table } from 'antd'
 import { ColumnType, TablePaginationConfig } from 'antd/lib/table/interface'
-import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 
 import MainStatContainer from '../common/MainStatContainer'
 import ProfileBox from '../common/ProfileBox'
 import GroupByUniversity from '../interfaces/GroupByUniversity'
-import DashboardStore from '../stores/dashboard'
 import Box from '../ui/Box'
 import { DashboardTitle } from '../utils/styled-helper'
+import { loader, LoaderData } from './loader'
 
 const Dashboard = () => {
-  const dashboardStore = DashboardStore
+  const dashboardStore = useLoaderData() as LoaderData
 
   const [pagination, setPagination] = useState({})
 
@@ -34,10 +34,6 @@ const Dashboard = () => {
       title: 'จำนวน',
     },
   ]
-
-  useEffect(() => {
-    dashboardStore.getDashboard()
-  }, [dashboardStore])
 
   return (
     <>
@@ -139,4 +135,8 @@ const Dashboard = () => {
   )
 }
 
-export default observer(Dashboard)
+export const dashboardRoute = {
+  path: '',
+  loader,
+  element: <Dashboard />,
+}
