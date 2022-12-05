@@ -191,7 +191,12 @@ const Tracking = () => {
     },
     {
       key: 'result',
-      render: (tracking: ITracking) => <span>{tracking.result}</span>,
+      render: (tracking: ITracking) => (
+        <span>
+          {TRACKING_RESULT.find((it) => it.value === tracking.result)
+            ?.description ?? tracking.result}
+        </span>
+      ),
       title: 'Result',
     },
     {
