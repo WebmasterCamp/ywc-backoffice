@@ -1,20 +1,20 @@
 import { Avatar, Button, Col, Divider, Drawer, Row } from 'antd'
 import { UserOutlined, DownloadOutlined } from '@ant-design/icons'
-import { observer } from 'mobx-react-lite'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
-import AnswerBox from '../common/AnswerBox'
-import CandidateStore from '../stores/candidates'
+import AnswerBox from '../../common/AnswerBox'
 import {
   GENERAL_QUESTION,
   IQuestion,
   MAJOR,
   MAJOR_QUESTION,
   QUESTION_TYPES,
-} from '../utils/const'
-import DesignAnswerModal from './DesignAnswerModal'
+} from '../../utils/const'
+import DesignAnswerModal from '../DesignAnswerModal'
+import { loader, LoaderData } from './loader'
+import { useFetcher } from 'react-router-dom'
 
 const Header = styled.div`
   display: flex;
@@ -51,20 +51,17 @@ const CandidateModal = ({
   onClose,
   candidateId,
 }: CandidateModalProps) => {
-  const candidateStore = CandidateStore
-
   const [viewQuestion, setViewQuestion] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [portfolioUrl, setPortfolioUrl] = useState('')
 
+  const { load, data } = useFetcher<LoaderData>()
   useEffect(() => {
-    if (candidateId) {
-      candidateStore.getCandidate(candidateId)
-      setViewQuestion(false)
-    }
-  }, [candidateStore, candidateId])
+    if (!candidateId) return
+    load(`/candidateModal/${candidateId}`)
+  }, [load, candidateId])
 
-  const { candidate } = candidateStore
+  const candidate = !candidateId || candidateId === data?._id ? data : undefined
 
   const openDrawer = (url: string) => {
     setModalVisible(true)
@@ -107,14 +104,14 @@ const CandidateModal = ({
         title={
           <Header>
             <span>รายละเอียดใบสมัคร</span>
-            {!candidateStore.loading ? (
+            {!!candidate ? (
               <Button onClick={printDocument}>พิมพ์</Button>
             ) : null}
           </Header>
         }
         width="50%"
       >
-        {candidateStore.loading ? (
+        {!candidate ? (
           <h1>Loading...</h1>
         ) : (
           <div id="printable">
@@ -543,4 +540,9 @@ const CandidateModal = ({
   )
 }
 
-export default observer(CandidateModal)
+export default CandidateModal
+
+export const candidateModalRoute = {
+  path: '/candidateModal/:candidateId',
+  loader,
+}

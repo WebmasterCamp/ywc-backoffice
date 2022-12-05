@@ -9,7 +9,7 @@ import TrackingStore from '../stores/tracking'
 import UserStore from '../stores/user'
 import { MAJOR, STEP, TRACKING_STATUS } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
-import CandidateModal from './CandidateModal'
+import CandidateModal from './candidateModal'
 const { Option } = Select
 
 const Tracking = () => {

@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { useState } from 'react'
-import CandidateModal from '../../dashboard/CandidateModal'
+import CandidateModal from '../../dashboard/candidateModal'
 import Candidate from '../../interfaces/Candidate'
 import { MAJOR } from '../../utils/const'
 import { PageTitle } from '../../utils/styled-helper'

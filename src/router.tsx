@@ -11,6 +11,7 @@ import { authGuard } from './guards/authGuard'
 import { authStore } from './stores/auth'
 import { subRoute } from './utils/subRoute'
 import { roleGuard } from './guards/roleGuard'
+import { candidateModalRoute } from './dashboard/candidateModal'
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
         subRoute('staff', roleGuard('staff', [staffRoute])),
         subRoute('manager', roleGuard('manager', [managerRoute])),
         subRoute('callcenter', roleGuard('callcenter', [callCenterRoute])),
+        candidateModalRoute,
       ]),
     ],
   },
