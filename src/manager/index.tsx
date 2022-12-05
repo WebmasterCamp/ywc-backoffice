@@ -8,7 +8,7 @@ import MenuBar from '../common/MenuBar'
 import Dashboard from '../dashboard'
 import Candidates from '../dashboard/Candidates'
 import UserStore from '../stores/user'
-import { Outlet, Route, useNavigate } from 'react-router-dom'
+import { Outlet, RouteObject, useNavigate } from 'react-router-dom'
 
 const Manager = () => {
   const userStore = UserStore
@@ -45,9 +45,11 @@ const Manager = () => {
 
 export default observer(Manager)
 
-export const route = (
-  <Route path="/manager" element={<Manager />}>
-    <Route path="" element={<Dashboard />} />
-    <Route path="candidates" element={<Candidates />} />
-  </Route>
-)
+export const route: RouteObject = {
+  path: '',
+  element: <Manager />,
+  children: [
+    { path: '', element: <Dashboard /> },
+    { path: 'candidates', element: <Candidates /> },
+  ],
+}

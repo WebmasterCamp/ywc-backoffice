@@ -12,7 +12,7 @@ import UserStore from '../stores/user'
 import CandidateFinalist from './CandidateFinalist'
 import CandidateInterview from './CandidateInterview'
 import CommitteeStatus from './CommitteeStatus'
-import { Outlet, Route, useNavigate } from 'react-router-dom'
+import { Outlet, RouteObject, useNavigate } from 'react-router-dom'
 
 const Admin = () => {
   const userStore = UserStore
@@ -120,13 +120,15 @@ const Admin = () => {
 
 export default observer(Admin)
 
-export const route = (
-  <Route path="/admin" element={<Admin />}>
-    <Route path="" element={<Dashboard />} />
-    <Route path="candidates" element={<Candidates />} />
-    <Route path="candidates/:major" element={<CandidateInterview />} />
-    <Route path="finalist/:major" element={<CandidateFinalist />} />
-    <Route path="status" element={<CommitteeStatus />} />
-    <Route path="tracking/candidates" element={<Trackings />} />
-  </Route>
-)
+export const route: RouteObject = {
+  path: '',
+  element: <Admin />,
+  children: [
+    { path: '', element: <Dashboard /> },
+    { path: 'candidates', element: <Candidates /> },
+    { path: 'candidates/:major', element: <CandidateInterview /> },
+    { path: 'finalist/:major', element: <CandidateFinalist /> },
+    { path: 'status', element: <CommitteeStatus /> },
+    { path: 'tracking/candidates', element: <Trackings /> },
+  ],
+}

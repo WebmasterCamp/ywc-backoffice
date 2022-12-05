@@ -8,7 +8,7 @@ import MenuBar from '../common/MenuBar'
 import UserStore from '../stores/user'
 import Dashboard from './Dashboard'
 import Trackings from './Trackings'
-import { Outlet, Route, useNavigate } from 'react-router-dom'
+import { Outlet, RouteObject, useNavigate } from 'react-router-dom'
 
 const CallCenter = () => {
   const userStore = UserStore
@@ -52,9 +52,11 @@ const CallCenter = () => {
 
 export default observer(CallCenter)
 
-export const route = (
-  <Route path="/callcenter" element={<CallCenter />}>
-    <Route path="" element={<Dashboard />} />
-    <Route path="tracking" element={<Trackings />} />
-  </Route>
-)
+export const route: RouteObject = {
+  path: '',
+  element: <CallCenter />,
+  children: [
+    { path: '', element: <Dashboard /> },
+    { path: 'tracking', element: <Trackings /> },
+  ],
+}

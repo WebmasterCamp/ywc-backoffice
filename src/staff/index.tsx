@@ -11,7 +11,7 @@ import CompletedCandidates from './CompletedCandidates'
 import Dashboard from './Dashboard'
 import IncompleteCandidates from './IncompleteCandidates'
 import VoteCandidate from './VoteCandidate'
-import { Outlet, Route, useNavigate } from 'react-router-dom'
+import { Outlet, RouteObject, useNavigate } from 'react-router-dom'
 
 const Staff = () => {
   const userStore = UserStore
@@ -61,12 +61,14 @@ const Staff = () => {
 
 export default observer(Staff)
 
-export const route = (
-  <Route path="/staff" element={<Staff />}>
-    <Route path="" element={<Dashboard />} />
-    <Route path="all" element={<Candidates />} />
-    <Route path="completed" element={<CompletedCandidates />} />
-    <Route path="incomplete" element={<IncompleteCandidates />} />
-    <Route path="candidate/:id" element={<VoteCandidate />} />
-  </Route>
-)
+export const route: RouteObject = {
+  path: '',
+  element: <Staff />,
+  children: [
+    { path: '', element: <Dashboard /> },
+    { path: 'all', element: <Candidates /> },
+    { path: 'completed', element: <CompletedCandidates /> },
+    { path: 'incomplete', element: <IncompleteCandidates /> },
+    { path: 'candidate/:id', element: <VoteCandidate /> },
+  ],
+}

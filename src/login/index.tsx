@@ -7,6 +7,7 @@ import styled from '@emotion/styled'
 import UserStore from '../stores/user'
 
 import LogoSVG from '../assets/logo.svg'
+import { RouteObject } from 'react-router-dom'
 
 const FormItem = Form.Item
 
@@ -98,3 +99,8 @@ const LoginPage: React.FC = () => {
 }
 
 export default observer(LoginPage)
+
+export const route: RouteObject = {
+  path: '',
+  element: <LoginPage />,
+}
