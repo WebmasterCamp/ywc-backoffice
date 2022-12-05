@@ -8,27 +8,33 @@ import {
   CloseOutlined,
   CheckOutlined,
 } from '@ant-design/icons'
-import { observer } from 'mobx-react-lite'
 import { Fragment, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+  useSubmit,
+} from 'react-router-dom'
 import styled from '@emotion/styled'
 
-import AnswerBox from '../common/AnswerBox'
-import QuestionBox from '../common/QuestionBox'
-import CommitteeStore from '../stores/committee'
-import QuestionsStore from '../stores/questions'
-import Box from '../ui/Box'
-import CommentBox from '../ui/CommentBox'
+import AnswerBox from '../../../common/AnswerBox'
+import QuestionBox from '../../../common/QuestionBox'
+import Box from '../../../ui/Box'
+import CommentBox from '../../../ui/CommentBox'
 import {
   GENERAL_QUESTION,
   IQuestion,
   MAJOR,
   MAJOR_QUESTION,
   QUESTION_TYPES,
-} from '../utils/const'
-import { PageTitle, SubHeading } from '../utils/styled-helper'
-import DesignAnswerModal from './DesignAnswerModal'
-import { useProfile } from '../utils/useProfile'
+} from '../../../utils/const'
+import { PageTitle, SubHeading } from '../../../utils/styled-helper'
+import DesignAnswerModal from '../../DesignAnswerModal'
+import { useProfile } from '../../../utils/useProfile'
+import { loader, LoaderData } from './loader'
+import { LoaderData as ParentLoaderData } from '../loader'
+import { action } from './action'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -39,18 +45,12 @@ const VoteBox = styled(Box)`
 `
 
 const VoteCandidate = () => {
-  const committeeStore = CommitteeStore
   const { major } = useProfile()
-  const questionsStore = QuestionsStore
 
-  const id = useParams().id as string
+  const id = useParams().candidateId as string
 
-  useEffect(() => {
-    committeeStore.getApplicationById(id)
-    committeeStore.getCommitteeStatus()
-  }, [committeeStore, questionsStore, id])
-
-  const { application } = committeeStore
+  const { application } = useLoaderData() as LoaderData
+  const { applications } = useOutletContext() as ParentLoaderData
 
   useEffect(() => {
     setComment(application.comment)
@@ -60,20 +60,17 @@ const VoteCandidate = () => {
   const [portfolioUrl, setPortfolioUrl] = useState('')
   const [comment, setComment] = useState('')
 
-  const currentApplication =
-    committeeStore.applications.map((a) => a._id).indexOf(id) + 1
-  const totalApplication = committeeStore.applications.length
+  const currentApplication = applications.findIndex((a) => a._id === id) + 1
+  const totalApplication = applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
   )
   const prevApplicationId =
-    currentApplication - 2 < 0
-      ? ''
-      : committeeStore.applications[currentApplication - 2]._id
+    currentApplication - 2 < 0 ? '' : applications[currentApplication - 2]._id
   const nextApplicationId =
-    currentApplication >= committeeStore.applications.length
+    currentApplication >= applications.length
       ? ''
-      : committeeStore.applications[currentApplication]._id
+      : applications[currentApplication]._id
 
   const openDrawer = (url: string) => {
     setVisible(true)
@@ -85,13 +82,18 @@ const VoteCandidate = () => {
     setPortfolioUrl('')
   }
 
-  const onConfirmPass = () => {
-    committeeStore.doVote(id, 1, comment)
+  const submit = useSubmit()
+  const submitVote = (score: number) => {
+    submit(
+      { id, score: `${score}`, comment, nextApplicationId },
+      {
+        method: 'post',
+      }
+    )
   }
 
-  const onConfirmFailed = () => {
-    committeeStore.doVote(id, 0, comment)
-  }
+  const onConfirmPass = () => submitVote(1)
+  const onConfirmFailed = () => submitVote(0)
 
   return (
     <>
@@ -333,4 +335,9 @@ const VoteCandidate = () => {
   )
 }
 
-export default observer(VoteCandidate)
+export const voteCandidateRoute = {
+  path: 'candidate/:candidateId',
+  action,
+  loader,
+  element: <VoteCandidate />,
+}

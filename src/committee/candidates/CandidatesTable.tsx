@@ -1,29 +1,29 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate, {
   CommitteeVote,
-} from '../interfaces/CommitteeCandidate'
-import CommitteeStore from '../stores/committee'
-import { MAJOR } from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
-import useSearchApplications from '../utils/useSearchApplications'
-import { useProfile } from '../utils/useProfile'
+} from '../../interfaces/CommitteeCandidate'
 
-const CompletedCandidates = () => {
-  const committeeStore = CommitteeStore
-  const { username, major } = useProfile()
-  const { applications, onSearch } = useSearchApplications(
-    committeeStore.completedApplication
-  )
+import { PageTitle } from '../../utils/styled-helper'
+import useSearchApplications from '../../utils/useSearchApplications'
+import { useProfile } from '../../utils/useProfile'
+import { LoaderData } from './loader'
 
-  useEffect(() => {
-    committeeStore.getCompletedApplication()
-  }, [committeeStore])
+interface CandidatesTableProps {
+  header: ReactNode
+  applications: LoaderData['applications']
+}
+
+export const CandidatesTable = ({
+  header,
+  applications: allApplications,
+}: CandidatesTableProps) => {
+  const { username } = useProfile()
+  const { applications, onSearch } = useSearchApplications(allApplications)
 
   const [pagination, setPagination] = useState({})
 
@@ -43,7 +43,23 @@ const CompletedCandidates = () => {
       title: 'ชื่อ นามสกุล (ชื่อเล่น)',
     },
     {
+      filterMultiple: false,
+      filters: [
+        {
+          text: 'ตรวจแล้ว',
+          value: 'completed',
+        },
+        {
+          text: 'ยังไม่ตรวจคำตอบ',
+          value: 'incomplete',
+        },
+      ],
       key: 'status',
+      onFilter: (value, record) => {
+        return value === 'completed'
+          ? record.completed === true
+          : record.completed === false
+      },
       render: (user: CommitteeCandidate) => (
         <span>
           {user.completed ? (
@@ -126,7 +142,7 @@ const CompletedCandidates = () => {
   return (
     <>
       <PageTitle>
-        ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(major)})
+        {header}
         <Input
           placeholder="ค้นหาใบสมัคร"
           prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -147,5 +163,3 @@ const CompletedCandidates = () => {
     </>
   )
 }
-
-export default observer(CompletedCandidates)
