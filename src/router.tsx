@@ -10,6 +10,7 @@ import { Root } from './utils/history'
 import { authGuard } from './guards/authGuard'
 import { authStore } from './stores/auth'
 import { subRoute } from './utils/subRoute'
+import { roleGuard } from './guards/roleGuard'
 
 export const router = createBrowserRouter([
   {
@@ -19,11 +20,11 @@ export const router = createBrowserRouter([
       subRoute('login', loginRoute),
       authGuard([
         homeRedirect(),
-        subRoute('admin', adminRoute),
-        subRoute('committee', committeeRoute),
-        subRoute('staff', staffRoute),
-        subRoute('manager', managerRoute),
-        subRoute('callcenter', callCenterRoute),
+        subRoute('admin', roleGuard('admin', [adminRoute])),
+        subRoute('committee', roleGuard('committee', [committeeRoute])),
+        subRoute('staff', roleGuard('staff', [staffRoute])),
+        subRoute('manager', roleGuard('manager', [managerRoute])),
+        subRoute('callcenter', roleGuard('callcenter', [callCenterRoute])),
       ]),
     ],
   },
