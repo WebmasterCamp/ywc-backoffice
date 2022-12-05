@@ -1,43 +1,49 @@
 import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
 import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
-import Candidate from '../interfaces/Candidate'
-import { TrackingForm } from '../interfaces/Tracking'
-import TrackingStore from '../stores/tracking'
-import UserStore from '../stores/user'
-import { MAJOR, STEP, TRACKING_STATUS } from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
-import CandidateModal from './candidateModal'
+import Candidate from '../../interfaces/Candidate'
+import { TrackingForm } from '../../interfaces/Tracking'
+import { MAJOR, STEP, TRACKING_STATUS } from '../../utils/const'
+import { PageTitle } from '../../utils/styled-helper'
+import CandidateModal from '../../dashboard/candidateModal'
+import { loader, LoaderData } from './loader'
+import { useFetcher, useLoaderData } from 'react-router-dom'
+import { action } from './action'
 const { Option } = Select
 
 const Tracking = () => {
-  const trackingStore = TrackingStore
-  const userStore = UserStore
-
-  useEffect(() => {
-    trackingStore.getTrackings()
-  }, [trackingStore])
+  const { trackings, admins } = useLoaderData() as LoaderData
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [visible, setVisible] = useState(false)
   const [drawerId, setDrawerId] = useState('')
   const [showModal, setShowModal] = useState(false)
 
+  const [previousState, setPreviousState] = useState<
+    'idle' | 'loading' | 'submitting'
+  >('idle')
+  const { submit, state } = useFetcher()
   useEffect(() => {
-    if (showModal) {
-      userStore.getUsersByRole('callcenter')
+    if (state === 'idle' && previousState !== 'idle') {
+      setSelectedRowKeys([])
+      setShowModal(false)
     }
-  }, [userStore, showModal])
+    setPreviousState(state)
+  }, [state, previousState])
 
   const handleSubmit = async (form: TrackingForm) => {
-    await trackingStore.createBulkTrackings({
-      ...form,
-      userIDs: selectedRowKeys,
-    })
-    setSelectedRowKeys([])
-    setShowModal(false)
+    const { purpose, assignee } = form
+    submit(
+      {
+        purpose,
+        assignee,
+        userIDs: JSON.stringify(selectedRowKeys),
+      },
+      {
+        method: 'post',
+      }
+    )
   }
 
   const formItemLayout = {
@@ -208,7 +214,7 @@ const Tracking = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(tracking: Candidate, index?: number) => tracking._id}
-        dataSource={trackingStore.trackings}
+        dataSource={trackings}
         pagination={{ pageSize: 20 }}
         rowSelection={{
           onChange: (_: any, selectedRows: Candidate[]) => {
@@ -235,7 +241,7 @@ const Tracking = () => {
 
       <Modal
         title="สร้างการติดตาม"
-        visible={showModal}
+        open={showModal}
         footer={null}
         onCancel={() => {
           setShowModal(false)
@@ -264,7 +270,7 @@ const Tracking = () => {
             rules={[{ required: true, message: `Please select assignee` }]}
           >
             <Select placeholder="Select a option" allowClear={true}>
-              {userStore.admins.map((admin) => (
+              {admins.map((admin) => (
                 <Option value={admin._id} key={admin._id}>
                   {admin.username}
                 </Option>
@@ -273,7 +279,11 @@ const Tracking = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={state !== 'idle'}
+            >
               <LoginOutlined style={{ color: 'white' }} /> สร้างรายการ
             </Button>
           </Form.Item>
@@ -283,4 +293,9 @@ const Tracking = () => {
   )
 }
 
-export default observer(Tracking)
+export const trackingRoute = {
+  path: 'candidates',
+  action,
+  loader,
+  element: <Tracking />,
+}

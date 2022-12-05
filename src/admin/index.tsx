@@ -7,7 +7,7 @@ import { candidatesRoute } from '../dashboard/candidates'
 import { candidateInterviewRoute } from './candidateInterview'
 import { candidateFinalistRoute } from './candidateFinalist'
 import { committeeStatusRoute } from './committeeStatus'
-import Trackings from '../dashboard/Trackings'
+import { trackingRoute } from './tracking'
 import { Outlet, RouteObject } from 'react-router-dom'
 import { subRoute } from '../utils/subRoute'
 
@@ -110,6 +110,6 @@ export const route: RouteObject = {
     subRoute('candidates', candidateInterviewRoute),
     subRoute('finalist', candidateFinalistRoute),
     subRoute('status', committeeStatusRoute),
-    { path: 'tracking/candidates', element: <Trackings /> },
+    subRoute('tracking', trackingRoute),
   ],
 }
