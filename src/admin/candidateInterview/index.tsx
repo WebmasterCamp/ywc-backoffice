@@ -5,23 +5,18 @@ import {
   CloseOutlined,
 } from '@ant-design/icons'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react'
-import CandidateModal from '../dashboard/CandidateModal'
-import Candidate from '../interfaces/Candidate'
-import CandidateStore from '../stores/candidates'
-import { MAJOR } from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
-import { useParams } from 'react-router-dom'
+import { useState } from 'react'
+import CandidateModal from '../../dashboard/CandidateModal'
+import Candidate from '../../interfaces/Candidate'
+import { MAJOR } from '../../utils/const'
+import { PageTitle } from '../../utils/styled-helper'
+import { useLoaderData, useParams, useSubmit } from 'react-router-dom'
+import { loader, LoaderData } from './loader'
+import { action } from './action'
 
 const CandidateInterview = () => {
   const major = useParams().major as string
-
-  const candidatesStore = CandidateStore
-
-  useEffect(() => {
-    candidatesStore.getCandidatesByMajor(major)
-  }, [candidatesStore, major])
+  const { filteredCandidates } = useLoaderData() as LoaderData
 
   const [pagination, setPagination] = useState({})
   const [selected, setSelected] = useState<string[]>([])
@@ -30,16 +25,24 @@ const CandidateInterview = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map(c => c._id))
+      setSelected(selectedRows.map((c) => c._id))
     },
   }
 
+  const submit = useSubmit()
+
   const onConfirmPass = () => {
-    candidatesStore.doPassInterview(selected, major)
+    submit(
+      { selected: JSON.stringify(selected), status: 'pass' },
+      { method: 'post', replace: true }
+    )
   }
 
   const onConfirmFailed = () => {
-    candidatesStore.doEjectInterview(selected, major)
+    submit(
+      { selected: JSON.stringify(selected), status: 'eject' },
+      { method: 'post', replace: true }
+    )
   }
 
   const columns: ColumnProps<Candidate>[] = [
@@ -203,7 +206,7 @@ const CandidateInterview = () => {
       ],
       key: 'committeeVote',
       onFilter: (value, record: Candidate) => {
-        const committeeList = record.committeeVote.map(c => c.committee)
+        const committeeList = record.committeeVote.map((c) => c.committee)
         /// TODO: refine type
         if (committeeList.indexOf(value as string) !== -1) {
           return (
@@ -216,8 +219,8 @@ const CandidateInterview = () => {
       render: (user: Candidate) => (
         <span>
           {user.committeeVote
-            .filter(c => c.score === 1)
-            .map(c => (
+            .filter((c) => c.score === 1)
+            .map((c) => (
               <p style={{ marginBlockEnd: 0 }} key={c._id}>
                 {c.committee}
               </p>
@@ -259,7 +262,7 @@ const CandidateInterview = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(candidate: Candidate, index?: number) => candidate._id}
-        dataSource={candidatesStore.filteredCandidates}
+        dataSource={filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}
         pagination={pagination}
@@ -302,4 +305,9 @@ const CandidateInterview = () => {
   )
 }
 
-export default observer(CandidateInterview)
+export const candidateInterviewRoute = {
+  path: ':major',
+  action,
+  loader,
+  element: <CandidateInterview />,
+}

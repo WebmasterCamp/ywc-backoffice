@@ -1,34 +1,41 @@
 import { Button, message, Popconfirm, Tag } from 'antd'
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useLoaderData, useParams, useSubmit } from 'react-router-dom'
 
-import Candidate from '../interfaces/Candidate'
-import CandidateStore from '../stores/candidates'
-import { MAJOR } from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
+import Candidate from '../../interfaces/Candidate'
+import { MAJOR } from '../../utils/const'
+import { PageTitle } from '../../utils/styled-helper'
+import { action } from './action'
+import { loader, LoaderData } from './loader'
 
 const CandidateFinalist = () => {
   const major = useParams().major as string
 
-  const candidatesStore = CandidateStore
-
-  useEffect(() => {
-    candidatesStore.getPassCandidatesByMajor(major)
-  }, [candidatesStore, major])
+  const { filteredCandidates } = useLoaderData() as LoaderData
 
   const [pagination, setPagination] = useState({})
   const [, setSelected] = useState<string[]>([])
 
   const rowSelection = {
     onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map(c => c._id))
+      setSelected(selectedRows.map((c) => c._id))
     },
   }
 
+  const submit = useSubmit()
+
   const onFinalistPass = (id: string) => {
-    candidatesStore.doPassFinalist(id, major)
+    submit(
+      {
+        action: 'pass',
+        id: id,
+      },
+      {
+        method: 'post',
+        replace: true,
+      }
+    )
   }
 
   const onReservePass = (id: string) => {
@@ -41,7 +48,17 @@ const CandidateFinalist = () => {
       if (isNaN(reserveNo)) {
         message.error('กรุณากรอกเฉพาะตัวเลข')
       } else {
-        candidatesStore.doReserveFinalist(id, reserveNo, major)
+        submit(
+          {
+            action: 'reserve',
+            id: id,
+            reserveNo: `${reserveNo}`,
+          },
+          {
+            method: 'post',
+            replace: true,
+          }
+        )
       }
     }
   }
@@ -56,10 +73,16 @@ const CandidateFinalist = () => {
       if (isNaN(parsedVerificationAmount)) {
         message.error('กรุณากรอกเฉพาะตัวเลข')
       } else {
-        candidatesStore.doChangeVerificationAmount(
-          id,
-          parsedVerificationAmount,
-          major
+        submit(
+          {
+            action: 'changeVerificationAmount',
+            id: id,
+            verificationAmount: `${verificationAmount}`,
+          },
+          {
+            method: 'post',
+            replace: true,
+          }
         )
       }
     }
@@ -198,7 +221,7 @@ const CandidateFinalist = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(candidate: Candidate) => candidate._id}
-        dataSource={candidatesStore.filteredCandidates}
+        dataSource={filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}
         pagination={pagination}
@@ -207,4 +230,9 @@ const CandidateFinalist = () => {
   )
 }
 
-export default observer(CandidateFinalist)
+export const candidateFinalistRoute = {
+  path: ':major',
+  action,
+  loader,
+  element: <CandidateFinalist />,
+}

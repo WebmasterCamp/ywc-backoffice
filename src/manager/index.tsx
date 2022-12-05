@@ -2,11 +2,11 @@ import { Fragment } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 
 import MenuBar from '../common/MenuBar'
-import Candidates from '../dashboard/Candidates'
 
 import { Outlet, RouteObject } from 'react-router-dom'
 import { subRoute } from '../utils/subRoute'
 import { dashboardRoute } from '../dashboard'
+import { candidatesRoute } from '../dashboard/candidates'
 
 const Manager = () => {
   return (
@@ -32,6 +32,6 @@ export const route: RouteObject = {
   element: <Manager />,
   children: [
     subRoute('', dashboardRoute),
-    { path: 'candidates', element: <Candidates /> },
+    subRoute('candidates', candidatesRoute),
   ],
 }

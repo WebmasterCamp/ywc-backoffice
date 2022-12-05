@@ -1,37 +1,20 @@
 import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
-// import styled from '@emotion/styled'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
-import Candidate from '../interfaces/Candidate'
-import CandidateStore from '../stores/candidates'
-import { MAJOR, STEP } from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
-import useSearchCandidates from '../utils/useSearchCandidates'
-import CandidateModal from './CandidateModal'
-
-// const CustomSearch = styled.div`
-//   background: white;
-//   padding: 10px;
-//   border-radius: 5px;
-//   border: 1px solid #ddd;
-// `
-
-// const Padding = styled.div`
-//   padding: 20px;
-// `
+import Candidate from '../../interfaces/Candidate'
+import { MAJOR, STEP } from '../../utils/const'
+import { PageTitle } from '../../utils/styled-helper'
+import useSearchCandidates from '../../utils/useSearchCandidates'
+import CandidateModal from '../CandidateModal'
+import { loader, LoaderData } from './loader'
+import { useLoaderData } from 'react-router-dom'
+import { useState } from 'react'
 
 const Candidates = () => {
-  const candidatesStore = CandidateStore
-  const { candidates, onSearch } = useSearchCandidates(
-    candidatesStore.candidates
-  )
+  const allCandidates = useLoaderData() as LoaderData
 
-  useEffect(() => {
-    candidatesStore.getCandidates()
-  }, [candidatesStore])
+  const { candidates, onSearch } = useSearchCandidates(allCandidates)
 
   const [pagination, setPagination] = useState({})
   const [visible, setVisible] = useState(false)
@@ -257,4 +240,8 @@ const Candidates = () => {
   )
 }
 
-export default observer(Candidates)
+export const candidatesRoute = {
+  path: '',
+  loader,
+  element: <Candidates />,
+}
