@@ -25,7 +25,7 @@ const Tracking = () => {
   >('idle')
   const { submit, state } = useFetcher()
   useEffect(() => {
-    if (state === 'idle' && previousState !== 'idle') {
+    if (state !== 'submitting' && previousState === 'submitting') {
       setSelectedRowKeys([])
       setShowModal(false)
     }

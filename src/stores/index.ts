@@ -1,6 +1,2 @@
-import Tracking from './tracking'
-
-const stores = {
-  TrackingStore: Tracking,
-}
+const stores = {}
 export default stores

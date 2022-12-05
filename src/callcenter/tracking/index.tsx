@@ -1,10 +1,8 @@
 import { Button, Form, Input, Modal, Select, Table, Tag } from 'antd'
 import { LoginOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
-import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
-import ITracking from '../interfaces/Tracking'
-import TrackingStore from '../stores/tracking'
+import { useEffect, useState } from 'react'
+import ITracking from '../../interfaces/Tracking'
 import {
   MAJOR,
   STEP,
@@ -12,48 +10,75 @@ import {
   TRACKING_PURPOSE,
   TRACKING_RESULT,
   TRACKING_STATUS,
-} from '../utils/const'
-import { PageTitle } from '../utils/styled-helper'
+} from '../../utils/const'
+import { PageTitle } from '../../utils/styled-helper'
+import {
+  loader,
+  LoaderData,
+  trackingByIdAction,
+  trackingByIdLoader,
+  TrackingByIdLoaderData,
+} from './loader'
+import { useFetcher, useLoaderData, useResolvedPath } from 'react-router-dom'
 const { Option } = Select
 
 const Tracking = () => {
-  const trackingStore = TrackingStore
-  const { selectedTracking } = trackingStore
-  useEffect(() => {
-    trackingStore.getTrackingCallCenter()
-  }, [trackingStore])
-  const [showModal, setShowModal] = useState(false)
+  const [selectedTrackingId, setSelectedTrackingId] = useState<string | null>(
+    null
+  )
+
+  const { trackings } = useLoaderData() as LoaderData
+  const { state, data, load, submit } = useFetcher<TrackingByIdLoaderData>()
+  const selectedTracking =
+    !selectedTrackingId || selectedTrackingId === data?._id ? data : undefined
 
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 16 },
   }
 
+  const currentPath = useResolvedPath(``)
   const handleSubmit = async (form: ITracking) => {
-    await trackingStore.updateTracking(selectedTracking._id, form)
-    setShowModal(false)
+    const { group, phone, purpose, remark, result, status } = form
+    submit(
+      { group, phone, purpose, remark, result, status },
+      {
+        method: 'post',
+        action: `${currentPath.pathname}/${selectedTracking!._id}`,
+      }
+    )
   }
+
+  const [previousState, setPreviousState] = useState<
+    'idle' | 'loading' | 'submitting'
+  >('idle')
+  useEffect(() => {
+    if (state !== 'submitting' && previousState === 'submitting') {
+      setSelectedTrackingId(null)
+    }
+    setPreviousState(state)
+  }, [state, previousState])
 
   const [form] = Form.useForm()
   const { setFieldsValue } = form
   useEffect(() => {
-    if (showModal) {
-      const { purpose, status, result, group, remark, phone } = selectedTracking
-      setFieldsValue({
-        group: group || undefined,
-        phone: phone || '',
-        purpose,
-        remark: remark || '',
-        result: result || undefined,
-        status,
-      })
-    }
+    if (!selectedTracking) return
+    if (!selectedTrackingId) return
+    const { purpose, status, result, group, remark, phone } = selectedTracking
+    setFieldsValue({
+      group: group || undefined,
+      phone: phone || '',
+      purpose,
+      remark: remark || '',
+      result: result || undefined,
+      status,
+    })
     // eslint-disable-next-line
   }, [selectedTracking])
 
   const onSelectTracking = (tracking: ITracking) => {
-    setShowModal(true)
-    trackingStore.getTrackingById(tracking._id)
+    setSelectedTrackingId(tracking._id)
+    load(`${currentPath.pathname}/${tracking._id}`)
   }
   const columns: ColumnProps<ITracking>[] = [
     {
@@ -187,39 +212,42 @@ const Tracking = () => {
         className="candidates-table"
         columns={columns}
         rowKey={(tracking, _index) => tracking._id}
-        dataSource={trackingStore.tracking}
+        dataSource={trackings}
         pagination={{ pageSize: 20 }}
       />
       <Modal
         title="รายละเอียดการติดตาม"
-        visible={showModal}
+        open={!!selectedTrackingId}
         footer={null}
-        onCancel={() => {
-          setShowModal(false)
-          trackingStore.resetSelectedTracking()
-        }}
+        onCancel={() => setSelectedTrackingId(null)}
       >
-        <Form {...formItemLayout} form={form} onFinish={handleSubmit}>
+        <Form
+          {...formItemLayout}
+          form={form}
+          disabled={!selectedTracking || state !== 'idle'}
+          onFinish={handleSubmit}
+        >
           <span>
             {'ชื่อ - นามสกุล : '}
-            {selectedTracking.user.firstName} {selectedTracking.user.lastName} (
-            {selectedTracking.user.nickname})
+            {selectedTracking?.user?.firstName}{' '}
+            {selectedTracking?.user?.lastName} (
+            {selectedTracking?.user?.nickname})
           </span>
           <br />
           <span>
             {'สาขา : '}
-            {selectedTracking.user.major}
+            {selectedTracking?.user?.major}
           </span>
           <br />
           <span>
             {'Step ปัจจุบัน : '}
-            {selectedTracking.user.step}
+            {selectedTracking?.user?.step}
           </span>
           <br />
           <span>
             {'เบอร์ติดต่อ : '}
-            <a href={`tel:${selectedTracking.user.phone}`}>
-              {selectedTracking.user.phone}
+            <a href={`tel:${selectedTracking?.user?.phone}`}>
+              {selectedTracking?.user?.phone}
             </a>{' '}
           </span>
           <br />
@@ -307,4 +335,15 @@ const Tracking = () => {
   )
 }
 
-export default observer(Tracking)
+export const trackingRoute = {
+  path: 'tracking',
+  loader,
+  element: <Tracking />,
+  children: [
+    {
+      path: ':trackingId',
+      action: trackingByIdAction,
+      loader: trackingByIdLoader,
+    },
+  ],
+}
