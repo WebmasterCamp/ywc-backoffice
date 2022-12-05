@@ -1,13 +1,13 @@
 import { Button, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons'
-import { observer } from 'mobx-react-lite'
-import { useCallback, useEffect } from 'react'
+import { useStore } from 'zustand'
+import { useCallback } from 'react'
 import styled from '@emotion/styled'
 
-import UserStore from '../stores/user'
-
 import LogoSVG from '../assets/logo.svg'
-import { RouteObject } from 'react-router-dom'
+import { Navigate, RouteObject } from 'react-router-dom'
+import { authStore } from '../stores/auth'
+import notification from '../utils/notification'
 
 const FormItem = Form.Item
 
@@ -47,18 +47,25 @@ interface ILoginForm {
 }
 
 const LoginPage: React.FC = () => {
-  const userStore = UserStore
-
-  useEffect(() => {
-    userStore.checkAuthentication()
-  }, [userStore])
+  const { user, authenticate } = useStore(authStore, (state) => ({
+    user: state.user,
+    authenticate: state.authenticate,
+  }))
 
   const handleSubmit = useCallback(
-    (form: ILoginForm) => {
-      userStore.authenticate(form.username, form.password)
+    async (form: ILoginForm) => {
+      try {
+        await authenticate(form.username, form.password)
+      } catch (e) {
+        notification('error', 'Login Error', 'Username or Password incorrect')
+      }
     },
-    [userStore]
+    [authenticate]
   )
+
+  if (user) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <>
@@ -97,8 +104,6 @@ const LoginPage: React.FC = () => {
     </>
   )
 }
-
-export default observer(LoginPage)
 
 export const route: RouteObject = {
   path: '',

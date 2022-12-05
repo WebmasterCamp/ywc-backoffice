@@ -7,18 +7,17 @@ import { Link } from 'react-router-dom'
 
 import StaffCandidate from '../interfaces/StaffCandidate'
 import StaffStore from '../stores/staff'
-import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
+import { useProfile } from '../utils/useProfile'
 
 const IncompleteCandidates = () => {
   const staffStore = StaffStore
-  const userStore = UserStore
+  const { major } = useProfile()
 
   useEffect(() => {
     staffStore.getIncompleteApplication()
-    userStore.getProfile()
-  }, [staffStore, userStore])
+  }, [staffStore])
 
   const [pagination, setPagination] = useState({})
 
@@ -70,9 +69,7 @@ const IncompleteCandidates = () => {
 
   return (
     <>
-      <PageTitle>
-        ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(userStore.profile.major)})
-      </PageTitle>
+      <PageTitle>ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(major)})</PageTitle>
 
       <Table
         className="candidates-table"

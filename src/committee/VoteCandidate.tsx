@@ -17,7 +17,6 @@ import AnswerBox from '../common/AnswerBox'
 import QuestionBox from '../common/QuestionBox'
 import CommitteeStore from '../stores/committee'
 import QuestionsStore from '../stores/questions'
-import UserStore from '../stores/user'
 import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
 import {
@@ -29,6 +28,7 @@ import {
 } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
 import DesignAnswerModal from './DesignAnswerModal'
+import { useProfile } from '../utils/useProfile'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -40,7 +40,7 @@ const VoteBox = styled(Box)`
 
 const VoteCandidate = () => {
   const committeeStore = CommitteeStore
-  const userStore = UserStore
+  const { major } = useProfile()
   const questionsStore = QuestionsStore
 
   const id = useParams().id as string
@@ -48,8 +48,7 @@ const VoteCandidate = () => {
   useEffect(() => {
     committeeStore.getApplicationById(id)
     committeeStore.getCommitteeStatus()
-    userStore.getProfile()
-  }, [committeeStore, userStore, questionsStore, id])
+  }, [committeeStore, questionsStore, id])
 
   const { application } = committeeStore
 
@@ -62,7 +61,7 @@ const VoteCandidate = () => {
   const [comment, setComment] = useState('')
 
   const currentApplication =
-    committeeStore.applications.map(a => a._id).indexOf(id) + 1
+    committeeStore.applications.map((a) => a._id).indexOf(id) + 1
   const totalApplication = committeeStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -101,7 +100,7 @@ const VoteCandidate = () => {
         onClose={closeDrawer}
         url={portfolioUrl}
       />
-      <PageTitle>ตรวจใบสมัคร (สาขา{MAJOR(userStore.profile.major)})</PageTitle>
+      <PageTitle>ตรวจใบสมัคร (สาขา{MAJOR(major)})</PageTitle>
       <CandidateBox>
         <Row gutter={16}>
           <Col md={5} lg={4} xl={3} xxl={2}>
@@ -208,39 +207,37 @@ const VoteCandidate = () => {
         </Row>
         <Divider />
         <Row>
-          <SubHeading>คำถามสาขา ({MAJOR(userStore.profile.major)})</SubHeading>
+          <SubHeading>คำถามสาขา ({MAJOR(major)})</SubHeading>
           {application.questions.majorQuestions.length !== 0 &&
-            MAJOR_QUESTION(userStore.profile.major).map(
-              (question: IQuestion, i: number) => {
-                const answer = application.questions.majorQuestions[i].answer
-                return (
-                  answer && (
-                    <Fragment key={i}>
-                      <QuestionBox
-                        dangerouslySetInnerHTML={{
-                          __html: question.title,
-                        }}
+            MAJOR_QUESTION(major).map((question: IQuestion, i: number) => {
+              const answer = application.questions.majorQuestions[i].answer
+              return (
+                answer && (
+                  <Fragment key={i}>
+                    <QuestionBox
+                      dangerouslySetInnerHTML={{
+                        __html: question.title,
+                      }}
+                    />
+                    {question.type === QUESTION_TYPES.FILE ? (
+                      <Button
+                        icon={<DownloadOutlined />}
+                        onClick={() => openDrawer(answer)}
+                        style={{ margin: '5px auto 25px auto' }}
+                      >
+                        ดูคำตอบ
+                      </Button>
+                    ) : (
+                      <AnswerBox
+                        disabled={true}
+                        autoSize={true}
+                        value={application.questions.majorQuestions[i].answer}
                       />
-                      {question.type === QUESTION_TYPES.FILE ? (
-                        <Button
-                          icon={<DownloadOutlined />}
-                          onClick={() => openDrawer(answer)}
-                          style={{ margin: '5px auto 25px auto' }}
-                        >
-                          ดูคำตอบ
-                        </Button>
-                      ) : (
-                        <AnswerBox
-                          disabled={true}
-                          autoSize={true}
-                          value={application.questions.majorQuestions[i].answer}
-                        />
-                      )}
-                    </Fragment>
-                  )
+                    )}
+                  </Fragment>
                 )
-              }
-            )}
+              )
+            })}
         </Row>
       </CandidateBox>
       <CommentBox>
@@ -260,7 +257,7 @@ const VoteCandidate = () => {
         <AnswerBox
           rows={6}
           value={comment}
-          onChange={e => {
+          onChange={(e) => {
             setComment(e.target.value)
           }}
         />

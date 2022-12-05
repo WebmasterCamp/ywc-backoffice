@@ -7,22 +7,21 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import CommitteeCandidate from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
-import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 import useSearchApplications from '../utils/useSearchApplications'
+import { useProfile } from '../utils/useProfile'
 
 const IncompleteCandidates = () => {
   const committeeStore = CommitteeStore
-  const userStore = UserStore
+  const { major } = useProfile()
   const { applications, onSearch } = useSearchApplications(
     committeeStore.incompleteApplication
   )
 
   useEffect(() => {
     committeeStore.getIncompleteApplication()
-    userStore.getProfile()
-  }, [committeeStore, userStore])
+  }, [committeeStore])
 
   const [pagination, setPagination] = useState({})
 
@@ -84,7 +83,7 @@ const IncompleteCandidates = () => {
   return (
     <>
       <PageTitle>
-        ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(userStore.profile.major)})
+        ใบสมัครที่ตรวจไม่เสร็จ (สาขา{MAJOR(major)})
         <Input
           placeholder="ค้นหาใบสมัคร"
           prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}

@@ -17,11 +17,11 @@ import AnswerBox from '../common/AnswerBox'
 import QuestionBox from '../common/QuestionBox'
 import QuestionsStore from '../stores/questions'
 import StaffStore from '../stores/staff'
-import UserStore from '../stores/user'
 import Box from '../ui/Box'
 import CommentBox from '../ui/CommentBox'
 import { GENERAL_QUESTION, IQuestion, MAJOR } from '../utils/const'
 import { PageTitle, SubHeading } from '../utils/styled-helper'
+import { useProfile } from '../utils/useProfile'
 
 const CandidateBox = styled(Box)`
   padding: 20px;
@@ -33,8 +33,8 @@ const VoteBox = styled(Box)`
 
 const VoteCandidate = () => {
   const staffStore = StaffStore
-  const userStore = UserStore
   const questionsStore = QuestionsStore
+  const { major } = useProfile()
 
   const [staffComment, setStaffComment] = useState('')
 
@@ -44,8 +44,7 @@ const VoteCandidate = () => {
     setStaffComment('')
     staffStore.getApplications()
     staffStore.getApplicationById(id)
-    userStore.getProfile()
-  }, [staffStore, userStore, questionsStore, id])
+  }, [staffStore, questionsStore, id])
 
   const { application } = staffStore
 
@@ -58,7 +57,7 @@ const VoteCandidate = () => {
   }
 
   const currentApplication =
-    staffStore.applications.map(a => a._id).indexOf(id) + 1
+    staffStore.applications.map((a) => a._id).indexOf(id) + 1
   const totalApplication = staffStore.applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
@@ -74,7 +73,7 @@ const VoteCandidate = () => {
 
   return (
     <>
-      <PageTitle>ตรวจใบสมัคร (สาขา{MAJOR(userStore.profile.major)})</PageTitle>
+      <PageTitle>ตรวจใบสมัคร (สาขา{MAJOR(major)})</PageTitle>
       <CandidateBox>
         <Row gutter={16}>
           <Col md={5} lg={4} xl={3} xxl={2}>
@@ -144,7 +143,7 @@ const VoteCandidate = () => {
         ) : (
           <AnswerBox
             key="comment-edit"
-            onChange={e => {
+            onChange={(e) => {
               setStaffComment(e.target.value)
             }}
             value={staffComment}

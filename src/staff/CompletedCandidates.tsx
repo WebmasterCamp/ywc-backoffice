@@ -6,18 +6,17 @@ import { Link } from 'react-router-dom'
 
 import StaffCandidate from '../interfaces/StaffCandidate'
 import StaffStore from '../stores/staff'
-import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
+import { useProfile } from '../utils/useProfile'
 
 const CompletedCandidates = () => {
   const staffStore = StaffStore
-  const userStore = UserStore
+  const { major } = useProfile()
 
   useEffect(() => {
     staffStore.getCompletedApplication()
-    userStore.getProfile()
-  }, [staffStore, userStore])
+  }, [staffStore])
 
   const [pagination, setPagination] = useState({})
 
@@ -86,9 +85,7 @@ const CompletedCandidates = () => {
 
   return (
     <>
-      <PageTitle>
-        ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(userStore.profile.major)})
-      </PageTitle>
+      <PageTitle>ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(major)})</PageTitle>
 
       <Table
         className="candidates-table"

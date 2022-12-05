@@ -1,21 +1,21 @@
 import { Avatar, Button, Col, Row } from 'antd'
 import { PoweroffOutlined, UserOutlined } from '@ant-design/icons'
-import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
-import UserStore from '../stores/user'
+import { useStore } from 'zustand'
 import Box from '../ui/Box'
 import { MAJOR } from '../utils/const'
 import { Padding } from '../utils/styled-helper'
+import { authStore } from '../stores/auth'
+import notification from '../utils/notification'
 
 const ProfileBox = () => {
-  const userStore = UserStore
-
-  useEffect(() => {
-    userStore.getProfile()
-  }, [userStore])
+  const { profile, logout } = useStore(authStore, (state) => ({
+    profile: state.user!.profile,
+    logout: state.logout,
+  }))
 
   const handleLogout = () => {
-    userStore.doLogout()
+    logout()
+    notification('success', 'Logout success!', 'Goodbye~')
   }
 
   const getRole = (role: string) => {
@@ -27,7 +27,7 @@ const ProfileBox = () => {
       case 'staff':
         return 'กรรมการตรวจคำตอบกลาง'
       case 'committee':
-        return `กรรมการตรวจคำตอบสาขา${MAJOR(userStore.profile.major)}`
+        return `กรรมการตรวจคำตอบสาขา${MAJOR(profile.major)}`
     }
   }
 
@@ -41,7 +41,7 @@ const ProfileBox = () => {
           <Col md={14} xl={18}>
             <b>ยินดีต้อนรับ</b>
             <br />
-            คุณ {userStore.profile.username} ({getRole(userStore.profile.role)})
+            คุณ {profile.username} ({getRole(profile.role)})
           </Col>
           <Col md={6} xl={4} style={{ textAlign: 'right' }}>
             <Button icon={<PoweroffOutlined />} onClick={handleLogout}>
@@ -54,4 +54,4 @@ const ProfileBox = () => {
   )
 }
 
-export default observer(ProfileBox)
+export default ProfileBox

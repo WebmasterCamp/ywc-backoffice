@@ -9,22 +9,21 @@ import CommitteeCandidate, {
   CommitteeVote,
 } from '../interfaces/CommitteeCandidate'
 import CommitteeStore from '../stores/committee'
-import UserStore from '../stores/user'
 import { MAJOR } from '../utils/const'
 import { PageTitle } from '../utils/styled-helper'
 import useSearchApplications from '../utils/useSearchApplications'
+import { useProfile } from '../utils/useProfile'
 
 const CompletedCandidates = () => {
   const committeeStore = CommitteeStore
-  const userStore = UserStore
+  const { username, major } = useProfile()
   const { applications, onSearch } = useSearchApplications(
     committeeStore.completedApplication
   )
 
   useEffect(() => {
     committeeStore.getCompletedApplication()
-    userStore.getProfile()
-  }, [committeeStore, userStore])
+  }, [committeeStore])
 
   const [pagination, setPagination] = useState({})
 
@@ -75,13 +74,13 @@ const CompletedCandidates = () => {
       key: 'result',
       onFilter: (value, user) => {
         const vote = user.committeeVote.find(
-          (v: CommitteeVote) => v.committee === userStore.profile.username
+          (v: CommitteeVote) => v.committee === username
         )
         return !!vote && value === `${vote.score}`
       },
       render: (user: CommitteeCandidate) => {
         const vote = user.committeeVote.find(
-          (v: CommitteeVote) => v.committee === userStore.profile.username
+          (v: CommitteeVote) => v.committee === username
         )
         return (
           vote && (
@@ -127,7 +126,7 @@ const CompletedCandidates = () => {
   return (
     <>
       <PageTitle>
-        ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(userStore.profile.major)})
+        ใบสมัครที่ตรวจเสร็จ (สาขา{MAJOR(major)})
         <Input
           placeholder="ค้นหาใบสมัคร"
           prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
