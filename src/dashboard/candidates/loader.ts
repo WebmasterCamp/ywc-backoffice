@@ -1,13 +1,13 @@
 import Candidate from '../../interfaces/Candidate'
 import { requireUser } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireUser()
 
-  const candidates = await fetchWithToken('users/all', '', 'get')
+  const candidates = await legacy_fetchWithToken('users/all', '', 'get')
   if (candidates.status !== 'success')
     throw new Error(`Fetch users/all failed: ${candidates}`)
 

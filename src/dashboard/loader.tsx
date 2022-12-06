@@ -1,5 +1,5 @@
 import { requireUser } from '../stores/auth'
-import { fetchWithToken } from '../utils/fetch'
+import { legacy_fetchWithToken } from '../utils/fetch'
 import * as R from 'ramda'
 
 import Candidate from '../interfaces/Candidate'
@@ -13,13 +13,13 @@ export type LoaderData = Awaited<ReturnType<typeof loader>>
 export const loader = async () => {
   await requireUser()
 
-  const dashboardPromise = fetchWithToken('users/stat/all', '', 'get')
-  const getCompletedUserPromise = fetchWithToken(
+  const dashboardPromise = legacy_fetchWithToken('users/stat/all', '', 'get')
+  const getCompletedUserPromise = legacy_fetchWithToken(
     'users/dashboard/stat',
     '',
     'get'
   )
-  const getAllUserPromise = fetchWithToken('users/all', '', 'get')
+  const getAllUserPromise = legacy_fetchWithToken('users/all', '', 'get')
   const [dashboard, getCompletedUser, getAllUser] = await Promise.all([
     dashboardPromise,
     getCompletedUserPromise,

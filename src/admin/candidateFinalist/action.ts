@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from 'react-router-dom'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 async function pass(formData: FormData) {
   const id = formData.get('id') as string
-  const candidatePassFinalist = await fetchWithToken(
+  const candidatePassFinalist = await legacy_fetchWithToken(
     `users/finalist/pass`,
     { id },
     'POST'
@@ -32,7 +32,7 @@ async function pass(formData: FormData) {
 async function reserve(formData: FormData) {
   const id = formData.get('id') as string
   const reserveNo = Number(formData.get('reserveNo') as string)
-  const candidateReserveFinalist = await fetchWithToken(
+  const candidateReserveFinalist = await legacy_fetchWithToken(
     `users/finalist/reserve`,
     { id, reserveNo },
     'POST'
@@ -51,7 +51,7 @@ async function changeVerificationAmount(formData: FormData) {
   const verificationAmount = Number(
     formData.get('verificationAmount') as string
   )
-  const changeVerificationAmount = await fetchWithToken(
+  const changeVerificationAmount = await legacy_fetchWithToken(
     `users/finalist/verification`,
     { id, verificationAmount },
     'POST'

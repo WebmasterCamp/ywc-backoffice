@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 import AdminCandidate from '../../interfaces/AdminCandidate'
 import { requireUser } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
@@ -9,7 +9,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   await requireUser()
 
   const { candidateId } = params
-  const candidate = await fetchWithToken(
+  const candidate = await legacy_fetchWithToken(
     `users/profile/${candidateId}`,
     '',
     'get'

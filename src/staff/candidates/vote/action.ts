@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, redirect } from 'react-router-dom'
-import { fetchWithToken } from '../../../utils/fetch'
+import { legacy_fetchWithToken } from '../../../utils/fetch'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
@@ -26,7 +26,7 @@ async function votePass(formData: FormData) {
   const id = formData.get('id') as string
   const comment = formData.get('comment') as string
 
-  const voteStatus = await fetchWithToken(
+  const voteStatus = await legacy_fetchWithToken(
     'grading/staff/pass',
     { id, comment },
     'POST'
@@ -41,7 +41,7 @@ async function voteFail(formData: FormData) {
   const id = formData.get('id') as string
   const comment = formData.get('comment') as string
 
-  const voteStatus = await fetchWithToken(
+  const voteStatus = await legacy_fetchWithToken(
     'grading/staff/eject',
     { id, comment },
     'POST'

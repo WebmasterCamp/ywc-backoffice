@@ -1,12 +1,12 @@
 import { ActionFunctionArgs } from 'react-router-dom'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const selected = JSON.parse(formData.get('selected') as string) as string[]
   const status = formData.get('status') as string
   if (status === 'pass') {
-    const candidatePassInterview = await fetchWithToken(
+    const candidatePassInterview = await legacy_fetchWithToken(
       `users/interview/pass`,
       { candidates: selected },
       'POST'
@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       )
     }
   } else if (status === 'eject') {
-    const candidateEjectInterview = await fetchWithToken(
+    const candidateEjectInterview = await legacy_fetchWithToken(
       `users/interview/eject`,
       { candidates: selected },
       'POST'

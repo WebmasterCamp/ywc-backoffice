@@ -30,7 +30,7 @@ export const fetch = async <T>(
 }
 
 // request data from token in localStorage
-export const fetchWithToken = async (
+export const legacy_fetchWithToken = async (
   route: string,
   data: any = {},
   method: AxiosRequestConfig['method'] = 'POST',

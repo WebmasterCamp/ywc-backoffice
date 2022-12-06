@@ -1,13 +1,17 @@
 import StaffStatus from '../../interfaces/StaffStatus'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('STAFF')
 
-  const staffStatus = await fetchWithToken('grading/staff/status', '', 'GET')
+  const staffStatus = await legacy_fetchWithToken(
+    'grading/staff/status',
+    '',
+    'GET'
+  )
 
   if (staffStatus.status !== 'success') {
     throw new Error(`Fetch grading/staff/status failed: ${staffStatus}`)

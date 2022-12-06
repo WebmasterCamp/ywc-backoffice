@@ -3,7 +3,7 @@ import create from 'zustand'
 import { AdminRole } from '../interfaces/AdminRole'
 
 import Profile from '../interfaces/Profile'
-import { fetch, fetchWithToken } from '../utils/fetch'
+import { fetch, legacy_fetchWithToken } from '../utils/fetch'
 import { getToken, removeToken, saveToken } from '../utils/token-helper'
 import { AdminLoginResponse } from '../schemas/endpoints/auth'
 
@@ -27,7 +27,12 @@ export const authStore = create<AuthState>((set) => ({
   initializeStore: async () => {
     try {
       const token = getToken()
-      const getProfile = await fetchWithToken('admin/me', '', 'GET', token)
+      const getProfile = await legacy_fetchWithToken(
+        'admin/me',
+        '',
+        'GET',
+        token
+      )
       if (getProfile.status !== 'success') throw new Error('Get Profile Error')
       set({
         initialized: true,
@@ -44,7 +49,7 @@ export const authStore = create<AuthState>((set) => ({
       { username, password },
       'POST'
     )
-    const getProfile = await fetchWithToken('admin/me', {}, 'GET', token)
+    const getProfile = await legacy_fetchWithToken('admin/me', {}, 'GET', token)
     if (getProfile.status !== 'success') throw new Error('Get Profile Error')
     saveToken(token)
     set({

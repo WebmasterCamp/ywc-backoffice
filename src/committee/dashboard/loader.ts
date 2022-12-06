@@ -1,13 +1,13 @@
 import CommitteeStatus from '../../interfaces/CommitteeStatus'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('COMMITTEE')
 
-  const committeeStatus = await fetchWithToken(
+  const committeeStatus = await legacy_fetchWithToken(
     'grading/committee/status',
     '',
     'GET'

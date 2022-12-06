@@ -1,13 +1,13 @@
 import CommitteeCandidate from '../../interfaces/CommitteeCandidate'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('COMMITTEE')
 
-  const applications = await fetchWithToken('users/committee', '', 'get')
+  const applications = await legacy_fetchWithToken('users/committee', '', 'get')
 
   if (applications.status !== 'success') {
     throw new Error(`Fetch users/committee failed: ${applications}`)

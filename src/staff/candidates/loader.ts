@@ -1,13 +1,13 @@
 import StaffCandidate from '../../interfaces/StaffCandidate'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('STAFF')
 
-  const applications = await fetchWithToken('users/staff', '', 'get')
+  const applications = await legacy_fetchWithToken('users/staff', '', 'get')
 
   if (applications.status !== 'success') {
     throw new Error(`Fetch users/staff failed: ${applications}`)

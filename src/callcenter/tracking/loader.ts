@@ -1,14 +1,14 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom'
 import Tracking from '../../interfaces/Tracking'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('CALLCENTER')
 
-  const result = await fetchWithToken('tracking/me', '', 'GET')
+  const result = await legacy_fetchWithToken('tracking/me', '', 'GET')
   if (result.status !== 'success') {
     throw new Error(`Fetch tracking/me failed: ${result}`)
   }
@@ -27,7 +27,11 @@ export const trackingByIdLoader = async ({ params }: LoaderFunctionArgs) => {
   await requireRole('CALLCENTER')
 
   const { trackingId } = params
-  const result = await fetchWithToken(`tracking/${trackingId}`, '', 'GET')
+  const result = await legacy_fetchWithToken(
+    `tracking/${trackingId}`,
+    '',
+    'GET'
+  )
   if (result.status !== 'success') {
     throw new Error(`Fetch tracking/${trackingId} failed: ${result}`)
   }
@@ -50,7 +54,7 @@ export const trackingByIdAction = async ({
   const status = formData.get('status') as string
   const payload = { group, phone, purpose, remark, result, status }
 
-  const tracking = await fetchWithToken(
+  const tracking = await legacy_fetchWithToken(
     `tracking/${trackingId}`,
     payload,
     'PUT'

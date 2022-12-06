@@ -1,13 +1,17 @@
 import ApplicationStatus from '../../interfaces/ApplicationStatus'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('ADMIN')
 
-  const applicationStatus = await fetchWithToken('grading/status', {}, 'GET')
+  const applicationStatus = await legacy_fetchWithToken(
+    'grading/status',
+    {},
+    'GET'
+  )
 
   if (applicationStatus.status !== 'success') {
     throw new Error(`Fetch grading/status failed: ${applicationStatus}`)

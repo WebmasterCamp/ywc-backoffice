@@ -1,15 +1,15 @@
 import Candidate from '../../interfaces/Candidate'
 import Profile from '../../interfaces/Profile'
 import { requireRole } from '../../stores/auth'
-import { fetchWithToken } from '../../utils/fetch'
+import { legacy_fetchWithToken } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('ADMIN')
 
-  const trackingsPromise = fetchWithToken('tracking', '', 'get')
-  const usersPromise = fetchWithToken(`admin/role/callcenter`, '', 'GET')
+  const trackingsPromise = legacy_fetchWithToken('tracking', '', 'get')
+  const usersPromise = legacy_fetchWithToken(`admin/role/callcenter`, '', 'GET')
   const [trackings, users] = await Promise.all([trackingsPromise, usersPromise])
 
   if (trackings.status !== 'success') {
