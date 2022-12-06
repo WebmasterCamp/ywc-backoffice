@@ -169,7 +169,7 @@ const Candidates = () => {
       key: 'committeePass',
       render: (user: RowType) => (
         <span>
-          {user.committeeVote ? (
+          {user.committeeVote.length > 0 ? (
             <Tag color="geekblue">เรียบร้อย</Tag>
           ) : (
             <Tag color="green">กำลังดำเนินการ</Tag>
