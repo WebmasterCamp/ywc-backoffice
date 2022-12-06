@@ -5,6 +5,7 @@ import { AdminRole } from '../interfaces/AdminRole'
 import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
 import { getToken, removeToken, saveToken } from '../utils/token-helper'
+import { AdminLoginResponse } from '../schemas/endpoints/auth'
 
 interface User {
   token: string
@@ -38,13 +39,11 @@ export const authStore = create<AuthState>((set) => ({
   },
 
   authenticate: async (username, password) => {
-    const result = await fetch(
+    const { token } = await fetch<AdminLoginResponse>(
       'auth/login/admin',
       { username, password },
       'POST'
     )
-    if (result.status !== 'success') throw new Error('Authentication Error')
-    const token = result.payload.token as string
     const getProfile = await fetchWithToken('admin/me', {}, 'GET', token)
     if (getProfile.status !== 'success') throw new Error('Get Profile Error')
     saveToken(token)

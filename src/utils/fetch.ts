@@ -4,8 +4,13 @@ import qs from 'qs'
 import { API_ENDPOINT } from '../config'
 import { getToken, removeToken } from './token-helper'
 
+interface ApiResponse<T> {
+  status: 'success' | 'error'
+  payload: T
+}
+
 // request data
-export const fetch = async (
+export const fetch = async <T>(
   route: string,
   data: any = '',
   method: AxiosRequestConfig['method'] = 'GET'
@@ -16,7 +21,12 @@ export const fetch = async (
     url: `${API_ENDPOINT}/${route}`,
   }
   // do http request
-  return axios(authOptions).then((res: AxiosResponse) => res.data)
+  const { data: responseData } = await axios.request<ApiResponse<T>>(
+    authOptions
+  )
+  if (responseData.status !== 'success')
+    throw new Error(JSON.stringify(responseData))
+  return responseData.payload
 }
 
 // request data from token in localStorage
