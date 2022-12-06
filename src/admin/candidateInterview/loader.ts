@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import Candidate from '../../interfaces/Candidate'
+import { UsersInterviewByMajorResponse } from '../../schemas/endpoints/users'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
@@ -9,16 +9,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   await requireRole('ADMIN')
 
   const { major } = params
-  const candidates = await legacy_fetchWithToken(
-    `users/interview/${major}`,
-    '',
-    'get'
+  const candidates = await apiGet<UsersInterviewByMajorResponse>(
+    `/users/interview/${major}`
   )
 
-  if (candidates.status !== 'success')
-    throw new Error(`Fetch users/interview/${major} failed: ${candidates}`)
-  const candidateList: Candidate[] = candidates.payload
-  const filteredCandidates = candidateList.filter((a) => a.major === major)
-
-  return { filteredCandidates }
+  return { filteredCandidates: candidates }
 }

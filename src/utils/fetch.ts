@@ -3,6 +3,7 @@ import qs from 'qs'
 
 import { API_ENDPOINT } from '../config'
 import { getToken, removeToken } from './token-helper'
+import { Method } from 'axios'
 
 interface ApiResponse<T> {
   status: 'success' | 'error'
@@ -27,6 +28,40 @@ export const fetch = async <T>(
   if (responseData.status !== 'success')
     throw new Error(JSON.stringify(responseData))
   return responseData.payload
+}
+
+type ApiPath = `/${string}`
+
+export async function apiGet<TRes>(path: ApiPath) {
+  return await apiRequest<never, TRes>('get', path)
+}
+
+export async function apiPost<TBody, TRes = null>(path: ApiPath, body: TBody) {
+  return await apiRequest<TBody, TRes>('post', path, body)
+}
+
+export async function apiPut<TBody, TRes = null>(path: ApiPath, body: TBody) {
+  return await apiRequest<TBody, TRes>('put', path, body)
+}
+
+export async function apiRequest<TBody, TRes>(
+  method: Method,
+  path: ApiPath,
+  body?: TBody,
+  token: string | null = ''
+): Promise<TRes> {
+  const options: AxiosRequestConfig = {
+    data: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'x-access-token': token || getToken(),
+    },
+    method,
+    url: `${API_ENDPOINT}${path}`,
+  }
+  const { data } = await axios.request<ApiResponse<TRes>>(options)
+  if (data.status !== 'success') throw new Error(JSON.stringify(data))
+  return data.payload
 }
 
 // request data from token in localStorage

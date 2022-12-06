@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import StaffApplication from '../../../interfaces/StaffApplication'
+import { UsersForStaffByIdResponse } from '../../../schemas/endpoints/users'
 import { requireRole } from '../../../stores/auth'
-import { legacy_fetchWithToken } from '../../../utils/fetch'
+import { apiGet } from '../../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
@@ -9,14 +9,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   await requireRole('STAFF')
 
   const { candidateId } = params
-  const application = await legacy_fetchWithToken(
-    `users/staff/${candidateId}`,
-    '',
-    'GET'
+  const application = await apiGet<UsersForStaffByIdResponse>(
+    `/users/staff/${candidateId}`
   )
-
-  if (application.status !== 'success') {
-    throw new Error(`Fetch users/staff/${candidateId} failed: ${application}`)
-  }
-  return { application: application.payload as StaffApplication }
+  return { application }
 }

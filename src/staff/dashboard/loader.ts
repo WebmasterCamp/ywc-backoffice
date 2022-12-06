@@ -1,30 +1,23 @@
 import StaffStatus from '../../interfaces/StaffStatus'
+import { GradingStaffStatusResponse } from '../../schemas/endpoints/grading'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('STAFF')
 
-  const staffStatus = await legacy_fetchWithToken(
-    'grading/staff/status',
-    '',
-    'GET'
+  const staffStatus = await apiGet<GradingStaffStatusResponse>(
+    '/grading/staff/status'
   )
 
-  if (staffStatus.status !== 'success') {
-    throw new Error(`Fetch grading/staff/status failed: ${staffStatus}`)
-  }
-
   const data: StaffStatus = {
-    all: staffStatus.payload.allApplications,
-    checked: staffStatus.payload.checkedApplications,
-    notChecked: staffStatus.payload.notCheckedApplications,
+    all: staffStatus.allApplications,
+    checked: staffStatus.checkedApplications,
+    notChecked: staffStatus.notCheckedApplications,
     percent: Math.round(
-      (staffStatus.payload.checkedApplications /
-        staffStatus.payload.allApplications) *
-        100
+      (staffStatus.checkedApplications / staffStatus.allApplications) * 100
     ),
   }
   return { staffStatus: data }

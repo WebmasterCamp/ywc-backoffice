@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import CommitteeApplication from '../../../interfaces/CommitteeApplication'
+import { UsersForCommitteeByIdResponse } from '../../../schemas/endpoints/users'
 import { requireRole } from '../../../stores/auth'
-import { legacy_fetchWithToken } from '../../../utils/fetch'
+import { apiGet } from '../../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
@@ -9,17 +9,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   await requireRole('COMMITTEE')
 
   const { candidateId } = params
-  const application = await legacy_fetchWithToken(
-    `users/committee/${candidateId}`,
-    '',
-    'GET'
+  const application = await apiGet<UsersForCommitteeByIdResponse>(
+    `/users/committee/${candidateId}`
   )
-
-  if (application.status !== 'success') {
-    throw new Error(
-      `Fetch users/committee/${candidateId} failed: ${application}`
-    )
-  }
-  const data: CommitteeApplication = application.payload
-  return { application: data }
+  return { application }
 }

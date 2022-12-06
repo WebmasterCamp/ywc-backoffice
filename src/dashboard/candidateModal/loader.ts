@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import AdminCandidate from '../../interfaces/AdminCandidate'
+import { UsersProfileByIdResponse } from '../../schemas/endpoints/users'
 import { requireUser } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
@@ -9,13 +9,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   await requireUser()
 
   const { candidateId } = params
-  const candidate = await legacy_fetchWithToken(
-    `users/profile/${candidateId}`,
-    '',
-    'get'
+  const candidate = await apiGet<UsersProfileByIdResponse>(
+    `/users/profile/${candidateId}`
   )
-
-  if (candidate.status !== 'success')
-    throw new Error(`Fetch users/profile/${candidateId} failed: ${candidate}`)
-  return candidate.payload as AdminCandidate
+  return candidate
 }

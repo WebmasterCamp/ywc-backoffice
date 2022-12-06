@@ -1,31 +1,25 @@
 import CommitteeStatus from '../../interfaces/CommitteeStatus'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
+import { GradingCommitteeStatusResponse } from '../../schemas/endpoints/grading'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('COMMITTEE')
 
-  const committeeStatus = await legacy_fetchWithToken(
-    'grading/committee/status',
-    '',
-    'GET'
+  const committeeStatus = await apiGet<GradingCommitteeStatusResponse>(
+    '/grading/committee/status'
   )
 
-  if (committeeStatus.status !== 'success') {
-    throw new Error(`Fetch grading/committee/status failed: ${committeeStatus}`)
-  }
-
   const data: CommitteeStatus = {
-    all: committeeStatus.payload.allApplications,
-    checked: committeeStatus.payload.checkedApplications,
-    notChecked: committeeStatus.payload.notCheckedApplications,
-    notPass: committeeStatus.payload.notPassApplications,
-    pass: committeeStatus.payload.passApplications,
+    all: committeeStatus.allApplications,
+    checked: committeeStatus.checkedApplications,
+    notChecked: committeeStatus.notCheckedApplications,
+    notPass: committeeStatus.notPassApplications,
+    pass: committeeStatus.passApplications,
     percent: Math.round(
-      (committeeStatus.payload.checkedApplications /
-        committeeStatus.payload.allApplications) *
+      (committeeStatus.checkedApplications / committeeStatus.allApplications) *
         100
     ),
   }

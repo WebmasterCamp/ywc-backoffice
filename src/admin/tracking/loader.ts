@@ -1,40 +1,16 @@
-import Candidate from '../../interfaces/Candidate'
-import Profile from '../../interfaces/Profile'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
+import { TrackingGetAllResponse } from '../../schemas/endpoints/tracking'
+import { AdminGetByRoleResponse } from '../../schemas/endpoints/admin'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('ADMIN')
 
-  const trackingsPromise = legacy_fetchWithToken('tracking', '', 'get')
-  const usersPromise = legacy_fetchWithToken(`admin/role/callcenter`, '', 'GET')
+  const trackingsPromise = apiGet<TrackingGetAllResponse>('/tracking')
+  const usersPromise = apiGet<AdminGetByRoleResponse>('/admin/role/callcenter')
   const [trackings, users] = await Promise.all([trackingsPromise, usersPromise])
 
-  if (trackings.status !== 'success') {
-    throw new Error(`Fetch tracking failed: ${trackings}`)
-  }
-
-  if (users.status !== 'success') {
-    throw new Error(`Fetch admin/role/callcenter failed: ${users}`)
-  }
-
-  const candidates = (trackings.payload as Candidate[]).map((candidate) => {
-    return {
-      id: candidate.id,
-      firstName: candidate.firstName,
-      lastName: candidate.lastName,
-      major: candidate.major,
-      nickname: candidate.nickname,
-      phone: candidate.phone,
-      status: candidate.status,
-      step: candidate.step,
-      trackings: candidate.trackings,
-    } as Candidate
-  })
-
-  const admins: Profile[] = users.payload.admins
-
-  return { trackings: candidates, admins }
+  return { trackings, admins: users.admins }
 }

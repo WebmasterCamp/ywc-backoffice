@@ -1,37 +1,31 @@
-import ApplicationStatus from '../../interfaces/ApplicationStatus'
+import { AdminRole, Major } from '../../schemas/models'
+import { GradingStatusResponse } from '../../schemas/endpoints/grading'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet } from '../../utils/fetch'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('ADMIN')
 
-  const applicationStatus = await legacy_fetchWithToken(
-    'grading/status',
-    {},
-    'GET'
+  const applicationsStatus = await apiGet<GradingStatusResponse>(
+    '/grading/status'
   )
 
-  if (applicationStatus.status !== 'success') {
-    throw new Error(`Fetch grading/status failed: ${applicationStatus}`)
-  }
-  const applicationsStatus: ApplicationStatus[] = applicationStatus.payload
-
-  const staffStatus: ApplicationStatus[] = applicationsStatus.filter(
-    (a) => a.role === 'staff'
+  const staffStatus = applicationsStatus.filter(
+    (a) => a.role === AdminRole.STAFF
   )
-  const contentCommittee: ApplicationStatus[] = applicationsStatus.filter(
-    (a) => a.role === 'committee' && a.major === 'content'
+  const contentCommittee = applicationsStatus.filter(
+    (a) => a.role === AdminRole.COMMITTEE && a.major === Major.CONTENT
   )
-  const designCommittee: ApplicationStatus[] = applicationsStatus.filter(
-    (a) => a.role === 'committee' && a.major === 'design'
+  const designCommittee = applicationsStatus.filter(
+    (a) => a.role === AdminRole.COMMITTEE && a.major === Major.DESIGN
   )
-  const marketingCommittee: ApplicationStatus[] = applicationsStatus.filter(
-    (a) => a.role === 'committee' && a.major === 'marketing'
+  const marketingCommittee = applicationsStatus.filter(
+    (a) => a.role === AdminRole.COMMITTEE && a.major === Major.MARKETING
   )
-  const programmingCommittee: ApplicationStatus[] = applicationsStatus.filter(
-    (a) => a.role === 'committee' && a.major === 'programming'
+  const programmingCommittee = applicationsStatus.filter(
+    (a) => a.role === AdminRole.COMMITTEE && a.major === Major.PROGRAMMING
   )
   return {
     staffStatus,

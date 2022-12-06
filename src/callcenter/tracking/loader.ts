@@ -1,21 +1,23 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router-dom'
-import Tracking from '../../interfaces/Tracking'
+import {
+  TrackingGetByIdResponse,
+  TrackingMeResponse,
+  TrackingUpdateRequest,
+} from '../../schemas/endpoints/tracking'
 import { requireRole } from '../../stores/auth'
-import { legacy_fetchWithToken } from '../../utils/fetch'
+import { apiGet, apiPut } from '../../utils/fetch'
+import { z } from 'zod'
 
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
   await requireRole('CALLCENTER')
 
-  const result = await legacy_fetchWithToken('tracking/me', '', 'GET')
-  if (result.status !== 'success') {
-    throw new Error(`Fetch tracking/me failed: ${result}`)
-  }
+  const result = await apiGet<TrackingMeResponse>('/tracking/me')
 
-  const trackings: Tracking[] = (result.payload as Tracking[])
-    .map((tracking: Tracking) => tracking)
-    .filter((tracking: Tracking) => !!tracking.user)
+  const trackings = result
+    .map((tracking) => tracking)
+    .filter((tracking) => !!tracking.user)
   return { trackings }
 }
 
@@ -27,15 +29,9 @@ export const trackingByIdLoader = async ({ params }: LoaderFunctionArgs) => {
   await requireRole('CALLCENTER')
 
   const { trackingId } = params
-  const result = await legacy_fetchWithToken(
-    `tracking/${trackingId}`,
-    '',
-    'GET'
+  const tracking = await apiGet<TrackingGetByIdResponse>(
+    `/tracking/${trackingId}`
   )
-  if (result.status !== 'success') {
-    throw new Error(`Fetch tracking/${trackingId} failed: ${result}`)
-  }
-  const tracking: Tracking = result.payload
   return tracking
 }
 
@@ -48,19 +44,18 @@ export const trackingByIdAction = async ({
 
   const group = formData.get('group') as string
   const phone = formData.get('phone') as string
-  const purpose = formData.get('purpose') as string
   const remark = formData.get('remark') as string
   const result = formData.get('result') as string
   const status = formData.get('status') as string
-  const payload = { group, phone, purpose, remark, result, status }
 
-  const tracking = await legacy_fetchWithToken(
-    `tracking/${trackingId}`,
-    payload,
-    'PUT'
+  await apiPut<z.infer<typeof TrackingUpdateRequest>>(
+    `/tracking/${trackingId}`,
+    {
+      phone,
+      remark,
+      result,
+      status,
+      group,
+    }
   )
-  if (tracking.status !== 'success') {
-    throw new Error(`Update tracking/${trackingId} failed: ${tracking}`)
-  }
-  return null
 }
