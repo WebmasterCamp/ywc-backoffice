@@ -118,7 +118,7 @@ const CandidateModal = ({
             <Row className="print-flex">
               <Col md={4}>
                 <a
-                  href={candidate.picture}
+                  href={candidate.picture ?? ''}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -421,7 +421,7 @@ const CandidateModal = ({
                         <b>วันที่ Login ครั้งแรก</b>
                       </td>
                       <td>
-                        {moment(candidate.created_at).format(
+                        {moment(candidate.createdAt).format(
                           'DD/MM/YYYY, h:mm:ssa'
                         )}
                       </td>
@@ -431,8 +431,8 @@ const CandidateModal = ({
                         <b>วันที่กดส่งใบสมัคร</b>
                       </td>
                       <td>
-                        {candidate.completed_at
-                          ? moment(candidate.completed_at).format(
+                        {candidate.completedAt
+                          ? moment(candidate.completedAt).format(
                               'DD/MM/YYYY, h:mm:ssa'
                             )
                           : 'ยังไม่ส่งใบสมัคร'}

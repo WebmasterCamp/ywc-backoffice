@@ -7,12 +7,13 @@ import {
 import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { useState } from 'react'
 import CandidateModal from '../../dashboard/candidateModal'
-import Candidate from '../../interfaces/Candidate'
 import { MAJOR } from '../../utils/const'
 import { PageTitle } from '../../utils/styled-helper'
 import { useLoaderData, useParams, useSubmit } from 'react-router-dom'
 import { loader, LoaderData } from './loader'
 import { action } from './action'
+
+type RowType = LoaderData['filteredCandidates'][number]
 
 const CandidateInterview = () => {
   const major = useParams().major as string
@@ -24,8 +25,8 @@ const CandidateInterview = () => {
   const [drawerId, setDrawerId] = useState('')
 
   const rowSelection = {
-    onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map((c) => c._id))
+    onChange: (selectedRowKeys: any, selectedRows: RowType[]) => {
+      setSelected(selectedRows.map((c) => c.id))
     },
   }
 
@@ -45,15 +46,15 @@ const CandidateInterview = () => {
     )
   }
 
-  const columns: ColumnProps<Candidate>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: '_id',
-      render: (user: Candidate) => <span>{user._id}</span>,
+      render: (user: RowType) => <span>{user.id}</span>,
       title: 'ID',
     },
     {
       key: 'name',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
@@ -73,10 +74,10 @@ const CandidateInterview = () => {
         },
       ],
       key: 'passInterview',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         return String(record.passInterview) === value
       },
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.passInterview ? (
             <Tag color="green" key={user.status}>
@@ -117,9 +118,9 @@ const CandidateInterview = () => {
         },
       ],
       key: 'committeeScore',
-      onFilter: (value, record: Candidate) =>
+      onFilter: (value, record: RowType) =>
         record.committeeScore === Number(value),
-      render: (user: Candidate) => <span>{user.committeeScore}</span>,
+      render: (user: RowType) => <span>{user.committeeScore}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.committeeScore - b.committeeScore,
       title: 'คะแนน',
@@ -205,7 +206,7 @@ const CandidateInterview = () => {
         },
       ],
       key: 'committeeVote',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         const committeeList = record.committeeVote.map((c) => c.committee)
         /// TODO: refine type
         if (committeeList.indexOf(value as string) !== -1) {
@@ -216,12 +217,12 @@ const CandidateInterview = () => {
         }
         return false
       },
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.committeeVote
             .filter((c) => c.score === 1)
             .map((c) => (
-              <p style={{ marginBlockEnd: 0 }} key={c._id}>
+              <p style={{ marginBlockEnd: 0 }} key={c.committee}>
                 {c.committee}
               </p>
             ))}
@@ -231,9 +232,9 @@ const CandidateInterview = () => {
     },
     {
       key: 'action',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
-          <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
+          <Button onClick={() => openDrawer(user.id)}>ดูใบสมัคร</Button>
         </span>
       ),
       title: 'ดำเนินการ',
@@ -261,7 +262,7 @@ const CandidateInterview = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate, index?: number) => candidate._id}
+        rowKey={(candidate: RowType, index?: number) => candidate.id}
         dataSource={filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}

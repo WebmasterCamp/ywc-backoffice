@@ -2,19 +2,33 @@ import { Button, Input, Table, Tag } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
-import Candidate from '../../interfaces/Candidate'
 import { MAJOR, STEP } from '../../utils/const'
 import { PageTitle } from '../../utils/styled-helper'
-import useSearchCandidates from '../../utils/useSearchCandidates'
 import CandidateModal from '../candidateModal'
 import { loader, LoaderData } from './loader'
 import { useLoaderData } from 'react-router-dom'
 import { useState } from 'react'
+import { useSearchEntities } from '../../utils/useSearchEntities'
+import { UserStatus } from '../../schemas/models'
+
+type RowType = LoaderData[number]
+
+const searchKeys = [
+  'id',
+  'firstName',
+  'firstNameEN',
+  'lastName',
+  'lastNameEN',
+  'nickname',
+] as const
 
 const Candidates = () => {
   const allCandidates = useLoaderData() as LoaderData
 
-  const { candidates, onSearch } = useSearchCandidates(allCandidates)
+  const { filtered: candidates, onSearch } = useSearchEntities(
+    searchKeys,
+    allCandidates
+  )
 
   const [pagination, setPagination] = useState({})
   const [visible, setVisible] = useState(false)
@@ -30,15 +44,15 @@ const Candidates = () => {
     setDrawerId('')
   }
 
-  const columns: ColumnProps<Candidate>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: '_id',
-      render: (user: Candidate) => <span>{user._id}</span>,
+      render: (user: RowType) => <span>{user.id}</span>,
       title: 'ID',
     },
     {
       key: 'name',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.firstNameEN} {user.lastNameEN} ({user.nickname})
         </span>
@@ -67,7 +81,7 @@ const Candidates = () => {
       ],
       key: 'major',
       onFilter: (value, record) => record.major === value,
-      render: (candidate: Candidate) => {
+      render: (candidate: RowType) => {
         return <span>{MAJOR(candidate.major)}</span>
       },
       title: 'สาขา',
@@ -85,12 +99,12 @@ const Candidates = () => {
         },
       ],
       key: 'status',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         return record.status === value
       },
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
-          {user.status === 'completed' ? (
+          {user.status === UserStatus.COMPLETED ? (
             <Tag color="geekblue" key={user.status}>
               เรียบร้อย
             </Tag>
@@ -129,14 +143,10 @@ const Candidates = () => {
       ],
       key: 'step',
       onFilter: (value, record) =>
-        record.step === value && record.status !== 'completed',
-      render: (candidate: Candidate) => {
-        if (candidate.status === 'completed') {
-          return (
-            <Tag color="geekblue" key={candidate.status}>
-              ลงทะเบียนสำเร็จ
-            </Tag>
-          )
+        record.step === value && record.status !== UserStatus.COMPLETED,
+      render: (candidate: RowType) => {
+        if (candidate.status === UserStatus.COMPLETED) {
+          return <Tag color="geekblue">ลงทะเบียนสำเร็จ</Tag>
         }
         return <span>{STEP(candidate.step)}</span>
       },
@@ -144,16 +154,12 @@ const Candidates = () => {
     },
     {
       key: 'staffPass',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.isPassStaff || user.failed ? (
-            <Tag color="geekblue" key={user.status}>
-              เรียบร้อย
-            </Tag>
+            <Tag color="geekblue">เรียบร้อย</Tag>
           ) : (
-            <Tag color="green" key={user.status}>
-              กำลังดำเนินการ
-            </Tag>
+            <Tag color="green">กำลังดำเนินการ</Tag>
           )}
         </span>
       ),
@@ -161,16 +167,12 @@ const Candidates = () => {
     },
     {
       key: 'committeePass',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.committeeVote ? (
-            <Tag color="geekblue" key={user.status}>
-              เรียบร้อย
-            </Tag>
+            <Tag color="geekblue">เรียบร้อย</Tag>
           ) : (
-            <Tag color="green" key={user.status}>
-              กำลังดำเนินการ
-            </Tag>
+            <Tag color="green">กำลังดำเนินการ</Tag>
           )}
         </span>
       ),
@@ -178,9 +180,9 @@ const Candidates = () => {
     },
     {
       key: 'action',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
-          <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
+          <Button onClick={() => openDrawer(user.id)}>ดูใบสมัคร</Button>
         </span>
       ),
       title: 'ดำเนินการ',
@@ -231,7 +233,7 @@ const Candidates = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate, index?: number) => candidate._id}
+        rowKey={(candidate: RowType, index?: number) => candidate.id}
         dataSource={candidates}
         onChange={onPageChange}
         pagination={pagination}

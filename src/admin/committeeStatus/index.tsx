@@ -7,6 +7,18 @@ import { MAJOR } from '../../utils/const'
 import { DashboardTitle } from '../../utils/styled-helper'
 import { loader, LoaderData } from './loader'
 
+function displayPercentage(
+  part: number | undefined,
+  total: number | undefined
+) {
+  part = part ?? 0
+  total = total ?? 0
+  if (total === 0) {
+    return 100
+  }
+  return Math.floor((part / total) * 100)
+}
+
 const CommitteeStatus = () => {
   const committeeStatusStore = useLoaderData() as LoaderData
 
@@ -18,10 +30,9 @@ const CommitteeStatus = () => {
         {committeeStatusStore.staffStatus.map((user) => (
           <Box key={user.username}>
             <h1>
-              {Math.floor(
-                (user.status.checkedApplications /
-                  user.status.allApplications) *
-                  100
+              {displayPercentage(
+                user.status.checkedApplications,
+                user.status.allApplications
               )}
               %
             </h1>
@@ -34,10 +45,9 @@ const CommitteeStatus = () => {
         {committeeStatusStore.contentCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
-              {Math.floor(
-                (user.status.checkedApplications /
-                  user.status.allApplications) *
-                  100
+              {displayPercentage(
+                user.status.checkedApplications,
+                user.status.allApplications
               )}
               %
             </h1>
@@ -50,10 +60,9 @@ const CommitteeStatus = () => {
         {committeeStatusStore.designCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
-              {Math.floor(
-                (user.status.checkedApplications /
-                  user.status.allApplications) *
-                  100
+              {displayPercentage(
+                user.status.checkedApplications,
+                user.status.allApplications
               )}
               %
             </h1>
@@ -66,10 +75,9 @@ const CommitteeStatus = () => {
         {committeeStatusStore.marketingCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
-              {Math.floor(
-                (user.status.checkedApplications /
-                  user.status.allApplications) *
-                  100
+              {displayPercentage(
+                user.status.checkedApplications,
+                user.status.allApplications
               )}
               %
             </h1>
@@ -82,10 +90,9 @@ const CommitteeStatus = () => {
         {committeeStatusStore.programmingCommittee.map((user) => (
           <Box key={user.username}>
             <h1>
-              {Math.floor(
-                (user.status.checkedApplications /
-                  user.status.allApplications) *
-                  100
+              {displayPercentage(
+                user.status.checkedApplications,
+                user.status.allApplications
               )}
               %
             </h1>

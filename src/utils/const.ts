@@ -25,7 +25,7 @@ export const QUESTION_TYPES = {
   SHORT_TEXT: 'short_text',
 }
 
-export const MAJOR = (major: string): string => {
+export const MAJOR = (major: string | null): string => {
   const majors = [
     {
       color: 'purple',
@@ -49,7 +49,9 @@ export const MAJOR = (major: string): string => {
     },
   ]
 
-  const result = majors.find((m: MajorDetail) => m.value === major) || {
+  const result = majors.find(
+    (m: MajorDetail) => m.value === major?.toLowerCase()
+  ) || {
     name: '',
   }
 
@@ -80,7 +82,9 @@ export const STEP = (step: string): string => {
     },
   ]
 
-  const result = steps.find((s: StepDetail) => s.value === step) || {
+  const result = steps.find(
+    (s: StepDetail) => s.value === step.toLowerCase()
+  ) || {
     text: '',
   }
 
@@ -110,8 +114,8 @@ export const GENERAL_QUESTION = [
   },
 ]
 
-export const MAJOR_QUESTION = (major: string): IQuestion[] => {
-  switch (major) {
+export const MAJOR_QUESTION = (major: string | null): IQuestion[] => {
+  switch (major?.toLowerCase()) {
     case 'content':
       return [
         {

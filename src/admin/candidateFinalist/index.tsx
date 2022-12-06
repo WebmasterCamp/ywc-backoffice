@@ -3,11 +3,12 @@ import Table, { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { useState } from 'react'
 import { useLoaderData, useParams, useSubmit } from 'react-router-dom'
 
-import Candidate from '../../interfaces/Candidate'
 import { MAJOR } from '../../utils/const'
 import { PageTitle } from '../../utils/styled-helper'
 import { action } from './action'
 import { loader, LoaderData } from './loader'
+
+type RowType = LoaderData['filteredCandidates'][number]
 
 const CandidateFinalist = () => {
   const major = useParams().major as string
@@ -18,8 +19,8 @@ const CandidateFinalist = () => {
   const [, setSelected] = useState<string[]>([])
 
   const rowSelection = {
-    onChange: (selectedRowKeys: any, selectedRows: Candidate[]) => {
-      setSelected(selectedRows.map((c) => c._id))
+    onChange: (selectedRowKeys: any, selectedRows: RowType[]) => {
+      setSelected(selectedRows.map((c) => c.id))
     },
   }
 
@@ -88,10 +89,10 @@ const CandidateFinalist = () => {
     }
   }
 
-  const columns: ColumnProps<Candidate>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: 'name',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
@@ -111,10 +112,10 @@ const CandidateFinalist = () => {
         },
       ],
       key: 'isReserve',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         return String(record.isReserve) === value
       },
-      render: (user: Candidate) => {
+      render: (user: RowType) => {
         if (!user.isFinalist) {
           return (
             <span>
@@ -142,10 +143,10 @@ const CandidateFinalist = () => {
     },
     {
       key: 'reserveNo',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         return String(record.passInterview) === value
       },
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span key={user.reserveNo}>
           {user.isReserve || user.isReserve === undefined ? (
             user.reserveNo
@@ -160,27 +161,27 @@ const CandidateFinalist = () => {
     },
     {
       key: 'verificationAmount',
-      render: (user: Candidate) => <span>{user.verificationAmount}</span>,
+      render: (user: RowType) => <span>{user.verificationAmount}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.verificationAmount - b.verificationAmount,
       title: 'จำนวนเงิน',
     },
     {
       key: 'committeeScore',
-      render: (user: Candidate) => <span>{user.committeeScore}</span>,
+      render: (user: RowType) => <span>{user.committeeScore}</span>,
       sortDirections: ['descend', 'ascend'],
       sorter: (a, b) => a.committeeScore - b.committeeScore,
       title: 'คะแนน',
     },
     {
       key: 'action',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           <Popconfirm
             placement="top"
             title="คุณแน่ใจแล้วใช่ไหม?"
             okText="ยืนยัน"
-            onConfirm={() => onFinalistPass(user._id)}
+            onConfirm={() => onFinalistPass(user.id)}
             cancelText="ยกเลิก"
           >
             <Button type="primary">ผ่านเข้าค่าย</Button>
@@ -189,7 +190,7 @@ const CandidateFinalist = () => {
             placement="top"
             title="คุณแน่ใจแล้วใช่ไหม?"
             okText="ยืนยัน"
-            onConfirm={() => onReservePass(user._id)}
+            onConfirm={() => onReservePass(user.id)}
             cancelText="ยกเลิก"
           >
             <Button danger>ตัวสำรอง</Button>
@@ -198,7 +199,7 @@ const CandidateFinalist = () => {
             placement="top"
             title="คุณแน่ใจแล้วใช่ไหม?"
             okText="ยืนยัน"
-            onConfirm={() => onChangeVerificationAmount(user._id)}
+            onConfirm={() => onChangeVerificationAmount(user.id)}
             cancelText="ยกเลิก"
           >
             <Button>จำนวนเงิน</Button>
@@ -220,7 +221,7 @@ const CandidateFinalist = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: Candidate) => candidate._id}
+        rowKey={(candidate) => candidate.id}
         dataSource={filteredCandidates}
         rowSelection={rowSelection}
         onChange={onPageChange}

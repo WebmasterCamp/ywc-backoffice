@@ -2,7 +2,6 @@ import { Button, Form, Input, Modal, Select, Table, Tag } from 'antd'
 import { LoginOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
-import ITracking from '../../interfaces/Tracking'
 import {
   MAJOR,
   STEP,
@@ -22,6 +21,8 @@ import {
 import { useFetcher, useLoaderData, useResolvedPath } from 'react-router-dom'
 const { Option } = Select
 
+type RowType = LoaderData['trackings'][number]
+
 const Tracking = () => {
   const [selectedTrackingId, setSelectedTrackingId] = useState<string | null>(
     null
@@ -38,7 +39,8 @@ const Tracking = () => {
   }
 
   const currentPath = useResolvedPath(``)
-  const handleSubmit = async (form: ITracking) => {
+  const handleSubmit = async (form: any) => {
+    // TODO: fix type
     const { group, phone, purpose, remark, result, status } = form
     submit(
       { group, phone, purpose, remark, result, status },
@@ -76,19 +78,19 @@ const Tracking = () => {
     // eslint-disable-next-line
   }, [selectedTracking])
 
-  const onSelectTracking = (tracking: ITracking) => {
+  const onSelectTracking = (tracking: RowType) => {
     setSelectedTrackingId(tracking.id)
     load(`${currentPath.pathname}/${tracking.id}`)
   }
-  const columns: ColumnProps<ITracking>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: '_id',
-      render: (t: ITracking) => <span>{t.id}</span>,
+      render: (t: RowType) => <span>{t.id}</span>,
       title: 'ID',
     },
     {
       key: 'name',
-      render: (tracking: ITracking) => {
+      render: (tracking: RowType) => {
         return (
           <span>
             {tracking.user.firstName} {tracking.user.lastName} (
@@ -120,7 +122,7 @@ const Tracking = () => {
       ],
       key: 'major',
       onFilter: (value, record) => record.user.major === value,
-      render: (tracking: ITracking) => {
+      render: (tracking: RowType) => {
         return <span>{MAJOR(tracking.user.major)}</span>
       },
       title: 'สาขา',
@@ -152,14 +154,11 @@ const Tracking = () => {
       key: 'step',
       onFilter: (value, record) =>
         record.step === value && record.status !== 'completed',
-      render: (tracking: ITracking) => {
-        if (tracking.user.status === 'completed') {
-          return (
-            <Tag color="geekblue" key={tracking.user.status}>
-              ลงทะเบียนสำเร็จ
-            </Tag>
-          )
-        }
+      render: (tracking: RowType) => {
+        // TODO: add data from backend
+        // if (tracking.user.status === UserStatus.COMPLETED) {
+        //   return <Tag color="geekblue">ลงทะเบียนสำเร็จ</Tag>
+        // }
         return <span>{STEP(tracking.user.step)}</span>
       },
       title: 'ขั้นตอน',
@@ -171,19 +170,15 @@ const Tracking = () => {
         value: status.value,
       })),
       key: 'status',
-      onFilter: (value, record: ITracking) => {
+      onFilter: (value, record: RowType) => {
         return record.status === value
       },
-      render: (user: ITracking) => (
+      render: (user: RowType) => (
         <span>
           {user.status === 'completed' ? (
-            <Tag color="geekblue" key={user.status}>
-              เรียบร้อย
-            </Tag>
+            <Tag color="geekblue">เรียบร้อย</Tag>
           ) : (
-            <Tag color="green" key={user.status}>
-              รอดำเนินการ
-            </Tag>
+            <Tag color="green">รอดำเนินการ</Tag>
           )}
         </span>
       ),
@@ -191,7 +186,7 @@ const Tracking = () => {
     },
     {
       key: 'result',
-      render: (tracking: ITracking) => (
+      render: (tracking: RowType) => (
         <span>
           {TRACKING_RESULT.find((it) => it.value === tracking.result)
             ?.description ?? tracking.result}
@@ -201,7 +196,7 @@ const Tracking = () => {
     },
     {
       key: 'action',
-      render: (tracking: ITracking) => (
+      render: (tracking: RowType) => (
         <span>
           <Button onClick={() => onSelectTracking(tracking)}>ดำเนินการ</Button>
         </span>

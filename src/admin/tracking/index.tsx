@@ -2,7 +2,6 @@ import { Button, Col, Form, Modal, Row, Select, Table, Tag } from 'antd'
 import { LoginOutlined, CheckOutlined } from '@ant-design/icons'
 import { ColumnProps } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
-import Candidate from '../../interfaces/Candidate'
 import { TrackingForm } from '../../interfaces/Tracking'
 import { MAJOR, STEP, TRACKING_STATUS } from '../../utils/const'
 import { PageTitle } from '../../utils/styled-helper'
@@ -10,7 +9,10 @@ import CandidateModal from '../../dashboard/candidateModal'
 import { loader, LoaderData } from './loader'
 import { useFetcher, useLoaderData } from 'react-router-dom'
 import { action } from './action'
+import { UserStatus } from '../../schemas/models'
 const { Option } = Select
+
+type RowType = LoaderData['trackings'][number]
 
 const Tracking = () => {
   const { trackings, admins } = useLoaderData() as LoaderData
@@ -61,15 +63,15 @@ const Tracking = () => {
     setDrawerId('')
   }
 
-  const columns: ColumnProps<Candidate>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: '_id',
-      render: (user: Candidate) => <span>{user.id}</span>,
+      render: (user: RowType) => <span>{user.id}</span>,
       title: 'ID',
     },
     {
       key: 'name',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           {user.firstName} {user.lastName} ({user.nickname})
         </span>
@@ -98,7 +100,7 @@ const Tracking = () => {
       ],
       key: 'major',
       onFilter: (value, record) => record.major === value,
-      render: (tracking: Candidate) => {
+      render: (tracking: RowType) => {
         return <span>{MAJOR(tracking.major)}</span>
       },
       title: 'สาขา',
@@ -129,9 +131,9 @@ const Tracking = () => {
       ],
       key: 'step',
       onFilter: (value, record) =>
-        record.step === value && record.status !== 'completed',
-      render: (candidate: Candidate) => {
-        if (candidate.status === 'completed') {
+        record.step === value && record.status !== UserStatus.COMPLETED,
+      render: (candidate: RowType) => {
+        if (candidate.status === UserStatus.COMPLETED) {
           return (
             <Tag color="geekblue" key={candidate.status}>
               ลงทะเบียนสำเร็จ
@@ -149,12 +151,12 @@ const Tracking = () => {
         value: status.value,
       })),
       key: 'status',
-      onFilter: (value, record: Candidate) => {
+      onFilter: (value, record: RowType) => {
         return record.status === value
       },
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
-          {user.status === 'completed' ? (
+          {user.status === UserStatus.COMPLETED ? (
             <Tag color="geekblue" key={user.status}>
               เรียบร้อย
             </Tag>
@@ -184,15 +186,15 @@ const Tracking = () => {
         },
       ],
       key: 'totalTrackings',
-      onFilter: (value, user: Candidate) => {
+      onFilter: (value, user: RowType) => {
         return user.trackings.length === value
       },
-      render: (user: Candidate) => <span>{user.trackings.length}</span>,
+      render: (user: RowType) => <span>{user.trackings.length}</span>,
       title: 'จำนวนการติดตาม',
     },
     {
       key: 'action',
-      render: (user: Candidate) => (
+      render: (user: RowType) => (
         <span>
           <Button onClick={() => openDrawer(user.id)}>ดูใบสมัคร</Button>
         </span>
@@ -213,11 +215,11 @@ const Tracking = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(tracking: Candidate, index?: number) => tracking.id}
+        rowKey={(tracking: RowType, index?: number) => tracking.id}
         dataSource={trackings}
         pagination={{ pageSize: 20 }}
         rowSelection={{
-          onChange: (_: any, selectedRows: Candidate[]) => {
+          onChange: (_: any, selectedRows: RowType[]) => {
             setSelectedRowKeys(selectedRows.map((c) => c.id))
           },
           selectedRowKeys,

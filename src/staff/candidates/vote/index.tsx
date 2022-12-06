@@ -49,17 +49,17 @@ const VoteCandidate = () => {
 
   const submit = useSubmit()
 
-  const currentApplication = applications.findIndex((a) => a._id === id) + 1
+  const currentApplication = applications.findIndex((a) => a.id === id) + 1
   const totalApplication = applications.length
   const percentOfApplication = Math.floor(
     (currentApplication / totalApplication) * 100
   )
   const prevApplicationId =
-    currentApplication - 2 < 0 ? '' : applications[currentApplication - 2]._id
+    currentApplication - 2 < 0 ? '' : applications[currentApplication - 2].id
   const nextApplicationId =
     currentApplication >= applications.length
       ? ''
-      : applications[currentApplication]._id
+      : applications[currentApplication].id
 
   const onConfirmPass = () => {
     submit(

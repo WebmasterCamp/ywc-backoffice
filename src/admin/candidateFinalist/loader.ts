@@ -12,6 +12,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const candidates = await apiGet<UsersInterviewPassByMajorResponse>(
     `/users/interview/pass/${major}`
   )
+  const enhancedCandidates = candidates.map((c) => ({
+    ...c,
+    reserveNo: c.reserveNo ?? Number.MAX_VALUE,
+    verificationAmount: c.verificationAmount ?? 0,
+  }))
 
-  return { filteredCandidates: candidates }
+  return { filteredCandidates: enhancedCandidates }
 }

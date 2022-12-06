@@ -3,7 +3,6 @@ import { ReactNode, useState } from 'react'
 
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
-import StaffCandidate from '../../interfaces/StaffCandidate'
 import { LoaderData } from './loader'
 
 interface CandidatesTableProps {
@@ -11,16 +10,18 @@ interface CandidatesTableProps {
   applications: LoaderData['applications']
 }
 
+type RowType = CandidatesTableProps['applications'][number]
+
 export const CandidatesTable = ({
   header,
   applications,
 }: CandidatesTableProps) => {
   const [pagination, setPagination] = useState({})
 
-  const columns: ColumnProps<StaffCandidate>[] = [
+  const columns: ColumnProps<RowType>[] = [
     {
       key: '_id',
-      render: (user: StaffCandidate) => <span>{user._id}</span>,
+      render: (user: RowType) => <span>{user.id}</span>,
       title: 'ID',
     },
     {
@@ -41,16 +42,12 @@ export const CandidatesTable = ({
           ? record.completed === true
           : record.completed === false
       },
-      render: (user: StaffCandidate) => (
+      render: (user: RowType) => (
         <span>
           {user.completed ? (
-            <Tag color="green" key={user._id}>
-              ตรวจแล้ว
-            </Tag>
+            <Tag color="green">ตรวจแล้ว</Tag>
           ) : (
-            <Tag color="orange" key={user._id}>
-              ยังไม่ตรวจคำตอบ
-            </Tag>
+            <Tag color="orange">ยังไม่ตรวจคำตอบ</Tag>
           )}
         </span>
       ),
@@ -58,17 +55,13 @@ export const CandidatesTable = ({
     },
     {
       key: 'isPassStaff',
-      render: (user: StaffCandidate) => {
+      render: (user: RowType) => {
         return typeof user.isPassStaff === 'boolean' ? (
           <span>
             {user.isPassStaff ? (
-              <Tag color="green" key={user._id}>
-                ผ่าน
-              </Tag>
+              <Tag color="green">ผ่าน</Tag>
             ) : (
-              <Tag color="red" key={user._id}>
-                ไม่ผ่าน
-              </Tag>
+              <Tag color="red">ไม่ผ่าน</Tag>
             )}
           </span>
         ) : (
@@ -79,14 +72,14 @@ export const CandidatesTable = ({
     },
     {
       key: 'action',
-      render: (user: StaffCandidate) => (
+      render: (user: RowType) => (
         <span>
           {user.completed ? (
-            <Link to={`/staff/candidate/${user._id}`}>
+            <Link to={`/staff/candidate/${user.id}`}>
               <Button>แก้ไขคะแนน</Button>
             </Link>
           ) : (
-            <Link to={`/staff/candidate/${user._id}`}>
+            <Link to={`/staff/candidate/${user.id}`}>
               <Button>ตรวจคำตอบ</Button>
             </Link>
           )}
@@ -107,7 +100,7 @@ export const CandidatesTable = ({
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(candidate: StaffCandidate, index?: number) => candidate._id}
+        rowKey={(candidate: RowType, index?: number) => candidate.id}
         dataSource={applications}
         onChange={onPageChange}
         pagination={pagination}
