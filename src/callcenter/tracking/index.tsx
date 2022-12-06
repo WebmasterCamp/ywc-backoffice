@@ -30,7 +30,7 @@ const Tracking = () => {
   const { trackings } = useLoaderData() as LoaderData
   const { state, data, load, submit } = useFetcher<TrackingByIdLoaderData>()
   const selectedTracking =
-    !selectedTrackingId || selectedTrackingId === data?._id ? data : undefined
+    !selectedTrackingId || selectedTrackingId === data?.id ? data : undefined
 
   const formItemLayout = {
     labelCol: { span: 6 },
@@ -44,7 +44,7 @@ const Tracking = () => {
       { group, phone, purpose, remark, result, status },
       {
         method: 'post',
-        action: `${currentPath.pathname}/${selectedTracking!._id}`,
+        action: `${currentPath.pathname}/${selectedTracking!.id}`,
       }
     )
   }
@@ -77,13 +77,13 @@ const Tracking = () => {
   }, [selectedTracking])
 
   const onSelectTracking = (tracking: ITracking) => {
-    setSelectedTrackingId(tracking._id)
-    load(`${currentPath.pathname}/${tracking._id}`)
+    setSelectedTrackingId(tracking.id)
+    load(`${currentPath.pathname}/${tracking.id}`)
   }
   const columns: ColumnProps<ITracking>[] = [
     {
       key: '_id',
-      render: (t: ITracking) => <span>{t._id}</span>,
+      render: (t: ITracking) => <span>{t.id}</span>,
       title: 'ID',
     },
     {
@@ -216,7 +216,7 @@ const Tracking = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(tracking, _index) => tracking._id}
+        rowKey={(tracking, _index) => tracking.id}
         dataSource={trackings}
         pagination={{ pageSize: 20 }}
       />

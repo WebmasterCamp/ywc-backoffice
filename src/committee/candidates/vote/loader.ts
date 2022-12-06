@@ -6,7 +6,7 @@ import { fetchWithToken } from '../../../utils/fetch'
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  await requireRole('committee')
+  await requireRole('COMMITTEE')
 
   const { candidateId } = params
   const application = await fetchWithToken(

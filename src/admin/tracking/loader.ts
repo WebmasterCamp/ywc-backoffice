@@ -6,7 +6,7 @@ import { fetchWithToken } from '../../utils/fetch'
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await requireRole('admin')
+  await requireRole('ADMIN')
 
   const trackingsPromise = fetchWithToken('tracking', '', 'get')
   const usersPromise = fetchWithToken(`admin/role/callcenter`, '', 'GET')
@@ -22,7 +22,7 @@ export const loader = async () => {
 
   const candidates = (trackings.payload as Candidate[]).map((candidate) => {
     return {
-      _id: candidate._id,
+      id: candidate.id,
       firstName: candidate.firstName,
       lastName: candidate.lastName,
       major: candidate.major,

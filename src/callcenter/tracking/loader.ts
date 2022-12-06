@@ -6,7 +6,7 @@ import { fetchWithToken } from '../../utils/fetch'
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async () => {
-  await requireRole('callcenter')
+  await requireRole('CALLCENTER')
 
   const result = await fetchWithToken('tracking/me', '', 'GET')
   if (result.status !== 'success') {
@@ -24,7 +24,7 @@ export type TrackingByIdLoaderData = Awaited<
 >
 
 export const trackingByIdLoader = async ({ params }: LoaderFunctionArgs) => {
-  await requireRole('callcenter')
+  await requireRole('CALLCENTER')
 
   const { trackingId } = params
   const result = await fetchWithToken(`tracking/${trackingId}`, '', 'GET')

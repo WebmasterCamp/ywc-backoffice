@@ -14,7 +14,7 @@ export const loader = async () => {
   const payload = candidates.payload as Candidate[]
   const candidatesList = payload.map((candidate: Candidate) => {
     return {
-      _id: candidate._id,
+      id: candidate.id,
       birthdate: candidate.birthdate,
       committeeScore: candidate.committeeScore,
       email: candidate.email,

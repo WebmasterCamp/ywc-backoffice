@@ -64,7 +64,7 @@ const Tracking = () => {
   const columns: ColumnProps<Candidate>[] = [
     {
       key: '_id',
-      render: (user: Candidate) => <span>{user._id}</span>,
+      render: (user: Candidate) => <span>{user.id}</span>,
       title: 'ID',
     },
     {
@@ -194,7 +194,7 @@ const Tracking = () => {
       key: 'action',
       render: (user: Candidate) => (
         <span>
-          <Button onClick={() => openDrawer(user._id)}>ดูใบสมัคร</Button>
+          <Button onClick={() => openDrawer(user.id)}>ดูใบสมัคร</Button>
         </span>
       ),
       title: 'ดำเนินการ',
@@ -213,12 +213,12 @@ const Tracking = () => {
       <Table
         className="candidates-table"
         columns={columns}
-        rowKey={(tracking: Candidate, index?: number) => tracking._id}
+        rowKey={(tracking: Candidate, index?: number) => tracking.id}
         dataSource={trackings}
         pagination={{ pageSize: 20 }}
         rowSelection={{
           onChange: (_: any, selectedRows: Candidate[]) => {
-            setSelectedRowKeys(selectedRows.map((c) => c._id))
+            setSelectedRowKeys(selectedRows.map((c) => c.id))
           },
           selectedRowKeys,
         }}
@@ -271,7 +271,7 @@ const Tracking = () => {
           >
             <Select placeholder="Select a option" allowClear={true}>
               {admins.map((admin) => (
-                <Option value={admin._id} key={admin._id}>
+                <Option value={admin.id} key={admin.id}>
                   {admin.username}
                 </Option>
               ))}

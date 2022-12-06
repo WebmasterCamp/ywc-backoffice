@@ -1,5 +1,6 @@
 import { redirect } from 'react-router-dom'
 import create from 'zustand'
+import { AdminRole } from '../interfaces/AdminRole'
 
 import Profile from '../interfaces/Profile'
 import { fetch, fetchWithToken } from '../utils/fetch'
@@ -68,9 +69,9 @@ export async function requireUser() {
   return user
 }
 
-export async function requireRole(requiredRole: string) {
+export async function requireRole(requiredRole: AdminRole) {
   const {
     profile: { role },
   } = await requireUser()
-  if (role !== requiredRole) throw redirect(`/${role}`)
+  if (role !== requiredRole) throw redirect(`/${role.toLowerCase()}`)
 }

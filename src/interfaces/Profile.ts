@@ -1,6 +1,8 @@
+import { AdminRole } from './AdminRole'
+
 interface Profile {
-  _id: string
-  role: string
+  id: string
+  role: AdminRole
   username: string
   major: string
 }

@@ -6,7 +6,7 @@ import { fetchWithToken } from '../../utils/fetch'
 export type LoaderData = Awaited<ReturnType<typeof loader>>
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  await requireRole('admin')
+  await requireRole('ADMIN')
 
   const { major } = params
   const candidates = await fetchWithToken(`users/interview/${major}`, '', 'get')

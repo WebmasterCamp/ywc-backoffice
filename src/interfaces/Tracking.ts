@@ -1,7 +1,7 @@
 import Candidate from './Candidate'
 
 interface Tracking {
-  _id: string
+  id: string
   purpose: string
   assigner: string
   assignee: string

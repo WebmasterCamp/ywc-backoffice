@@ -1,5 +1,5 @@
 interface AdminCandidate {
-  _id: string
+  id: string
   facebook: string
   status: string
   questions: {

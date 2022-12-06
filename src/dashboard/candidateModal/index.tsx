@@ -61,7 +61,7 @@ const CandidateModal = ({
     load(`/candidateModal/${candidateId}`)
   }, [load, candidateId])
 
-  const candidate = !candidateId || candidateId === data?._id ? data : undefined
+  const candidate = !candidateId || candidateId === data?.id ? data : undefined
 
   const openDrawer = (url: string) => {
     setModalVisible(true)
